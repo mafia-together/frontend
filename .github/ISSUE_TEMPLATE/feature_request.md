@@ -19,6 +19,6 @@ assignees: ''
 ## Describe
 요약
 ## Tasks
-[ ] 기능1
-[ ] 기능2
+- [ ] 기능1
+- [ ] 기능2
 ## More
