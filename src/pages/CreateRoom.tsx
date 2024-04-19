@@ -8,6 +8,7 @@ import { useState } from "react";
 import RoleCount from "../components/etc/RoleCount";
 import { useNavigate } from "react-router-dom";
 import BottomButton from "../components/button/BottomButton";
+import { axiosInstance } from "../axios/instances";
 
 export function CreateRoom() {
     /* css */
@@ -67,8 +68,6 @@ export function CreateRoom() {
                 setRoleCount({ ...roleCount, total: number });
                 break;
         }
-
-        console.log(roleCount);
     };
 
     /* 이동 */
@@ -83,9 +82,13 @@ export function CreateRoom() {
     const navigate = useNavigate();
     const onCreateRoom = () => {
         if (raady()) {
-            //api 방만들기
-            //성공시 코드받아서 쿼리에
-            navigate(`/name?code=`);
+            //방만들기 API
+            axiosInstance.post("/rooms").then((response) => {
+                // 쿠키는 자동저장
+
+                // 방 코드받아서 쿼리에 담고 이동
+                navigate(`/name?code=${response.data.code}`);
+            });
         }
     };
 
