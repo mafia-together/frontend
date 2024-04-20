@@ -77,6 +77,7 @@ export default function InputName() {
                         autoComplete="off"
                         value={name}
                         onChange={onName}
+                        spellCheck="false"
                         autoFocus
                     />
                 </div>
