@@ -4,8 +4,9 @@ import AppContainerCSS from "../components/layout/AppContainerCSS";
 import TopEnter from "../components/top/TopEnter";
 import { VariablesCSS } from "../styles/VariablesCSS";
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import BottomButton from "../components/button/BottomButton";
+import { axiosInstance } from "../axios/instances";
 
 export default function InputName() {
     const middle = css`
@@ -47,13 +48,19 @@ export default function InputName() {
         return name.length > 0;
     };
 
+    const [searchParams] = useSearchParams();
+    const code = searchParams.get("code");
+
     const navigate = useNavigate();
     const goWaitingRoom = () => {
         if (ready()) {
             //참가하기 api 호출
-            //성공시
-            // 쿠키??
-            navigate("/waiting");
+            axiosInstance.get(`/rooms?code=${code}&name=${name}`).then(() => {
+                // 쿠키
+
+                // 대기방을 이동
+                navigate("/waiting");
+            });
         }
     };
 
