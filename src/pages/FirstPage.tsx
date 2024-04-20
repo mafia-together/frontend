@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import AppContainerCSS from "../components/layout/AppContainerCSS";
 import { VariablesCSS } from "../styles/VariablesCSS";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import BigButton from "../components/button/BigButton";
 
 export default function FirstPage() {
@@ -80,6 +80,9 @@ export default function FirstPage() {
         }
     `;
 
+    const [searchParams] = useSearchParams();
+    const code = searchParams.get("code");
+
     return (
         <AppContainerCSS>
             <div css={container}>
@@ -94,7 +97,7 @@ export default function FirstPage() {
                     <Link to="/create" style={{ textDecoration: "none" }}>
                         <BigButton vatiety="emphasis" use="createRoom" />
                     </Link>
-                    <Link to="/participate" style={{ textDecoration: "none" }}>
+                    <Link to={"/participate?code=" + code} style={{ textDecoration: "none" }}>
                         <BigButton vatiety="soft" use="participate" />
                     </Link>
                 </div>

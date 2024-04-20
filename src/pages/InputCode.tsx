@@ -2,7 +2,7 @@
 import { css } from "@emotion/react";
 import { VariablesCSS } from "../styles/VariablesCSS";
 import AppContainerCSS from "../components/layout/AppContainerCSS";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useState } from "react";
 import TopEnter from "../components/top/TopEnter";
 import BigButton from "../components/button/BigButton";
@@ -43,8 +43,15 @@ export default function ParticipateRoom() {
         }
     `;
 
-    /* 코드 입력 */
-    const [code, setCode] = useState("");
+    /* 코드 자동입력 */
+    const [searchParams] = useSearchParams();
+    let codeParams = searchParams.get("code");
+    if (codeParams === "null") {
+        codeParams = "";
+    }
+
+    /* 코드 사용자입력 */
+    const [code, setCode] = useState(codeParams);
     const onCode = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (`${e.target.value}`.length <= 10) {
             setCode("" + e.target.value);
@@ -70,10 +77,11 @@ export default function ParticipateRoom() {
                     <input
                         css={codeinput}
                         type="text"
-                        value={code}
+                        value={code || ""}
                         name="code"
                         maxLength={10}
                         onChange={onCode}
+                        spellCheck="false"
                         autoFocus
                     />
                     <div style={{ width: "100%" }} onClick={goInputName}>
