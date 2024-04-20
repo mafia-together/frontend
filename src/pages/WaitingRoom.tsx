@@ -8,6 +8,23 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PlayerGrid from "../components/player/PlayerGrid";
 import PlayerWaiting from "../components/player/PlayerWaiting";
+import { Cookies } from "react-cookie";
+import toast, { Toaster } from "react-hot-toast";
+
+const cookies = new Cookies();
+
+const notify = () =>
+    toast("초대코드가 복사되었습니다", {
+        duration: 3000,
+        position: "bottom-center",
+        style: {
+            color: VariablesCSS.night,
+            background: "linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%)",
+            border: "3px solid #ffffff",
+            borderRadius: "15px",
+            fontFamily: "KCC-Hanbit",
+        },
+    });
 
 export default function WaitingRoom() {
     /* css */
@@ -56,7 +73,7 @@ export default function WaitingRoom() {
         left: 50%;
         box-sizing: border-box;
         width: 95%;
-        height: 250px;
+        height: 240px;
         background: linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%);
         border: 5px solid #ffffff;
         border-radius: 15px;
@@ -80,10 +97,10 @@ export default function WaitingRoom() {
         cursor: pointer;
     `;
 
-    const inviteLinkCopyCss = css`
+    const inviteShareLinkCss = css`
         display: flex;
         gap: 10px;
-        margin: 35px auto 24px;
+        margin: 35px auto 26px;
         padding: 17px 30px;
         font-family: "Cafe24Ssurround", serif;
         font-size: 18px;
@@ -107,6 +124,11 @@ export default function WaitingRoom() {
         justify-content: center;
         gap: 32px;
         font-family: "Cafe24Ssurround", serif;
+        cursor: pointer;
+
+        &:active {
+            transform: translate(0.5px, 1px);
+        }
     `;
 
     const inviteCodeDescription = css`
@@ -151,7 +173,8 @@ export default function WaitingRoom() {
         },
     ];
 
-    /* 초대하기 모달띄우기 */
+    /* 초대하기 모달 */
+    // 띄우고 끄기
     const [openModal, setOpenModal] = useState(false);
     const onModal = () => {
         setOpenModal(true);
@@ -159,6 +182,28 @@ export default function WaitingRoom() {
 
     const onClose = () => {
         setOpenModal(false);
+    };
+
+    // 코드 복사
+    const cookieValue = cookies.get("Cookie_1");
+    const code = cookieValue?.split("&")[0];
+    const onCopyCode = async () => {
+        await navigator.clipboard.writeText(code);
+        notify();
+    };
+
+    // 링크 공유
+    const inviteLink = import.meta.env.VITE_URL + "/code=" + code;
+    const shareData = {
+        title: "마피아투게더",
+        text: "마피아투게더 방에 당신을 초대했습니다!",
+        url: inviteLink,
+    };
+
+    const onShareLink = async () => {
+        if (navigator.canShare(shareData)) {
+            navigator.share(shareData);
+        }
     };
 
     /* 게임시작 */
@@ -209,30 +254,29 @@ export default function WaitingRoom() {
                                     </svg>
                                 </button>
                             </div>
-                            <button css={inviteLinkCopyCss}>
+                            <button css={inviteShareLinkCss} onClick={onShareLink}>
                                 <svg
-                                    width="20"
-                                    height="21"
-                                    viewBox="0 0 20 21"
+                                    width="26"
+                                    height="27"
+                                    viewBox="0 0 26 27"
                                     fill="none"
                                     xmlns="http://www.w3.org/2000/svg"
                                 >
                                     <path
-                                        d="M11.6667 7.521H3.33334C2.41417 7.521 1.66667 8.2685 1.66667 9.18766V17.521C1.66667 18.4402 2.41417 19.1877 3.33334 19.1877H11.6667C12.5858 19.1877 13.3333 18.4402 13.3333 17.521V9.18766C13.3333 8.2685 12.5858 7.521 11.6667 7.521Z"
-                                        fill="#35063D"
-                                    />
-                                    <path
-                                        d="M16.6667 2.521H8.33334C7.89131 2.521 7.46739 2.69659 7.15483 3.00915C6.84227 3.32171 6.66667 3.74564 6.66667 4.18766V5.85433H13.3333C13.7754 5.85433 14.1993 6.02992 14.5119 6.34249C14.8244 6.65505 15 7.07897 15 7.521V14.1877H16.6667C17.1087 14.1877 17.5326 14.0121 17.8452 13.6995C18.1577 13.3869 18.3333 12.963 18.3333 12.521V4.18766C18.3333 3.74564 18.1577 3.32171 17.8452 3.00915C17.5326 2.69659 17.1087 2.521 16.6667 2.521Z"
+                                        fillRule="evenodd"
+                                        clipRule="evenodd"
+                                        d="M14.9533 6.27751C14.9533 4.28418 16.5783 2.66676 18.5803 2.66676C19.0556 2.66562 19.5264 2.75811 19.966 2.93895C20.4056 3.11979 20.8052 3.38544 21.1421 3.72073C21.479 4.05602 21.7466 4.45438 21.9295 4.89308C22.1125 5.33177 22.2072 5.8022 22.2083 6.27751C22.2083 8.27193 20.5833 9.88934 18.5803 9.88934C18.0999 9.88993 17.6242 9.79504 17.1808 9.61018C16.7375 9.42532 16.3353 9.15417 15.9976 8.81251L10.9763 12.2315C11.1162 12.9281 11.0476 13.6504 10.7792 14.3083L16.2847 17.9266C16.9331 17.3977 17.7446 17.1095 18.5813 17.1108C19.0566 17.1098 19.5275 17.2025 19.967 17.3834C20.4065 17.5644 20.8061 17.8302 21.1429 18.1656C21.4797 18.501 21.7471 18.8994 21.9299 19.3382C22.1127 19.7769 22.2073 20.2474 22.2083 20.7227C22.2083 22.716 20.5833 24.3334 18.5803 24.3334C17.6205 24.3354 16.6993 23.9562 16.0191 23.2791C15.3389 22.602 14.9556 21.6824 14.9533 20.7227C14.9524 20.2164 15.0591 19.7156 15.2663 19.2537L9.80417 15.6668C9.1427 16.2419 8.29522 16.5579 7.41867 16.5562C6.94332 16.5573 6.47241 16.4648 6.03283 16.2839C5.59326 16.1029 5.19364 15.8372 4.85682 15.5018C4.51999 15.1663 4.25256 14.7678 4.06979 14.329C3.88703 13.8902 3.79252 13.4197 3.79167 12.9443C3.79267 12.4691 3.88728 11.9987 4.0701 11.56C4.25293 11.1213 4.52039 10.7229 4.8572 10.3876C5.19401 10.0523 5.59358 9.78666 6.03308 9.60581C6.47259 9.42495 6.94341 9.33245 7.41867 9.33359C8.57134 9.33359 9.59617 9.86768 10.2603 10.6997L15.1277 7.38576C15.0119 7.02775 14.953 6.65378 14.9533 6.27751Z"
                                         fill="#35063D"
                                     />
                                 </svg>
-                                초대링크 복사
+                                초대링크 공유
                             </button>
-                            <div css={inviteCodeContainer}>
+                            <div css={inviteCodeContainer} onClick={onCopyCode}>
                                 <p css={inviteCodeDescription}>초대코드</p>
-                                <p css={inviteCodeCss}>X30F53</p>
+                                <p css={inviteCodeCss}>{code}</p>
                             </div>
                         </div>
+                        <Toaster />
                     </div>
                 ) : (
                     <div></div>
