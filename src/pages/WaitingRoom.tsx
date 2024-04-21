@@ -4,14 +4,21 @@ import AppContainerCSS from "../components/layout/AppContainerCSS";
 import TopEnter from "../components/top/TopEnter";
 import { VariablesCSS } from "../styles/VariablesCSS";
 import BigButton from "../components/button/BigButton";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import PlayerGrid from "../components/player/PlayerGrid";
 import PlayerWaiting from "../components/player/PlayerWaiting";
 import { Cookies } from "react-cookie";
 import toast, { Toaster } from "react-hot-toast";
+import { axiosInstance } from "../axios/instances";
 
 const cookies = new Cookies();
+
+type PlayerType = {
+    name: string;
+    isAlive: boolean;
+    role: string | null;
+};
 
 const notify = () =>
     toast("초대코드가 복사되었습니다", {
@@ -32,6 +39,12 @@ export default function WaitingRoom() {
         height: calc(
             100vh - ${VariablesCSS.top} - ${VariablesCSS.bigbutton} - ${VariablesCSS.margin}
         );
+        overflow: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
     `;
     const textGroup = css`
         margin-top: 16px;
@@ -142,36 +155,46 @@ export default function WaitingRoom() {
     `;
 
     /* 참가목록 받아오기 */
-    const players: { name: string; isAlive: boolean }[] = [
-        {
-            name: "name",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-        {
-            name: "일이삼",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-    ];
+    const [players, setPlayers] = useState<PlayerType[]>([]);
+    const [totalNumber, setTotalNumber] = useState(0);
+    const [currentNumber, setCurrentNumber] = useState(0);
+
+    const onRoomsInfo = () => {
+        axiosInstance.get("/rooms/info").then((response) => {
+            // 총 인원
+            setTotalNumber(response.data.totalPlayers);
+
+            // 참가 인원
+            setCurrentNumber(response.data.players.length);
+
+            // 플레이어 배열
+            const waitingPlayer = Array.from(
+                { length: response.data.totalPlayers - response.data.players.length },
+                () => {
+                    return {
+                        name: "",
+                        isAlive: true,
+                        role: null,
+                    };
+                }
+            );
+            setPlayers([...response.data.players, ...waitingPlayer]);
+        });
+    };
+
+    useEffect(() => {});
+
+    useEffect(() => {
+        onRoomsInfo();
+    }, []);
+
+    useEffect(() => {
+        const intervalCode = setInterval(() => {
+            onRoomsInfo();
+        }, 1000);
+
+        return () => clearInterval(intervalCode);
+    }, []);
 
     /* 초대하기 모달 */
     // 띄우고 끄기
@@ -207,11 +230,16 @@ export default function WaitingRoom() {
     };
 
     /* 게임시작 */
+    const ready = () => {
+        return currentNumber === totalNumber;
+    };
     const navigate = useNavigate();
     const onGameStart = () => {
-        //api 보내기
-        //성공시
-        navigate("/day");
+        if (ready()) {
+            //api 보내기
+            //성공시
+            navigate("/day");
+        }
     };
 
     return (
@@ -221,16 +249,18 @@ export default function WaitingRoom() {
                 <div css={middle}>
                     <div css={textGroup}>
                         <p css={subTitle}>참가목록</p>
-                        <p css={number}>4/6</p>
+                        <p css={number}>
+                            {currentNumber}/{totalNumber}
+                        </p>
                     </div>
                     <PlayerGrid>
                         {players.map((player, i) => (
-                            <PlayerWaiting name={player.name} key={i} />
+                            <PlayerWaiting name={player.name} key={`${player.name}_${i}`} />
                         ))}
                     </PlayerGrid>
                 </div>
                 <div css={bottom} onClick={onGameStart}>
-                    <BigButton vatiety="emphasis" use="gameStart" />
+                    <BigButton vatiety="emphasis" use="gameStart" ready={ready()} />
                 </div>
 
                 {openModal ? (
