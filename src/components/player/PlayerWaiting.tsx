@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { VariablesCSS } from "../../styles/VariablesCSS";
 
 type PropsType = {
-    name: string;
+    name?: string;
 };
 export default function PlayerWaiting({ name }: PropsType) {
     const container = css`
@@ -28,6 +28,7 @@ export default function PlayerWaiting({ name }: PropsType) {
         display: flex;
         align-items: center;
         flex: 1;
+        word-break: break-all;
     `;
 
     return (
