@@ -69,6 +69,13 @@ export default function WaitingRoom() {
         margin-bottom: ${VariablesCSS.margin};
     `;
 
+    const [openAnimation, setOpenAnimation] = useState(false);
+
+    const inviteModalContainer = css`
+        ${openAnimation && "animation: smoothshow 0.5s backwards;"}
+        ${openAnimation || "animation: smoothhide 0.5s backwards;"}
+    `;
+
     const dimmed = css`
         position: absolute;
         top: 0;
@@ -91,6 +98,8 @@ export default function WaitingRoom() {
         border: 5px solid #ffffff;
         border-radius: 15px;
         transform: translate(-50%, -50%);
+        ${openAnimation && "animation: smoothupNomargin 0.5s backwards;"}
+        ${openAnimation || "animation: smoothdownNomargin 0.5s backwards;"}
     `;
 
     const modalTitle = css`
@@ -200,11 +209,17 @@ export default function WaitingRoom() {
     // 띄우고 끄기
     const [openModal, setOpenModal] = useState(false);
     const onModal = () => {
-        setOpenModal(true);
+        setOpenAnimation(true);
+        setTimeout(() => {
+            setOpenModal(true);
+        }, 450);
     };
 
     const onClose = () => {
-        setOpenModal(false);
+        setOpenAnimation(false);
+        setTimeout(() => {
+            setOpenModal(false);
+        }, 450);
     };
 
     // 코드 복사
@@ -264,7 +279,7 @@ export default function WaitingRoom() {
                 </div>
 
                 {openModal ? (
-                    <div>
+                    <div css={inviteModalContainer}>
                         <div css={dimmed}></div>
                         <div css={modalInner}>
                             <div css={modalTitle}>

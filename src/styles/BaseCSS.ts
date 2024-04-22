@@ -77,6 +77,14 @@ export const BaseCss = `
             opacity: 1;
         }
     }
+    @keyframes smoothhide {
+        0% {
+            opacity: 1;
+        }
+        100% {
+            opacity: 0;
+        }
+    }
 
 
     @keyframes smoothshowhide {
@@ -96,16 +104,53 @@ export const BaseCss = `
 
     @keyframes smoothup {
         0% {
-            transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 10%));
+            transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 5%));
         }
-        30% {
+        100% {
             transform: translate(calc(-50% - ${VariablesCSS.margin}), -50%);
         }
-        85% {
+    }
+
+    @keyframes smoothdown {
+        0% {
             transform: translate(calc(-50% - ${VariablesCSS.margin}), -50%);
         }
         100% {
-            transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 10%));
+            transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 5%));
         }
     }
+
+    
+    @keyframes smoothupNomargin {
+        0% {
+            transform: translate(-50%, calc(-50% + 5%));
+        }
+        100% {
+            transform: translate(-50%, -50%);
+        }
+    }
+
+    @keyframes smoothdownNomargin {
+        0% {
+            transform: translate(-50%, -50%);
+        }
+        100% {
+            transform: translate(-50%, calc(-50% + 5%));
+        }
+    }
+    
+    // @keyframes smoothup {
+    //     0% {
+    //         transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 5%));
+    //     }
+    //     30% {
+    //         transform: translate(calc(-50% - ${VariablesCSS.margin}), -50%);
+    //     }
+    //     85% {
+    //         transform: translate(calc(-50% - ${VariablesCSS.margin}), -50%);
+    //     }
+    //     100% {
+    //         transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 5%));
+    //     }
+    // }
 `;

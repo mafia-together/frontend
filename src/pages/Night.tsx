@@ -114,11 +114,9 @@ export default function Night() {
                     )}
 
                     {/* 경찰: 조사하기 */}
-                    {myRole === "police" && openModal && (
-                        <ModalContainer>
-                            <InvestResult />
-                        </ModalContainer>
-                    )}
+                    <ModalContainer isOpen={myRole === "police" && openModal}>
+                        <InvestResult />
+                    </ModalContainer>
                 </div>
             </div>
         </AppContainerCSS>

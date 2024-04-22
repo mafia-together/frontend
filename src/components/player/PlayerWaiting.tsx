@@ -3,7 +3,7 @@ import { css } from "@emotion/react";
 import { VariablesCSS } from "../../styles/VariablesCSS";
 
 type PropsType = {
-    name?: string;
+    name: string;
 };
 export default function PlayerWaiting({ name }: PropsType) {
     const container = css`

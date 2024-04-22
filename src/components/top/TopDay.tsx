@@ -22,6 +22,7 @@ export default function TopDay({ isAlive, onOpenModal, time }: PropsType) {
     const dayLeft = css`
         display: flex;
         align-items: center;
+        width: 85px;
         gap: 8px;
         font-family: "WAGURITTF", sans-serif;
     `;
@@ -42,6 +43,7 @@ export default function TopDay({ isAlive, onOpenModal, time }: PropsType) {
         justify-content: center;
         align-items: center;
         gap: 4px;
+        width: 85px;
         font-family: "Cafe24Ssurround", sans-serif;
         font-size: 12px;
         color: ${VariablesCSS.day};
@@ -51,7 +53,7 @@ export default function TopDay({ isAlive, onOpenModal, time }: PropsType) {
     return (
         <div css={container}>
             <div css={dayLeft}>
-                <img src="/img/icon/sun.svg" alt="" />
+                <img src="src/assets/img/icon/sun.svg" alt="" />
                 <p css={dayText}>낮</p>
             </div>
 
