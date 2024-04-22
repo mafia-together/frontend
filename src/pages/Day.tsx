@@ -54,17 +54,17 @@ export default function Day() {
 
     useEffect(() => {
         setTimeout(() => {
+            setDescriptionTime(false);
             setNoticeTime(true);
-        }, 1000);
+        }, 3000);
 
         setTimeout(() => {
             setNoticeTime(false);
-            setDescriptionTime(false);
-        }, 4000);
+        }, 6000);
     }, []);
 
     /* 시간 */
-    const [time, setTime] = useState(1);
+    const [time, setTime] = useState(0);
 
     const [round, setRound] = useState(1);
     const [yesterdayDead, setYesterdayDead] = useState(false);
@@ -83,11 +83,12 @@ export default function Day() {
 
     return (
         <AppContainerCSS background="day">
-            <div>
-                <TopDay isAlive={isAlive} onOpenModal={onOpenModal} time={time} />
-                {descriptionTime ? (
-                    <p css={gameMessage}>낮이 되었습니다.</p> // 채팅
-                ) : (
+            {descriptionTime ? (
+                <p css={gameMessage}>낮이 되었습니다.</p> // 채팅
+            ) : (
+                <div>
+                    <TopDay isAlive={isAlive} onOpenModal={onOpenModal} time={time} />
+
                     <>
                         <div>
                             <ChatGroup />
@@ -128,23 +129,9 @@ export default function Day() {
                             </div>
                         )}
                     </>
-                )}
 
-                {openModal && (
-                    <ModalContainer>
-                        {isAlive ? (
-                            /* 투표모달 */
-                            <Vote onOpenModal={onOpenModal} />
-                        ) : (
-                            /* 직업보기모달 */
-                            <ViewRole onOpenModal={onOpenModal} />
-                        )}
-                    </ModalContainer>
-                )}
-
-                {/* 공지 모달 */}
-                {noticeTime && (
-                    <ModalContainer>
+                    {/* 공지 모달 */}
+                    <ModalContainer isOpen={noticeTime} openMotion={false}>
                         {round === 1 ? (
                             // 직업공지
                             <NoticeRole role={role} />
@@ -153,22 +140,28 @@ export default function Day() {
                             <NoticeDead yesterdayDead={yesterdayDead}></NoticeDead>
                         )}
                     </ModalContainer>
-                )}
 
-                {/* 시간이 다 됨 */}
-                {time === 0 && (
-                    <ModalContainer>
+                    <ModalContainer isOpen={openModal}>
+                        {isAlive ? (
+                            /* 투표모달 */
+                            <Vote onOpenModal={onOpenModal} />
+                        ) : (
+                            /* 직업보기모달 */
+                            <ViewRole onOpenModal={onOpenModal} />
+                        )}
+                    </ModalContainer>
+
+                    {/* 시간이 다 됨 */}
+                    <ModalContainer isOpen={!!time}>
                         <Vote timeup={!time} />
                     </ModalContainer>
-                )}
 
-                {/* 모두 투표함 */}
-                {allVote && (
-                    <ModalContainer>
+                    {/* 모두 투표함 */}
+                    <ModalContainer isOpen={allVote}>
                         <Vote allVote={allVote} />
                     </ModalContainer>
-                )}
-            </div>
+                </div>
+            )}
         </AppContainerCSS>
     );
 }
