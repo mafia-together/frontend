@@ -23,6 +23,16 @@ export default function Day() {
         animation: smoothshow 0.8s;
     `;
 
+    const middle = css`
+        height: calc(100% - ${VariablesCSS.top} - 55px - 20px);
+        overflow: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    `;
+
     const chatInput = css`
         box-sizing: border-box;
         flex-flow: 1;
@@ -90,7 +100,7 @@ export default function Day() {
                     <TopDay isAlive={isAlive} onOpenModal={onOpenModal} time={time} />
 
                     <>
-                        <div>
+                        <div css={middle}>
                             <ChatGroup />
                             <ChatGroup />
                             <ChatGroup />
@@ -102,6 +112,7 @@ export default function Day() {
                                 css={css`
                                     position: absolute;
                                     bottom: 17px;
+                                    height: calc(55px + 17px);
                                     width: 100%;
                                     display: flex;
                                     justify-content: space-between;

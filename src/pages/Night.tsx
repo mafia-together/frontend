@@ -72,7 +72,7 @@ export default function Night() {
             <div>
                 <TopNight />
                 <div css={middle}>
-                    <div css={description}>마피아로 의심되는 사람을 조사하세요.</div>
+                    <div css={description}>오늘밤 죽일 사람을 지목해주세요.</div>
                     <PlayerGrid>
                         {players.map((player, i) => (
                             <PlayerNight
