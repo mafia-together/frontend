@@ -74,61 +74,18 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
     const [players, setPlayers] = useState<PlayerType[]>([]);
 
     const onRoomsInfo = () => {
-        axiosInstance.get("/rooms/info").then((response) => {
-            // 플레이어 배열
-            const waitingPlayer = Array.from(
-                { length: response.data.totalPlayers - response.data.players.length },
-                () => {
-                    return {
-                        name: "",
-                        isAlive: true,
-                        role: null,
-                    };
-                }
-            );
-            setPlayers([...response.data.players, ...waitingPlayer]);
-        });
+        try {
+            axiosInstance.get("/rooms/info").then((response) => {
+                // 플레이어 배열
+                setPlayers([...response.data.players]);
+            });
+        } catch (e) {
+            console.log(e);
+        }
     };
 
     useEffect(() => {
         onRoomsInfo();
-        // setPlayers([
-        //     {
-        //         name: "name",
-        //         isAlive: true,
-        //         role: null,
-        //     },
-        //     {
-        //         name: "일이삼사오육칠팔구십",
-        //         isAlive: true,
-        //         role: null,
-        //     },
-        //     {
-        //         name: "일이삼",
-        //         isAlive: false,
-        //         role: null,
-        //     },
-        //     {
-        //         name: "일이삼사오육칠팔구십",
-        //         isAlive: true,
-        //         role: null,
-        //     },
-        //     {
-        //         name: "일이삼사오육칠팔구십",
-        //         isAlive: true,
-        //         role: null,
-        //     },
-        //     {
-        //         name: "일이삼사오육칠팔구십",
-        //         isAlive: true,
-        //         role: null,
-        //     },
-        //     {
-        //         name: "일이삼사오육칠팔구십",
-        //         isAlive: false,
-        //         role: null,
-        //     },
-        // ]);
     }, []);
 
     const [voteTarget, setVoteTarget] = useState(-1);
