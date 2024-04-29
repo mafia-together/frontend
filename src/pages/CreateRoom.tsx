@@ -83,7 +83,7 @@ export function CreateRoom() {
     const onCreateRoom = () => {
         if (raady()) {
             //방만들기 API
-            axiosInstance.post("/rooms").then((response) => {
+            axiosInstance.post("/room", roleCount).then((response) => {
                 // 쿠키는 자동저장
 
                 // 방 코드받아서 쿼리에 담고 이동

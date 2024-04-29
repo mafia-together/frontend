@@ -1,10 +1,12 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { VariablesCSS } from "../../styles/VariablesCSS";
 import PlayerGrid from "../player/PlayerGrid";
 import PlayerVote from "../player/PlayerVote";
 import SmallButton from "../button/SmallButton";
+import { PlayerType } from "../../pages/WaitingRoom";
+import { axiosInstance } from "../../axios/instances";
 
 type PropsType = {
     onOpenModal?: () => void;
@@ -69,38 +71,75 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
     `;
 
     /* 참가목록 받아오기 */
-    const players = [
-        {
-            name: "name",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-        {
-            name: "일이삼",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-        {
-            name: "일이삼사오육칠팔구십",
-            isAlive: true,
-        },
-    ];
+    const [players, setPlayers] = useState<PlayerType[]>([]);
 
-    const [check, setCheck] = useState(-1);
+    const onRoomsInfo = () => {
+        axiosInstance.get("/rooms/info").then((response) => {
+            // 플레이어 배열
+            const waitingPlayer = Array.from(
+                { length: response.data.totalPlayers - response.data.players.length },
+                () => {
+                    return {
+                        name: "",
+                        isAlive: true,
+                        role: null,
+                    };
+                }
+            );
+            setPlayers([...response.data.players, ...waitingPlayer]);
+        });
+    };
+
+    useEffect(() => {
+        onRoomsInfo();
+        setPlayers([
+            {
+                name: "name",
+                isAlive: true,
+                role: null,
+            },
+            {
+                name: "일이삼사오육칠팔구십",
+                isAlive: true,
+                role: null,
+            },
+            {
+                name: "일이삼",
+                isAlive: false,
+                role: null,
+            },
+            {
+                name: "일이삼사오육칠팔구십",
+                isAlive: true,
+                role: null,
+            },
+            {
+                name: "일이삼사오육칠팔구십",
+                isAlive: true,
+                role: null,
+            },
+            {
+                name: "일이삼사오육칠팔구십",
+                isAlive: true,
+                role: null,
+            },
+            {
+                name: "일이삼사오육칠팔구십",
+                isAlive: false,
+                role: null,
+            },
+        ]);
+    }, []);
+
+    const [voteTarget, setVoteTarget] = useState(-1);
+
+    const setVote = (number: number, name: string) => {
+        // 서버에 투표 전송
+        axiosInstance.post("/vote", { name: name }).then(() => {});
+
+        // 화면에 표시
+        setVoteTarget(number);
+    };
 
     return (
         <>
@@ -143,7 +182,13 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
 
                 <PlayerGrid>
                     {players.map((player, i) => (
-                        <PlayerVote player={player} key={i + 1} index={i + 1} />
+                        <PlayerVote
+                            player={player}
+                            key={`${player.name}_${i}`}
+                            index={i + 1}
+                            voteTarget={voteTarget}
+                            setVoteTarget={setVote}
+                        />
                     ))}
                 </PlayerGrid>
 
@@ -151,14 +196,14 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
                     type="radio"
                     name="vote"
                     id="0"
-                    checked={check === 0}
+                    checked={voteTarget === 0}
                     css={css`
                         display: none;
                         &:checked + label > div{
                             color: ${VariablesCSS.light};
                             background-color: ${VariablesCSS.kill};
                     `}
-                    onChange={() => setCheck(0)}
+                    onChange={() => setVote(0, "")}
                 />
                 <label
                     htmlFor="0"
