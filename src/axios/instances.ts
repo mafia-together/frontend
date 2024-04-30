@@ -18,9 +18,9 @@ export const http: HttpClient = axiosInstance
 axiosInstance.interceptors.response.use((response) => response.data)
 
 axiosInstance.interceptors.request.use((req) => {
-    const cookie = localStorage.getItem('cookie')
-    if (cookie) {
-        req.headers.Authorization = `Basic ${cookie}`
+    const auth = localStorage.getItem('auth')
+    if (auth) {
+        req.headers.Authorization = `Basic ${auth}`
     }
     return req
 })

@@ -19,3 +19,11 @@ export const getChats = () => {
 export const postChats = (payload: ChatRequest) => {
     return http.post(`/chat`, payload)
 }
+
+export const postRooms = (payload: RoomRequest) => {
+    return http.post<RoomResponse>('/rooms', payload)
+}
+
+export const getRooms = (payload: ParticipateRequest) => {
+    return http.get<ParticipateResponse>(`/rooms?code=${payload.code}&name=${payload.name}`)
+}
