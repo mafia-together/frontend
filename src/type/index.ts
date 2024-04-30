@@ -5,6 +5,6 @@ interface Chat {
     owner: boolean
 }
 
-interface ChatRequest{
-  content:string
+interface ChatRequest {
+    content: string
 }
