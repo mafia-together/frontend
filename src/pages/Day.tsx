@@ -10,7 +10,7 @@ import Vote from '../components/modal/Vote'
 import ViewRole from '../components/modal/ViewRole'
 import NoticeRole from '../components/modal/NoticeRole'
 import NoticeDead from '../components/modal/NoticeDead'
-import { useChatQuery, useChatsQuery } from '../axios/http'
+import { postChats, useChatsQuery } from '../axios/http'
 
 export default function Day() {
     const gameMessage = css`
@@ -92,6 +92,7 @@ export default function Day() {
     // 모두 미리 투표했는지
     const [allVote, setAllVote] = useState(false)
     const { chats } = useChatsQuery()
+    const [inputChat, setInputChat] = useState<string>('')
 
     return (
         <AppContainerCSS background="day">
@@ -103,8 +104,8 @@ export default function Day() {
 
                     <>
                         <div css={middle}>
-                            {/* 실제로 여기에다가 ChatGroup이 추가되는 형태로 이루어져야함 */}
-                            {chats.map((chat: Chat) => (
+                            <ChatGroup name="hello" content="안녕하세요" owner={true} />
+                            {chats?.map((chat: Chat) => (
                                 <ChatGroup
                                     name={chat.name}
                                     content={chat.content}
@@ -128,6 +129,7 @@ export default function Day() {
                             >
                                 <input
                                     css={chatInput}
+                                    onChange={(e) => setInputChat(e.target.value)}
                                     type="text"
                                     name="chat"
                                     id="chat"
@@ -136,6 +138,7 @@ export default function Day() {
                                 <input
                                     type="submit"
                                     value="전송"
+                                    onClick={() => postChats({ content: inputChat })}
                                     css={css`
                                         font-family: 'Cafe24Ssurround', sans-serif;
                                         padding: 18px 14px;
