@@ -4,13 +4,13 @@ import { VariablesCSS } from '../styles/VariablesCSS'
 import AppContainerCSS from '../components/layout/AppContainerCSS'
 import { useEffect, useState } from 'react'
 import TopDay from '../components/top/TopDay'
-import ChatGroup from '../components/chat/ChatGroup'
 import ModalContainer from '../components/modal/ModalContainer'
 import Vote from '../components/modal/Vote'
 import ViewRole from '../components/modal/ViewRole'
 import NoticeRole from '../components/modal/NoticeRole'
 import NoticeDead from '../components/modal/NoticeDead'
-import { postChats, useChatsQuery } from '../axios/http'
+import { Chats } from '../components/chat/Chats'
+import { ChatInput } from '../components/chat/ChatInput'
 
 export default function Day() {
     const gameMessage = css`
@@ -31,29 +31,6 @@ export default function Day() {
         scrollbar-width: none;
         &::-webkit-scrollbar {
             display: none;
-        }
-    `
-
-    const chatInput = css`
-        box-sizing: border-box;
-        flex-flow: 1;
-        width: 100%;
-        margin-right: 4px;
-        padding: 11px 20px;
-        font-size: 16px;
-        font-family: 'KCC-Hanbit', sans-serif;
-        color: ${VariablesCSS.day};
-        background-color: rgba(255, 255, 255, 0.2);
-        border: 3px solid #ffffff;
-        border-radius: 15px;
-
-        &::placeholder {
-            color: ${VariablesCSS.day30};
-        }
-
-        &:focus {
-            outline: 3px solid #ffffff;
-            background-color: rgba(255, 255, 255, 0.4);
         }
     `
 
@@ -91,8 +68,6 @@ export default function Day() {
 
     // 모두 미리 투표했는지
     const [allVote, setAllVote] = useState(false)
-    const { chats } = useChatsQuery()
-    const [inputChat, setInputChat] = useState<string>('')
 
     return (
         <AppContainerCSS background="day">
@@ -104,51 +79,11 @@ export default function Day() {
 
                     <>
                         <div css={middle}>
-                            <ChatGroup name="hello" content="안녕하세요" owner={true} />
-                            {chats?.map((chat: Chat) => (
-                                <ChatGroup
-                                    name={chat.name}
-                                    content={chat.content}
-                                    owner={chat.owner}
-                                />
-                            ))}
+                            <Chats />
                         </div>
 
                         {/* 살아있는 경우에만 input창이 보인다. */}
-                        {isAlive && (
-                            <div
-                                css={css`
-                                    position: absolute;
-                                    bottom: 17px;
-                                    height: calc(55px + 17px);
-                                    width: 100%;
-                                    display: flex;
-                                    justify-content: space-between;
-                                    align-items: center;
-                                `}
-                            >
-                                <input
-                                    css={chatInput}
-                                    onChange={(e) => setInputChat(e.target.value)}
-                                    type="text"
-                                    name="chat"
-                                    id="chat"
-                                    placeholder="내용을 입력하세요."
-                                />
-                                <input
-                                    type="submit"
-                                    value="전송"
-                                    onClick={() => postChats({ content: inputChat })}
-                                    css={css`
-                                        font-family: 'Cafe24Ssurround', sans-serif;
-                                        padding: 18px 14px;
-                                        font-size: 16px;
-                                        color: ${VariablesCSS.day};
-                                        cursor: pointer;
-                                    `}
-                                />
-                            </div>
-                        )}
+                        {isAlive && <ChatInput />}
                     </>
 
                     {/* 공지 모달 */}
