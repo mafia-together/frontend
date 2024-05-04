@@ -6,10 +6,10 @@ import ChatMessage from './ChatMessage'
 
 interface Props {
     name: string
-    content: string
+    contents: string
     owner: boolean
 }
-export default function ChatGroup({ name, content, owner }: Props) {
+export default function ChatGroup({ name, contents, owner }: Props) {
     const container = css`
         display: flex;
         margin-bottom: 8px;
@@ -42,7 +42,7 @@ export default function ChatGroup({ name, content, owner }: Props) {
             <PlayerChat />
             <div css={right}>
                 <p css={nameText}>{name}</p>
-                <ChatMessage contents={content} me={owner} />
+                <ChatMessage contents={contents} me={owner} />
             </div>
         </div>
     )

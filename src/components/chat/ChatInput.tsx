@@ -44,6 +44,7 @@ export const ChatInput = () => {
                 <input
                     css={chatInput}
                     onChange={(e) => setInputChat(e.target.value)}
+                    value={inputChat}
                     type="text"
                     name="chat"
                     id="chat"
@@ -52,7 +53,10 @@ export const ChatInput = () => {
                 <input
                     type="submit"
                     value="전송"
-                    onClick={() => postChats({ content: inputChat })}
+                    onClick={() => {
+                        postChats({ contents: inputChat })
+                        setInputChat('')
+                    }}
                     css={css`
                         font-family: 'Cafe24Ssurround', sans-serif;
                         padding: 18px 14px;

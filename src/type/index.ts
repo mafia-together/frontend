@@ -1,12 +1,12 @@
 interface Chat {
     name: string
-    content: string
+    contents: string
     timestamp: Date
     owner: boolean
 }
 
 interface ChatRequest {
-    content: string
+    contents: string
 }
 
 interface RoomResponse {

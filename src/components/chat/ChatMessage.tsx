@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
 
 type PropsType = {
-    contents: string;
-    me: boolean;
-};
+    contents: string
+    me: boolean
+}
 export default function ChatMessage({ contents, me }: PropsType) {
     return (
         <p
@@ -14,13 +14,13 @@ export default function ChatMessage({ contents, me }: PropsType) {
                 padding: 12px 20px;
                 border-radius: 3px 15px 15px 15px;
                 background-color: rgba(255, 255, 255, 0.8);
-                font-family: "KCC-Hanbit", sans-serif;
+                font-family: 'KCC-Hanbit', sans-serif;
                 color: ${VariablesCSS.day};
 
-                ${me && "align-items: end;"}
+                ${me && 'align-items: end;'}
             `}
         >
             {contents}
         </p>
-    );
+    )
 }

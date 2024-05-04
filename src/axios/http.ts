@@ -3,7 +3,7 @@ import { http } from './instances'
 
 export const useChatsQuery = () => {
     const { data: chats, ...rest } = useSuspenseQuery({
-        queryKey: ['chat'], // cookie에 들어있는 값으로 캐싱하는 것이 좋을 것 같은데, 이 부분 같이 상의해봐야 할 것 같아요
+        queryKey: ['chats'],
         queryFn: () => getChats(),
     })
     return {
