@@ -3,8 +3,9 @@ import { http } from './instances'
 
 export const useChatsQuery = () => {
     const { data: chats, ...rest } = useSuspenseQuery({
-        queryKey: ['chats'],
+        queryKey: ['chats', localStorage.getItem('auth')],
         queryFn: () => getChats(),
+        refetchInterval: 1000,
     })
     return {
         chats,

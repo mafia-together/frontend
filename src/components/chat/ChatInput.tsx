@@ -54,6 +54,7 @@ export const ChatInput = () => {
                     type="submit"
                     value="전송"
                     onClick={() => {
+                        if (inputChat === '') return
                         postChats({ contents: inputChat })
                         setInputChat('')
                     }}

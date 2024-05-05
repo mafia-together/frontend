@@ -3,13 +3,14 @@ import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerChat from '../player/PlayerChat'
 import ChatMessage from './ChatMessage'
+import { forwardRef } from 'react'
 
 interface Props {
     name: string
     contents: string
     owner: boolean
 }
-export default function ChatGroup({ name, contents, owner }: Props) {
+export default forwardRef(function ChatGroup({ name, contents, owner }: Props, ref: any) {
     const container = css`
         display: flex;
         margin-bottom: 8px;
@@ -38,7 +39,7 @@ export default function ChatGroup({ name, contents, owner }: Props) {
     `
 
     return (
-        <div css={container}>
+        <div ref={ref} css={container}>
             <PlayerChat />
             <div css={right}>
                 <p css={nameText}>{name}</p>
@@ -46,4 +47,4 @@ export default function ChatGroup({ name, contents, owner }: Props) {
             </div>
         </div>
     )
-}
+})

@@ -1,24 +1,40 @@
-import { useEffect } from 'react'
-import { getRooms, postRooms, useChatsQuery } from '../../axios/http'
+import { useEffect, useRef } from 'react'
+import { useChatsQuery } from '../../axios/http'
 import ChatGroup from './ChatGroup'
+import { particpateRoom } from '../test/ParticipateRoom'
 
 export const Chats = () => {
     useEffect(() => {
         async () => {
-            const roomResponse = await postRooms({ total: 1, mafia: 1, doctor: 0, police: 0 })
-            const participateResponse = await getRooms({
-                code: roomResponse.code,
-                name: '지윤짱짱맨',
-            })
-            localStorage.setItem('auth', participateResponse.auth)
+            await particpateRoom()
         }
     })
+    const chatRef = useRef<HTMLDivElement | null>(null)
     const { chats } = useChatsQuery()
+    useEffect(() => {
+        if (!chatRef.current) return
+        chatRef.current.scrollIntoView()
+    }, [chatRef, chats])
     return (
         <>
-            {chats.map((chat: Chat) => (
-                <ChatGroup name={chat.name} contents={chat.contents} owner={chat.owner} />
-            ))}
+            {chats.map((chat: Chat, idx: number) =>
+                idx === chats.length - 1 ? (
+                    <ChatGroup
+                        ref={chatRef}
+                        key={idx}
+                        name={chat.name}
+                        contents={chat.contents}
+                        owner={chat.owner}
+                    />
+                ) : (
+                    <ChatGroup
+                        key={idx}
+                        name={chat.name}
+                        contents={chat.contents}
+                        owner={chat.owner}
+                    />
+                )
+            )}
         </>
     )
 }
