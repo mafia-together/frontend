@@ -73,6 +73,8 @@ export const ChatInput = () => {
                         font-family: 'Cafe24Ssurround', sans-serif;
                         padding: 18px 14px;
                         font-size: 16px;
+                        border-radius: 20px;
+                        ${inputChat !== '' && 'background-color: rgba(255, 243, 191, 0.8);'}
                         color: ${VariablesCSS.day};
                         cursor: pointer;
                     `}
