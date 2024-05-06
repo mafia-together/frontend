@@ -12,7 +12,7 @@ export default function ChatMessage({ contents, me }: PropsType) {
             css={css`
                 margin-bottom: 8px;
                 padding: 12px 20px;
-                border-radius: 3px 15px 15px 15px;
+                ${me ? 'border-radius: 15px 3px 15px 15px;' : 'border-radius: 3px 15px 15px 15px;'}
                 background-color: rgba(255, 255, 255, 0.8);
                 font-family: 'KCC-Hanbit', sans-serif;
                 color: ${VariablesCSS.day};
