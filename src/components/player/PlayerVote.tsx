@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from "@emotion/react";
 import { VariablesCSS } from "../../styles/VariablesCSS";
-import { useState } from "react";
 
 type PropsType = {
-    player: { name: string; isAlive: boolean; role?: string };
+    player: { name: string; isAlive: boolean; role: string | null };
     index: number;
+    voteTarget: number;
+    setVoteTarget: (number: number, name: string) => void;
 };
 
-export default function PlayerVote({ player, index }: PropsType) {
+export default function PlayerVote({ player, index, voteTarget, setVoteTarget }: PropsType) {
     const inputCss = css`
         display: none;
 
@@ -59,9 +60,19 @@ export default function PlayerVote({ player, index }: PropsType) {
             box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.25);
             transform: translate(0.5px, 1px);
         }
-    `;
 
-    const [check, setCheck] = useState(false);
+        ${player.isAlive ||
+        `color: rgba(158,137,178, 0.5);
+                    background: none;
+                    box-shadow: none;
+                    cursor: auto;
+                    
+                &:active {
+                    box-shadow: none;
+                    transform: none;
+                }
+                `}
+    `;
 
     return (
         <>
@@ -70,8 +81,9 @@ export default function PlayerVote({ player, index }: PropsType) {
                 type="radio"
                 name="vote"
                 id={"" + index}
-                checked={check}
-                onChange={() => setCheck(!check)}
+                checked={voteTarget === index}
+                onChange={() => setVoteTarget(index, player.name)}
+                disabled={!player.isAlive}
             />
             <label htmlFor={"" + index} css={label}>
                 <div>

@@ -14,7 +14,7 @@ import { axiosInstance } from "../axios/instances";
 
 const cookies = new Cookies();
 
-type PlayerType = {
+export type PlayerType = {
     name: string;
     isAlive: boolean;
     role: string | null;
