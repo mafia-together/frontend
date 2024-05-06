@@ -4,6 +4,15 @@ import { postChats } from '../../axios/http'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import { useState } from 'react'
 
+function chatSubmitEvent() {
+    document.addEventListener('keypress', function (event) {
+        if (event.key === 'enter') {
+            event.preventDefault()
+            document.getElementById('chat-submit-button')?.click()
+        }
+    })
+}
+
 export const ChatInput = () => {
     const chatInput = css`
         box-sizing: border-box;
@@ -27,6 +36,7 @@ export const ChatInput = () => {
             background-color: rgba(255, 255, 255, 0.4);
         }
     `
+    chatSubmitEvent()
     const [inputChat, setInputChat] = useState<string>('')
     return (
         <>
@@ -51,6 +61,7 @@ export const ChatInput = () => {
                     placeholder="내용을 입력하세요."
                 />
                 <input
+                    id="chat-submit-button"
                     type="submit"
                     value="전송"
                     onClick={() => {
