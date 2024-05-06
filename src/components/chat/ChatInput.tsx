@@ -79,7 +79,7 @@ export const ChatInput = () => {
                         padding: 18px 14px;
                         font-size: 16px;
                         border-radius: 20px;
-                        ${inputChat !== '' && 'background-color: rgba(255, 243, 191, 0.8);'}
+                        ${inputChat === '' && 'opacity: 0.2;'}
                         color: ${VariablesCSS.day};
                         cursor: pointer;
                     `}
