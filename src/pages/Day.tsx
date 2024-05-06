@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../styles/VariablesCSS'
 import AppContainerCSS from '../components/layout/AppContainerCSS'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useState } from 'react'
 import TopDay from '../components/top/TopDay'
 import ModalContainer from '../components/modal/ModalContainer'
 import Vote from '../components/modal/Vote'

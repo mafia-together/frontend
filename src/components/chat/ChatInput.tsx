@@ -13,6 +13,11 @@ function chatSubmitEvent() {
     })
 }
 
+function isInvalidInputChat(inputChat: string) {
+    inputChat = inputChat.trim()
+    return inputChat.length === 0
+}
+
 export const ChatInput = () => {
     const chatInput = css`
         box-sizing: border-box;
@@ -65,7 +70,7 @@ export const ChatInput = () => {
                     type="submit"
                     value="전송"
                     onClick={() => {
-                        if (inputChat === '') return
+                        if (isInvalidInputChat(inputChat)) return
                         postChats({ contents: inputChat })
                         setInputChat('')
                     }}
