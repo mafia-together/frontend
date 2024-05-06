@@ -4,15 +4,6 @@ import { postChats } from '../../axios/http'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import { useState } from 'react'
 
-function chatSubmitEvent() {
-    document.addEventListener('keypress', function (event) {
-        if (event.key === 'enter') {
-            event.preventDefault()
-            document.getElementById('chat-submit-button')?.click()
-        }
-    })
-}
-
 function isInvalidInputChat(inputChat: string) {
     inputChat = inputChat.trim()
     return inputChat.length === 0
@@ -41,11 +32,10 @@ export const ChatInput = () => {
             background-color: rgba(255, 255, 255, 0.4);
         }
     `
-    chatSubmitEvent()
     const [inputChat, setInputChat] = useState<string>('')
     return (
         <>
-            <div
+            <form
                 css={css`
                     position: absolute;
                     bottom: 17px;
@@ -66,9 +56,9 @@ export const ChatInput = () => {
                     placeholder="내용을 입력하세요."
                 />
                 <input
-                    id="chat-submit-button"
                     type="submit"
-                    value="전송"
+                    value="작성"
+                    disabled={isInvalidInputChat(inputChat)}
                     onClick={() => {
                         if (isInvalidInputChat(inputChat)) return
                         postChats({ contents: inputChat })
@@ -79,12 +69,12 @@ export const ChatInput = () => {
                         padding: 18px 14px;
                         font-size: 16px;
                         border-radius: 20px;
-                        ${inputChat === '' && 'opacity: 0.2;'}
+                        ${isInvalidInputChat(inputChat) && 'opacity: 0.2;'}
                         color: ${VariablesCSS.day};
                         cursor: pointer;
                     `}
                 />
-            </div>
+            </form>
         </>
     )
 }
