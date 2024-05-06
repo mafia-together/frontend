@@ -43,7 +43,7 @@ export default forwardRef(function ChatGroup({ name, contents, owner }: Props, r
             <PlayerChat />
             <div css={right}>
                 <p css={nameText}>{name}</p>
-                <ChatMessage contents={contents} me={owner} />
+                <ChatMessage contents={contents} owner={owner} />
             </div>
         </div>
     )
