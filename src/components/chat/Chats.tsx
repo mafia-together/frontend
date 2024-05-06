@@ -4,11 +4,7 @@ import ChatGroup from './ChatGroup'
 import { particpateRoom } from '../test/ParticipateRoom'
 
 export const Chats = () => {
-    useEffect(() => {
-        async () => {
-            await particpateRoom()
-        }
-    })
+    particpateRoom()
     const chatRef = useRef<HTMLDivElement | null>(null)
     const { chats } = useChatsQuery()
     useEffect(() => {
