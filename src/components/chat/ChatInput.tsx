@@ -45,6 +45,10 @@ export const ChatInput = () => {
                     justify-content: space-between;
                     align-items: center;
                 `}
+                onClick={() => {
+                    postChats({ contents: inputChat })
+                    setInputChat('')
+                }}
             >
                 <input
                     css={chatInput}
@@ -59,11 +63,6 @@ export const ChatInput = () => {
                     type="submit"
                     value="작성"
                     disabled={isInvalidInputChat(inputChat)}
-                    onClick={() => {
-                        if (isInvalidInputChat(inputChat)) return
-                        postChats({ contents: inputChat })
-                        setInputChat('')
-                    }}
                     css={css`
                         font-family: 'Cafe24Ssurround', sans-serif;
                         padding: 18px 14px;
