@@ -11,7 +11,7 @@ import PlayerWaiting from '../components/player/PlayerWaiting'
 import { Cookies } from 'react-cookie'
 import toast, { Toaster } from 'react-hot-toast'
 import { axiosInstance } from '../axios/instances'
-import { getRoomsCode } from '../axios/http'
+import { gameStart, getRoomsCode } from '../axios/http'
 
 export type PlayerType = {
     name: string
@@ -234,15 +234,14 @@ export default function WaitingRoom() {
         notify()
     }
 
-    // 링크 공유
-    const inviteLink = import.meta.env.VITE_URL + '/participate?code=' + code
-    const shareData = {
-        title: '마피아투게더',
-        text: '마피아투게더 방에 당신을 초대했습니다!',
-        url: inviteLink,
-    }
-
     const onShareLink = async () => {
+        // 링크 공유
+        const inviteLink = import.meta.env.VITE_URL + '/participate?code=' + code
+        const shareData = {
+            title: '마피아투게더',
+            text: '마피아투게더 방에 당신을 초대했습니다!',
+            url: inviteLink,
+        }
         if (navigator.share && navigator.canShare(shareData)) {
             navigator.share(shareData)
             return
@@ -255,10 +254,9 @@ export default function WaitingRoom() {
         return currentNumber === totalNumber
     }
     const navigate = useNavigate()
-    const onGameStart = () => {
+    const onGameStart = async () => {
         if (canStartGame()) {
-            //api 보내기
-            //성공시
+            await gameStart()
             navigate('/day')
         }
     }
