@@ -42,6 +42,6 @@ export const getRoomsCode = () => {
     return http.get<RoomResponse>(`/rooms/code`)
 }
 
-export const gameStart = async () => {
-    http.patch(`/rooms/status`, { status: 'start' })
+export const patchRoomStatus = async (payload: RoomStatusRequest) => {
+    http.patch(`/rooms/status`, payload)
 }

@@ -28,3 +28,7 @@ interface ParticipateRequest {
     code: string
     name: string
 }
+
+interface RoomStatusRequest {
+    status: 'WAIT' | 'DAY' | 'NIGHT' | 'END'
+}

@@ -10,8 +10,7 @@ import PlayerGrid from '../components/player/PlayerGrid'
 import PlayerWaiting from '../components/player/PlayerWaiting'
 import { Cookies } from 'react-cookie'
 import toast, { Toaster } from 'react-hot-toast'
-import { axiosInstance } from '../axios/instances'
-import { gameStart, getRoomsCode } from '../axios/http'
+import { patchRoomStatus, getRoomsCode } from '../axios/http'
 
 export type PlayerType = {
     name: string
@@ -256,7 +255,7 @@ export default function WaitingRoom() {
     const navigate = useNavigate()
     const onGameStart = async () => {
         if (canStartGame()) {
-            await gameStart()
+            await patchRoomStatus({ status: 'DAY' })
             navigate('/day')
         }
     }
