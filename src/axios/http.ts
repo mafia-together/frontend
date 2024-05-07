@@ -37,3 +37,7 @@ export const createRoom = (payload: {
 }) => {
     return http.post<RoomResponse>('/rooms', payload)
 }
+
+export const getRoomsCode = () => {
+    return http.get<RoomResponse>(`/rooms/code`)
+}
