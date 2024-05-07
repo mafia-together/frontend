@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
 
 type PropsType = {
-    use: "complete" | "exit";
-    daynight?: "day" | "night";
-    ready?: boolean;
-};
+    use: 'complete' | 'exit'
+    daynight?: 'day' | 'night'
+    ready?: boolean
+}
 
 export default function BottomButton({ use, daynight, ready = true }: PropsType) {
     const text = {
-        complete: "완료",
-        exit: "대비방으로 나가기",
-    };
+        complete: '완료',
+        exit: '대비방으로 나가기',
+    }
 
     const container = css`
         position: absolute;
@@ -25,7 +25,7 @@ export default function BottomButton({ use, daynight, ready = true }: PropsType)
         height: ${VariablesCSS.bottombutton};
         border-top: 1px solid ${VariablesCSS.light50};
         color: ${VariablesCSS.light};
-        font-family: "Cafe24Ssurround";
+        font-family: 'Cafe24Ssurround';
         font-size: ${VariablesCSS.default};
         box-sizing: border-box;
         cursor: pointer;
@@ -35,21 +35,21 @@ export default function BottomButton({ use, daynight, ready = true }: PropsType)
             &:active * {
             transform: translate(0.5px, 0.5px);
         }`
-            : "opacity: 0.2"};
+            : 'opacity: 0.2'};
 
         & * {
             transition: transform 0.1s;
         }
 
-        ${daynight === "day"
+        ${daynight === 'day'
             ? `border-top: 1px solid ${VariablesCSS.day50};
         color: ${VariablesCSS.day};`
             : ``}
-    `;
+    `
 
     return (
         <div css={container}>
-            {use === "complete" && (
+            {use === 'complete' && (
                 <svg
                     width="24"
                     height="24"
@@ -66,5 +66,5 @@ export default function BottomButton({ use, daynight, ready = true }: PropsType)
 
             <p>{text[use]}</p>
         </div>
-    );
+    )
 }
