@@ -72,7 +72,7 @@ export function CreateRoom() {
     }
 
     /* 이동 */
-    const ready = () => {
+    const canCreateRoom = () => {
         return (
             roleCount.total > roleCount.mafia * 2 &&
             roleCount.total >= 3 &&
@@ -82,10 +82,9 @@ export function CreateRoom() {
     }
     const navigate = useNavigate()
     const onCreateRoom = async () => {
-        if (ready()) {
+        if (canCreateRoom()) {
             const roomCode = await createRoom(roleCount)
-            localStorage.setItem('code', roomCode.code)
-            navigate(`/name?code=${roomCode}`)
+            navigate(`/name?code=${roomCode.code}`)
         }
     }
 
@@ -121,7 +120,7 @@ export function CreateRoom() {
                     <RoleCount role="police" count={roleCount.police} onCountRole={onCountRole} />
                 </div>
                 <div onClick={onCreateRoom}>
-                    <BottomButton use="complete" ready={ready()} />
+                    <BottomButton use="complete" ready={canCreateRoom()} />
                 </div>
             </div>
         </AppContainerCSS>

@@ -25,7 +25,7 @@ export const postRooms = (payload: RoomRequest) => {
     return http.post<RoomResponse>('/rooms', payload)
 }
 
-export const getRooms = (payload: ParticipateRequest) => {
+export const participateRooms = (payload: ParticipateRequest) => {
     return http.get<ParticipateResponse>(`/rooms?code=${payload.code}&name=${payload.name}`)
 }
 
