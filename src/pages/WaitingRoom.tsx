@@ -18,8 +18,8 @@ export type PlayerType = {
     role: string | null
 }
 
-const notify = () =>
-    toast('초대코드가 복사되었습니다', {
+const notify = (message: string) =>
+    toast(message, {
         duration: 3000,
         position: 'bottom-center',
         style: {
@@ -230,7 +230,7 @@ export default function WaitingRoom() {
     }, [code])
     const onCopyCode = async () => {
         await navigator.clipboard.writeText(code)
-        notify()
+        notify('초대코드가 복사되었습니다.')
     }
 
     const onShareLink = async () => {
@@ -246,6 +246,7 @@ export default function WaitingRoom() {
             return
         }
         await navigator.clipboard.writeText(inviteLink)
+        notify('초대링크가 복사되었습니다.')
     }
 
     /* 게임시작 */
