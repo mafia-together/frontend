@@ -7,6 +7,5 @@ export const particpateRoom = async () => {
         code: roomResponse.code,
         name: '지윤짱짱맨',
     })
-    console.log(participateResponse)
     localStorage.setItem('auth', participateResponse.auth)
 }
