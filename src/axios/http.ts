@@ -28,3 +28,12 @@ export const postRooms = (payload: RoomRequest) => {
 export const getRooms = (payload: ParticipateRequest) => {
     return http.get<ParticipateResponse>(`/rooms?code=${payload.code}&name=${payload.name}`)
 }
+
+export const createRoom = (payload: {
+    total: number
+    mafia: number
+    doctor: number
+    police: number
+}) => {
+    return http.post<RoomResponse>('/rooms', payload)
+}
