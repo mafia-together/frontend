@@ -81,7 +81,6 @@ export function CreateRoom() {
         )
     }
     const navigate = useNavigate()
-
     const onCreateRoom = async () => {
         if (ready()) {
             const roomCode = await createRoom(roleCount)
