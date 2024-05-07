@@ -45,7 +45,8 @@ export const ChatInput = () => {
                     justify-content: space-between;
                     align-items: center;
                 `}
-                onClick={() => {
+                onSubmit={(event) => {
+                    event.preventDefault()
                     postChats({ contents: inputChat })
                     setInputChat('')
                 }}
