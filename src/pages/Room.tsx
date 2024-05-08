@@ -6,8 +6,7 @@ import Result from './Result'
 import { useRoomsStatusQuery } from '../axios/http'
 
 export default function Room() {
-    let roomsStatus = useRoomsStatusQuery()
-    roomsStatus = 'DAY'
+    const roomsStatus = useRoomsStatusQuery()
 
     return (
         <>

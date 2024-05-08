@@ -14,9 +14,11 @@ export const useChatsQuery = () => {
 }
 
 export const useRoomsStatusQuery = () => {
-    const { data: roomsStatus, isLoading } = useQuery({
+    const { data: roomsStatus } = useQuery({
         queryKey: ['rooms', 'status'],
         queryFn: () => getRoomsStatus(),
+        refetchInterval: 1000,
+        staleTime: 1000,
     })
 
     return roomsStatus?.status
