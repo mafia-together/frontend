@@ -97,7 +97,7 @@ export default function FirstPage() {
                     <Link to="/create" style={{ textDecoration: 'none' }}>
                         <BigButton vatiety="emphasis" use="createRoom" />
                     </Link>
-                    <Link to={'/participate?code='} style={{ textDecoration: 'none' }}>
+                    <Link to={'/participate'} style={{ textDecoration: 'none' }}>
                         <BigButton vatiety="soft" use="participate" />
                     </Link>
                 </div>
