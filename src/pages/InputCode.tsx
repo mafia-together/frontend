@@ -6,7 +6,7 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
 import TopEnter from '../components/top/TopEnter'
 import BigButton from '../components/button/BigButton'
-import toast, { Toaster } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import { notifyUseToast as notifyUseToast } from '../components/toast/NotifyToast'
 
 export default function ParticipateRoom() {

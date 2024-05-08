@@ -237,7 +237,9 @@ export default function WaitingRoom() {
                     </PlayerGrid>
                 </div>
                 <div css={bottom} onClick={onGameStart}>
-                    <BigButton vatiety="emphasis" use="gameStart" ready={canStartGame()} />
+                    {roomInfo.isMaster && (
+                        <BigButton vatiety="emphasis" use="gameStart" ready={canStartGame()} />
+                    )}
                 </div>
 
                 {openModal ? (

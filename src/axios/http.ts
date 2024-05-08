@@ -28,7 +28,7 @@ export const useRoomsInfoQuery = () => {
     const { data: roomInfo, ...rest } = useSuspenseQuery({
         queryKey: ['rooms', 'info', localStorage.getItem('auth')],
         queryFn: () => getRoomsInfo(),
-        // refetchInterval: 1000,
+        refetchInterval: 1000,
     })
     return {
         roomInfo,
