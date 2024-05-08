@@ -4,18 +4,14 @@ import AppContainerCSS from '../components/layout/AppContainerCSS'
 import TopEnter from '../components/top/TopEnter'
 import { VariablesCSS } from '../styles/VariablesCSS'
 import BigButton from '../components/button/BigButton'
-import { useEffect, useInsertionEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PlayerGrid from '../components/player/PlayerGrid'
 import PlayerWaiting from '../components/player/PlayerWaiting'
 import { Toaster } from 'react-hot-toast'
-import { patchRoomStatus, getRoomsCode } from '../axios/http'
-
-export type PlayerType = {
-    name: string
-    isAlive: boolean
-    role: string | null
-}
+import { patchRoomStatus, getRoomsCode, useRoomsInfoQuery } from '../axios/http'
+import { notifyUseToast } from '../components/toast/NotifyToast'
+import { Player } from '../type'
 
 export default function WaitingRoom() {
     /* css */
@@ -148,46 +144,22 @@ export default function WaitingRoom() {
     `
 
     /* 참가목록 받아오기 */
-    const [players, setPlayers] = useState<PlayerType[]>([])
-    const [totalNumber, setTotalNumber] = useState(0)
-    const [currentNumber, setCurrentNumber] = useState(0)
+    const [players, setPlayers] = useState<Player[]>([])
+    const { roomInfo } = useRoomsInfoQuery()
 
-    // const onRoomsInfo = () => {
-    //     axiosInstance.get('/rooms/info').then((response) => {
-    //         // 총 인원
-    //         setTotalNumber(response.data.totalPlayers)
+    const getVirtualPlayers = () => {
+        const virtualPlayersLength = roomInfo.totalPlayers - roomInfo.players.length
+        const virtualPlayer = {
+            name: '',
+            isAlive: true,
+            role: null,
+        }
+        return Array.from({ length: virtualPlayersLength }, () => virtualPlayer)
+    }
 
-    //         // 참가 인원
-    //         setCurrentNumber(response.data.players.length)
-
-    //         // 플레이어 배열
-    //         const waitingPlayer = Array.from(
-    //             { length: response.data.totalPlayers - response.data.players.length },
-    //             () => {
-    //                 return {
-    //                     name: '',
-    //                     isAlive: true,
-    //                     role: null,
-    //                 }
-    //             }
-    //         )
-    //         setPlayers([...response.data.players, ...waitingPlayer])
-    //     })
-    // }
-
-    // useEffect(() => {})
-
-    // useEffect(() => {
-    //     onRoomsInfo()
-    // }, [])
-
-    // useEffect(() => {
-    //     const intervalCode = setInterval(() => {
-    //         onRoomsInfo()
-    //     }, 1000)
-
-    //     return () => clearInterval(intervalCode)
-    // }, [])
+    useEffect(() => {
+        setPlayers(roomInfo.players)
+    }, [roomInfo.players])
 
     /* 초대하기 모달 */
     // 띄우고 끄기
@@ -237,7 +209,7 @@ export default function WaitingRoom() {
 
     /* 게임시작 */
     const canStartGame = () => {
-        return currentNumber === totalNumber
+        return roomInfo.isMaster && players.length === roomInfo.totalPlayers
     }
     const navigate = useNavigate()
     const onGameStart = async () => {
@@ -255,11 +227,11 @@ export default function WaitingRoom() {
                     <div css={textGroup}>
                         <p css={subTitle}>참가목록</p>
                         <p css={number}>
-                            {currentNumber}/{totalNumber}
+                            {players.length}/{roomInfo.totalPlayers}
                         </p>
                     </div>
                     <PlayerGrid>
-                        {players.map((player, i) => (
+                        {[...players, ...getVirtualPlayers()].map((player, i) => (
                             <PlayerWaiting name={player.name} key={`${player.name}_${i}`} />
                         ))}
                     </PlayerGrid>
@@ -319,7 +291,4 @@ export default function WaitingRoom() {
             </div>
         </AppContainerCSS>
     )
-}
-function notifyUseToast(arg0: string) {
-    throw new Error('Function not implemented.')
 }
