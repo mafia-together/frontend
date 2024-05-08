@@ -8,7 +8,6 @@ import { useState } from 'react'
 import RoleCount from '../components/etc/RoleCount'
 import { useNavigate } from 'react-router-dom'
 import BottomButton from '../components/button/BottomButton'
-import { axiosInstance } from '../axios/instances'
 import { createRoom } from '../axios/http'
 
 export function CreateRoom() {

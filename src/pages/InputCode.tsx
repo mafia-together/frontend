@@ -6,6 +6,8 @@ import { useNavigate, useSearchParams } from 'react-router-dom'
 import { useState } from 'react'
 import TopEnter from '../components/top/TopEnter'
 import BigButton from '../components/button/BigButton'
+import toast, { Toaster } from 'react-hot-toast'
+import { notifyUseToast as notifyUseToast } from '../components/toast/NotifyToast'
 
 export default function ParticipateRoom() {
     const middle = css`
@@ -56,13 +58,18 @@ export default function ParticipateRoom() {
     }
 
     /* 이동 */
-    const canMoveToNextPage = () => {
-        return `${code}`.length === 10
+    const isValidCode = () => {
+        return code?.length === 10
     }
     const navigate = useNavigate()
-    const goInputName = () => {
-        if (canMoveToNextPage()) {
-            navigate(`/name?code=${code}`)
+    const goInputName = async () => {
+        if (isValidCode()) {
+            try {
+                // Code 확인하는 API 요청
+                navigate(`/name?code=${code}`)
+            } catch (error) {
+                notifyUseToast('해당하는 방이 존재하지 않습니다.')
+            }
         }
     }
 
@@ -82,8 +89,9 @@ export default function ParticipateRoom() {
                         autoFocus
                     />
                     <div style={{ width: '100%' }} onClick={goInputName}>
-                        <BigButton vatiety="soft" use="participate" ready={canMoveToNextPage()} />
+                        <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
                     </div>
+                    <Toaster />
                 </div>
             </div>
         </AppContainerCSS>

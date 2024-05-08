@@ -8,8 +8,7 @@ import { useEffect, useInsertionEffect, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import PlayerGrid from '../components/player/PlayerGrid'
 import PlayerWaiting from '../components/player/PlayerWaiting'
-import { Cookies } from 'react-cookie'
-import toast, { Toaster } from 'react-hot-toast'
+import { Toaster } from 'react-hot-toast'
 import { patchRoomStatus, getRoomsCode } from '../axios/http'
 
 export type PlayerType = {
@@ -17,19 +16,6 @@ export type PlayerType = {
     isAlive: boolean
     role: string | null
 }
-
-const notifyInviteUseToast = (message: string) =>
-    toast(message, {
-        duration: 3000,
-        position: 'bottom-center',
-        style: {
-            color: VariablesCSS.night,
-            background: 'linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%)',
-            border: '3px solid #ffffff',
-            borderRadius: '15px',
-            fontFamily: 'KCC-Hanbit',
-        },
-    })
 
 export default function WaitingRoom() {
     /* css */
@@ -230,7 +216,7 @@ export default function WaitingRoom() {
     }, [code])
     const onCopyCode = async () => {
         await navigator.clipboard.writeText(code)
-        notifyInviteUseToast('초대코드가 복사되었습니다.')
+        notifyUseToast('초대코드가 복사되었습니다.')
     }
 
     const onShareLink = async () => {
@@ -246,7 +232,7 @@ export default function WaitingRoom() {
             return
         }
         await navigator.clipboard.writeText(inviteLink)
-        notifyInviteUseToast('초대링크가 복사되었습니다.')
+        notifyUseToast('초대링크가 복사되었습니다.')
     }
 
     /* 게임시작 */
@@ -333,4 +319,7 @@ export default function WaitingRoom() {
             </div>
         </AppContainerCSS>
     )
+}
+function notifyUseToast(arg0: string) {
+    throw new Error('Function not implemented.')
 }

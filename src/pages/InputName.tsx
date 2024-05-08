@@ -7,6 +7,8 @@ import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import BottomButton from '../components/button/BottomButton'
 import { participateRooms } from '../axios/http'
+import { Toaster } from 'react-hot-toast'
+import { notifyUseToast } from '../components/toast/NotifyToast'
 
 export default function InputName() {
     const middle = css`
@@ -54,9 +56,13 @@ export default function InputName() {
     const navigate = useNavigate()
     const goWaitingRoom = async () => {
         if (canParticipateRoom()) {
-            const auth = await participateRooms({ code: code, name: name })
-            localStorage.setItem('auth', auth.auth)
-            navigate('/waiting')
+            try {
+                const auth = await participateRooms({ code: code, name: name })
+                localStorage.setItem('auth', auth.auth)
+                navigate('/waiting')
+            } catch (error: Error | any) {
+                notifyUseToast(error.message)
+            }
         }
     }
 
@@ -80,6 +86,7 @@ export default function InputName() {
                 <div onClick={goWaitingRoom}>
                     <BottomButton use="complete" ready={canParticipateRoom()} />
                 </div>
+                <Toaster />
             </div>
         </AppContainerCSS>
     )
