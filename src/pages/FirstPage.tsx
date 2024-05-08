@@ -80,9 +80,6 @@ export default function FirstPage() {
         }
     `
 
-    // const [searchParams] = useSearchParams();
-    // const code = searchParams.get("code"); 여기서 시작하는 것이 아니라, 바로 참가하기에서 시작할 것 같아서 일단 주석처리해놓을게요 의견 말씀해주세요
-
     return (
         <AppContainerCSS>
             <div css={container}>
