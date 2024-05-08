@@ -1,3 +1,7 @@
+interface RoomsStatus {
+    status: string
+}
+
 interface Chat {
     name: string
     contents: string

@@ -62,7 +62,7 @@ export const ChatInput = () => {
                 />
                 <input
                     type="submit"
-                    value="작성"
+                    value="전송"
                     disabled={isInvalidInputChat(inputChat)}
                     css={css`
                         font-family: 'Cafe24Ssurround', sans-serif;
