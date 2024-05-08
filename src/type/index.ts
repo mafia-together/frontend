@@ -1,30 +1,51 @@
-interface Chat {
+export interface Chat {
     name: string
     contents: string
     timestamp: Date
     owner: boolean
 }
 
-interface ChatRequest {
+export interface ChatRequest {
     contents: string
 }
 
-interface RoomResponse {
+export interface RoomResponse {
     code: string
 }
 
-interface RoomRequest {
+export interface RoomRequest {
     total: number
     mafia: number
     doctor: number
     police: number
 }
 
-interface ParticipateResponse {
+export interface ParticipateResponse {
     auth: string
 }
 
-interface ParticipateRequest {
+export interface ParticipateRequest {
     code: string
     name: string
+}
+
+export interface RoomStatusRequest {
+    status: 'WAIT' | 'DAY' | 'NIGHT' | 'END'
+}
+
+export type Role = 'citizen' | 'mafia' | 'doctor' | 'police' | null
+
+export interface RoomInfoResponse {
+    startTime: Date
+    endTime: Date
+    alive: boolean
+    totalPlayers: number
+    isMaster: boolean
+    players: Player[]
+}
+
+export interface Player {
+    name: string
+    isAlive: boolean
+    role: Role
 }

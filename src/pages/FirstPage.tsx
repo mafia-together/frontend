@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import AppContainerCSS from "../components/layout/AppContainerCSS";
-import { VariablesCSS } from "../styles/VariablesCSS";
-import { Link, useSearchParams } from "react-router-dom";
-import BigButton from "../components/button/BigButton";
+import { css } from '@emotion/react'
+import AppContainerCSS from '../components/layout/AppContainerCSS'
+import { VariablesCSS } from '../styles/VariablesCSS'
+import { Link } from 'react-router-dom'
+import BigButton from '../components/button/BigButton'
 
 export default function FirstPage() {
     const container = css`
@@ -34,11 +34,11 @@ export default function FirstPage() {
             margin-top: 10px;
             animation: slowshow 2s 0.8s backwards ease-out;
         }
-    `;
+    `
 
     const h1 = css`
         margin: 0 auto;
-        font-family: "LOTTERIACHAB", serif;
+        font-family: 'LOTTERIACHAB', serif;
         font-size: min(62px, 15vw);
         font-weight: 400;
         text-align: center;
@@ -46,10 +46,10 @@ export default function FirstPage() {
         color: ${VariablesCSS.light};
         text-shadow: 0px 1px 8px rgba(0, 0, 0, 0.5);
         animation: slowshow 1s 0.2s backwards ease-out;
-    `;
+    `
 
     const description = css`
-        font-family: "DNFForgedBlade", serif;
+        font-family: 'DNFForgedBlade', serif;
         font-size: 16px;
         font-weight: 400;
         color: ${VariablesCSS.light80};
@@ -78,10 +78,7 @@ export default function FirstPage() {
         & > p:nth-of-type(4) {
             animation: slowshow 2s 4s backwards ease-out;
         }
-    `;
-
-    const [searchParams] = useSearchParams();
-    const code = searchParams.get("code");
+    `
 
     return (
         <AppContainerCSS>
@@ -94,14 +91,14 @@ export default function FirstPage() {
                     <p>숨어있는 마피아를 찾아내세요.</p>
                 </div>
                 <div>
-                    <Link to="/create" style={{ textDecoration: "none" }}>
+                    <Link to="/create" style={{ textDecoration: 'none' }}>
                         <BigButton vatiety="emphasis" use="createRoom" />
                     </Link>
-                    <Link to={"/participate?code=" + code} style={{ textDecoration: "none" }}>
+                    <Link to={'/participate'} style={{ textDecoration: 'none' }}>
                         <BigButton vatiety="soft" use="participate" />
                     </Link>
                 </div>
             </div>
         </AppContainerCSS>
-    );
+    )
 }

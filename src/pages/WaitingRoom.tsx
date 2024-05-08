@@ -1,37 +1,17 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import AppContainerCSS from "../components/layout/AppContainerCSS";
-import TopEnter from "../components/top/TopEnter";
-import { VariablesCSS } from "../styles/VariablesCSS";
-import BigButton from "../components/button/BigButton";
-import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
-import PlayerGrid from "../components/player/PlayerGrid";
-import PlayerWaiting from "../components/player/PlayerWaiting";
-import { Cookies } from "react-cookie";
-import toast, { Toaster } from "react-hot-toast";
-import { axiosInstance } from "../axios/instances";
-
-const cookies = new Cookies();
-
-export type PlayerType = {
-    name: string;
-    isAlive: boolean;
-    role: string | null;
-};
-
-const notify = () =>
-    toast("초대코드가 복사되었습니다", {
-        duration: 3000,
-        position: "bottom-center",
-        style: {
-            color: VariablesCSS.night,
-            background: "linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%)",
-            border: "3px solid #ffffff",
-            borderRadius: "15px",
-            fontFamily: "KCC-Hanbit",
-        },
-    });
+import { css } from '@emotion/react'
+import AppContainerCSS from '../components/layout/AppContainerCSS'
+import TopEnter from '../components/top/TopEnter'
+import { VariablesCSS } from '../styles/VariablesCSS'
+import BigButton from '../components/button/BigButton'
+import { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom'
+import PlayerGrid from '../components/player/PlayerGrid'
+import PlayerWaiting from '../components/player/PlayerWaiting'
+import { Toaster } from 'react-hot-toast'
+import { patchRoomStatus, getRoomsCode, useRoomsInfoQuery } from '../axios/http'
+import { notifyUseToast } from '../components/toast/NotifyToast'
+import { Player } from '../type'
 
 export default function WaitingRoom() {
     /* css */
@@ -45,36 +25,36 @@ export default function WaitingRoom() {
         &::-webkit-scrollbar {
             display: none;
         }
-    `;
+    `
     const textGroup = css`
         margin-top: 16px;
         margin-bottom: 32px;
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         color: ${VariablesCSS.light};
         text-align: center;
-    `;
+    `
 
     const subTitle = css`
         font-size: 24px;
-    `;
+    `
 
     const number = css`
         font-size: 20px;
-    `;
+    `
 
     const bottom = css`
         position: absolute;
         bottom: 0;
         width: 100%;
         margin-bottom: ${VariablesCSS.margin};
-    `;
+    `
 
-    const [openAnimation, setOpenAnimation] = useState(false);
+    const [openAnimation, setOpenAnimation] = useState(false)
 
     const inviteModalContainer = css`
-        ${openAnimation && "animation: smoothshow 0.5s backwards;"}
-        ${openAnimation || "animation: smoothhide 0.5s backwards;"}
-    `;
+        ${openAnimation && 'animation: smoothshow 0.5s backwards;'}
+        ${openAnimation || 'animation: smoothhide 0.5s backwards;'}
+    `
 
     const dimmed = css`
         position: absolute;
@@ -85,7 +65,7 @@ export default function WaitingRoom() {
         margin-left: -${VariablesCSS.margin};
         margin-right: -${VariablesCSS.margin};
         background-color: rgba(0, 0, 0, 0.7);
-    `;
+    `
 
     const modalInner = css`
         position: absolute;
@@ -98,33 +78,33 @@ export default function WaitingRoom() {
         border: 5px solid #ffffff;
         border-radius: 15px;
         transform: translate(-50%, -50%);
-        ${openAnimation && "animation: smoothupNomargin 0.5s backwards;"}
-        ${openAnimation || "animation: smoothdownNomargin 0.5s backwards;"}
-    `;
+        ${openAnimation && 'animation: smoothupNomargin 0.5s backwards;'}
+        ${openAnimation || 'animation: smoothdownNomargin 0.5s backwards;'}
+    `
 
     const modalTitle = css`
         display: flex;
         justify-content: center;
         margin-top: 16px;
 
-        font-family: "WAGURITTF", serif;
+        font-family: 'WAGURITTF', serif;
         font-size: ${VariablesCSS.title};
         color: ${VariablesCSS.night};
-    `;
+    `
 
     const close = css`
         position: absolute;
         top: 7px;
         right: 10px;
         cursor: pointer;
-    `;
+    `
 
     const inviteShareLinkCss = css`
         display: flex;
         gap: 10px;
         margin: 35px auto 26px;
         padding: 17px 30px;
-        font-family: "Cafe24Ssurround", serif;
+        font-family: 'Cafe24Ssurround', serif;
         font-size: 18px;
         color: ${VariablesCSS.night};
         border-radius: 15px;
@@ -138,124 +118,106 @@ export default function WaitingRoom() {
             box-shadow: inset -1px -1px 1px rgba(0, 0, 0, 0.25);
             transform: translate(0.5px, 1px);
         }
-    `;
+    `
 
     const inviteCodeContainer = css`
         display: flex;
         align-items: center;
         justify-content: center;
         gap: 32px;
-        font-family: "Cafe24Ssurround", serif;
+        font-family: 'Cafe24Ssurround', serif;
         cursor: pointer;
 
         &:active {
             transform: translate(0.5px, 1px);
         }
-    `;
+    `
 
     const inviteCodeDescription = css`
         color: rgba(77, 61, 77, 0.8);
         font-size: 18px;
-    `;
+    `
 
     const inviteCodeCss = css`
         color: ${VariablesCSS.night};
         font-size: 20px;
-    `;
+    `
 
     /* 참가목록 받아오기 */
-    const [players, setPlayers] = useState<PlayerType[]>([]);
-    const [totalNumber, setTotalNumber] = useState(0);
-    const [currentNumber, setCurrentNumber] = useState(0);
+    const [players, setPlayers] = useState<Player[]>([])
+    const { roomInfo } = useRoomsInfoQuery()
 
-    const onRoomsInfo = () => {
-        axiosInstance.get("/rooms/info").then((response) => {
-            // 총 인원
-            setTotalNumber(response.data.totalPlayers);
-
-            // 참가 인원
-            setCurrentNumber(response.data.players.length);
-
-            // 플레이어 배열
-            const waitingPlayer = Array.from(
-                { length: response.data.totalPlayers - response.data.players.length },
-                () => {
-                    return {
-                        name: "",
-                        isAlive: true,
-                        role: null,
-                    };
-                }
-            );
-            setPlayers([...response.data.players, ...waitingPlayer]);
-        });
-    };
-
-    useEffect(() => {});
+    const getVirtualPlayers = () => {
+        const virtualPlayersLength = roomInfo.totalPlayers - roomInfo.players.length
+        const virtualPlayer = {
+            name: '',
+            isAlive: true,
+            role: null,
+        }
+        return Array.from({ length: virtualPlayersLength }, () => virtualPlayer)
+    }
 
     useEffect(() => {
-        onRoomsInfo();
-    }, []);
-
-    useEffect(() => {
-        const intervalCode = setInterval(() => {
-            onRoomsInfo();
-        }, 1000);
-
-        return () => clearInterval(intervalCode);
-    }, []);
+        setPlayers(roomInfo.players)
+    }, [roomInfo.players])
 
     /* 초대하기 모달 */
     // 띄우고 끄기
-    const [openModal, setOpenModal] = useState(false);
+    const [openModal, setOpenModal] = useState(false)
     const onModal = () => {
-        setOpenAnimation(true);
+        setOpenAnimation(true)
         setTimeout(() => {
-            setOpenModal(true);
-        }, 450);
-    };
+            setOpenModal(true)
+        }, 450)
+    }
 
     const onClose = () => {
-        setOpenAnimation(false);
+        setOpenAnimation(false)
         setTimeout(() => {
-            setOpenModal(false);
-        }, 450);
-    };
+            setOpenModal(false)
+        }, 450)
+    }
 
     // 코드 복사
-    const cookieValue = cookies.get("Cookie_1");
-    const code = cookieValue?.split("&")[0];
+    const [code, setCode] = useState<string>('')
+    useEffect(() => {
+        (async () => {
+            const roomResponse = await getRoomsCode()
+            setCode(roomResponse.code)
+        })()
+    }, [code])
     const onCopyCode = async () => {
-        await navigator.clipboard.writeText(code);
-        notify();
-    };
-
-    // 링크 공유
-    const inviteLink = import.meta.env.VITE_URL + "/code=" + code;
-    const shareData = {
-        title: "마피아투게더",
-        text: "마피아투게더 방에 당신을 초대했습니다!",
-        url: inviteLink,
-    };
+        await navigator.clipboard.writeText(code)
+        notifyUseToast('초대코드가 복사되었습니다.')
+    }
 
     const onShareLink = async () => {
-        if (navigator.canShare(shareData)) {
-            navigator.share(shareData);
+        // 링크 공유
+        const inviteLink = import.meta.env.VITE_URL + '/participate?code=' + code
+        const shareData = {
+            title: '마피아투게더',
+            text: '마피아투게더 방에 당신을 초대했습니다!',
+            url: inviteLink,
         }
-    };
+        if (navigator.share && navigator.canShare(shareData)) {
+            navigator.share(shareData)
+            return
+        }
+        await navigator.clipboard.writeText(inviteLink)
+        notifyUseToast('초대링크가 복사되었습니다.')
+    }
 
     /* 게임시작 */
-    const ready = () => {
-        return currentNumber === totalNumber;
-    };
-    const navigate = useNavigate();
-    const onGameStart = () => {
-        if (ready()) {
-            //api 보내기
-            //성공시
-            navigate("/day");
+    const canStartGame = () => {
+        return roomInfo.isMaster && players.length === roomInfo.totalPlayers
+    }
+    const navigate = useNavigate()
+    const onGameStart = async () => {
+        if (canStartGame()) {
+            await patchRoomStatus({ status: 'DAY' })
+            navigate('/day')
         }
-    };
+    }
 
     return (
         <AppContainerCSS>
@@ -265,17 +227,19 @@ export default function WaitingRoom() {
                     <div css={textGroup}>
                         <p css={subTitle}>참가목록</p>
                         <p css={number}>
-                            {currentNumber}/{totalNumber}
+                            {players.length}/{roomInfo.totalPlayers}
                         </p>
                     </div>
                     <PlayerGrid>
-                        {players.map((player, i) => (
+                        {[...players, ...getVirtualPlayers()].map((player, i) => (
                             <PlayerWaiting name={player.name} key={`${player.name}_${i}`} />
                         ))}
                     </PlayerGrid>
                 </div>
                 <div css={bottom} onClick={onGameStart}>
-                    <BigButton vatiety="emphasis" use="gameStart" ready={ready()} />
+                    {roomInfo.isMaster && (
+                        <BigButton vatiety="emphasis" use="gameStart" ready={canStartGame()} />
+                    )}
                 </div>
 
                 {openModal ? (
@@ -328,5 +292,5 @@ export default function WaitingRoom() {
                 )}
             </div>
         </AppContainerCSS>
-    );
+    )
 }
