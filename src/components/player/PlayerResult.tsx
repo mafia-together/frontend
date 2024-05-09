@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
 
 type PropsType = {
-    victory: "mafia" | "citizen";
-    player: { name: string; isAlive: boolean; role?: string };
-};
+    victory: 'mafia' | 'citizen'
+    player: { name: string; isAlive: boolean; role?: string }
+}
 
 export default function PlayerResult({ victory, player }: PropsType) {
     const container = css`
@@ -18,7 +18,7 @@ export default function PlayerResult({ victory, player }: PropsType) {
         width: 102px;
         height: 102px;
         padding: 11px 14px;
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         font-size: 14px;
         text-align: center;
         border-radius: 15px;
@@ -29,12 +29,12 @@ export default function PlayerResult({ victory, player }: PropsType) {
             flex: 1;
         }
 
-        ${victory === "mafia"
+        ${victory === 'mafia'
             ? `color: ${VariablesCSS.light};
     background-color: rgba(255, 255, 255, 0.12);`
             : ` color: ${VariablesCSS.day};
     background-color: rgba(255, 255, 255, 0.3);`}
-    `;
+    `
 
     return (
         <div css={container}>
@@ -52,5 +52,5 @@ export default function PlayerResult({ victory, player }: PropsType) {
             </svg>
             <p>{player.name}</p>
         </div>
-    );
+    )
 }

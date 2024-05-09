@@ -35,7 +35,8 @@ export default function Day() {
     `
 
     /* 공지모달 */
-    const [role, setRole] = useState('mafia')
+    // const [role, setRole] = useState<'citizen' | 'mafia' | 'doctor' | 'police'>('mafia')
+    const role = 'mafia'
 
     const [descriptionTime, setDescriptionTime] = useState(true)
     const [noticeTime, setNoticeTime] = useState(false)
@@ -52,13 +53,17 @@ export default function Day() {
     }, [])
 
     /* 시간 */
-    const [time, setTime] = useState(0)
+    // const [time, setTime] = useState(0)
+    const time = 0
 
-    const [round, setRound] = useState(1)
-    const [yesterdayDead, setYesterdayDead] = useState(false)
+    // const [round, setRound] = useState(1)
+    const round = 1
+    // const [yesterdayDead, setYesterdayDead] = useState(false)
+    const yesterdayDead = false
 
     /* 내가 살아있는지 */
-    const [isAlive, setIsAlive] = useState(true)
+    // const [isAlive, setIsAlive] = useState(true)
+    const isAlive = true
 
     /* 미리 투표하기 */
     const [openModal, setOpenModal] = useState(false)
@@ -67,7 +72,8 @@ export default function Day() {
     }
 
     // 모두 미리 투표했는지
-    const [allVote, setAllVote] = useState(false)
+    // const [allVote, setAllVote] = useState(false)
+    const allVote = false
 
     return (
         <AppContainerCSS background="day">

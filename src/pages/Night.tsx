@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../styles/VariablesCSS";
-import { useState } from "react";
-import AppContainerCSS from "../components/layout/AppContainerCSS";
-import TopNight from "../components/top/TopNight";
-import PlayerGrid from "../components/player/PlayerGrid";
-import PlayerNight from "../components/player/PlayerNight";
-import SmallButton from "../components/button/SmallButton";
-import ModalContainer from "../components/modal/ModalContainer";
-import InvestResult from "../components/modal/InvestResult";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../styles/VariablesCSS'
+import { useState } from 'react'
+import AppContainerCSS from '../components/layout/AppContainerCSS'
+import TopNight from '../components/top/TopNight'
+import PlayerGrid from '../components/player/PlayerGrid'
+import PlayerNight from '../components/player/PlayerNight'
+import SmallButton from '../components/button/SmallButton'
+import ModalContainer from '../components/modal/ModalContainer'
+import InvestResult from '../components/modal/InvestResult'
 
 export default function Night() {
     const middle = css`
@@ -19,53 +19,55 @@ export default function Night() {
         &::-webkit-scrollbar {
             display: none;
         }
-    `;
+    `
 
     const description = css`
         margin: 36px auto;
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         font-size: 18px;
         text-align: center;
         color: ${VariablesCSS.light};
-    `;
+    `
 
     /* 참가목록 받아오기 */
     const players = [
         {
-            name: "name",
+            name: 'name',
             isAlive: true,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: true,
         },
         {
-            name: "일이삼",
+            name: '일이삼',
             isAlive: true,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: false,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: true,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: true,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: true,
         },
-    ];
+    ]
 
-    const [myRole, setMyRole] = useState("mafia");
+    // const [myRole, setMyRole] = useState<'citizen' | 'mafia' | 'doctor' | 'police'>('mafia')
+    const myRole = 'mafia'
 
-    const [check, setCheck] = useState(-1);
+    const [check, setCheck] = useState(-1)
 
-    const [openModal, setOpenModal] = useState(true);
+    // const [openModal, setOpenModal] = useState(true)
+    const openModal = true
 
     return (
         <AppContainerCSS background="night">
@@ -85,7 +87,7 @@ export default function Night() {
                     </PlayerGrid>
 
                     {/* 안죽이기 */}
-                    {myRole === "mafia" && (
+                    {myRole === 'mafia' && (
                         <>
                             <input
                                 type="radio"
@@ -114,11 +116,12 @@ export default function Night() {
                     )}
 
                     {/* 경찰: 조사하기 */}
-                    <ModalContainer isOpen={myRole === "police" && openModal}>
+                    {/* <ModalContainer isOpen={myRole === 'police' && openModal}> */}
+                    <ModalContainer isOpen={false && openModal}>
                         <InvestResult />
                     </ModalContainer>
                 </div>
             </div>
         </AppContainerCSS>
-    );
+    )
 }
