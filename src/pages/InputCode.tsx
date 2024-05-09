@@ -1,11 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../styles/VariablesCSS";
-import AppContainerCSS from "../components/layout/AppContainerCSS";
-import { useNavigate, useSearchParams } from "react-router-dom";
-import { useState } from "react";
-import TopEnter from "../components/top/TopEnter";
-import BigButton from "../components/button/BigButton";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../styles/VariablesCSS'
+import AppContainerCSS from '../components/layout/AppContainerCSS'
+import { useNavigate, useSearchParams } from 'react-router-dom'
+import { useState } from 'react'
+import TopEnter from '../components/top/TopEnter'
+import BigButton from '../components/button/BigButton'
+import { Toaster } from 'react-hot-toast'
+import { notifyUseToast as notifyUseToast } from '../components/toast/NotifyToast'
 
 export default function ParticipateRoom() {
     const middle = css`
@@ -14,7 +16,7 @@ export default function ParticipateRoom() {
         flex-direction: column;
         justify-content: space-evenly;
         align-items: center;
-    `;
+    `
 
     const codeinput = css`
         box-sizing: border-box;
@@ -26,7 +28,7 @@ export default function ParticipateRoom() {
         background-color: ${VariablesCSS.light20};
         color: ${VariablesCSS.light};
         font-size: ${VariablesCSS.default};
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         text-align: center;
 
         &::-webkit-outer-spin-button,
@@ -34,40 +36,42 @@ export default function ParticipateRoom() {
             -webkit-appearance: none;
             margin: 0;
         }
-        input[type="number"] {
+        input[type='number'] {
             -moz-appearance: textfield;
         }
 
         &:focus {
             outline: 3px solid ${VariablesCSS.light};
         }
-    `;
+    `
 
     /* 코드 자동입력 */
-    const [searchParams] = useSearchParams();
-    let codeParams = searchParams.get("code");
-    if (codeParams === "null") {
-        codeParams = "";
-    }
+    const [searchParams] = useSearchParams()
+    const codeParams = !searchParams.get('code') ? '' : searchParams.get('code')
 
     /* 코드 사용자입력 */
-    const [code, setCode] = useState(codeParams);
+    const [code, setCode] = useState(codeParams)
     const onCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-        if (`${e.target.value}`.length <= 10) {
-            setCode("" + e.target.value);
+        if (e.target.value.length <= 10) {
+            setCode(e.target.value)
         }
-    };
+    }
 
     /* 이동 */
-    const raady = () => {
-        return `${code}`.length === 10;
-    };
-    const navigate = useNavigate();
-    const goInputName = () => {
-        if (raady()) {
-            navigate(`/name?code=${code}`);
+    const isValidCode = () => {
+        return code?.length === 10
+    }
+    const navigate = useNavigate()
+    const goInputName = async () => {
+        if (isValidCode()) {
+            try {
+                // Code 확인하는 API 요청
+                navigate(`/name?code=${code}`)
+            } catch (error) {
+                notifyUseToast('해당하는 방이 존재하지 않습니다.')
+            }
         }
-    };
+    }
 
     return (
         <AppContainerCSS>
@@ -77,18 +81,19 @@ export default function ParticipateRoom() {
                     <input
                         css={codeinput}
                         type="text"
-                        value={code || ""}
+                        value={code || ''}
                         name="code"
                         maxLength={10}
                         onChange={onCode}
                         spellCheck="false"
                         autoFocus
                     />
-                    <div style={{ width: "100%" }} onClick={goInputName}>
-                        <BigButton vatiety="soft" use="participate" ready={raady()} />
+                    <div style={{ width: '100%' }} onClick={goInputName}>
+                        <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
                     </div>
+                    <Toaster />
                 </div>
             </div>
         </AppContainerCSS>
-    );
+    )
 }

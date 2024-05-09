@@ -2,6 +2,7 @@ import { useEffect, useRef } from 'react'
 import { useChatsQuery } from '../../axios/http'
 import ChatGroup from './ChatGroup'
 import { particpateRoom } from '../test/ParticipateRoom'
+import { Chat } from '../../type'
 
 export const Chats = () => {
     particpateRoom()

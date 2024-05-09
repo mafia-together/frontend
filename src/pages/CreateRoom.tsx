@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import AppContainerCSS from "../components/layout/AppContainerCSS";
-import TopEnter from "../components/top/TopEnter";
-import { VariablesCSS } from "../styles/VariablesCSS";
-import CountButton from "../components/button/CountButton";
-import { useState } from "react";
-import RoleCount from "../components/etc/RoleCount";
-import { useNavigate } from "react-router-dom";
-import BottomButton from "../components/button/BottomButton";
-import { axiosInstance } from "../axios/instances";
+import { css } from '@emotion/react'
+import AppContainerCSS from '../components/layout/AppContainerCSS'
+import TopEnter from '../components/top/TopEnter'
+import { VariablesCSS } from '../styles/VariablesCSS'
+import CountButton from '../components/button/CountButton'
+import { useState } from 'react'
+import RoleCount from '../components/etc/RoleCount'
+import { useNavigate } from 'react-router-dom'
+import BottomButton from '../components/button/BottomButton'
+import { createRoom } from '../axios/http'
 
 export function CreateRoom() {
     /* css */
@@ -20,7 +20,7 @@ export function CreateRoom() {
         &::-webkit-scrollbar {
             display: none;
         }
-    `;
+    `
 
     const totalCount = css`
         display: flex;
@@ -30,9 +30,9 @@ export function CreateRoom() {
         width: 100%;
         margin-top: 34px;
         margin-bottom: 64px;
-        font-family: "Cafe24Ssurround";
+        font-family: 'Cafe24Ssurround';
         color: ${VariablesCSS.light};
-    `;
+    `
 
     const iconGroup = css`
         display: flex;
@@ -41,7 +41,7 @@ export function CreateRoom() {
         gap: 4px;
         margin: 0 auto;
         font-size: 28px;
-    `;
+    `
 
     /* data */
     const [roleCount, setRoleCount] = useState({
@@ -49,48 +49,43 @@ export function CreateRoom() {
         mafia: 0,
         doctor: 0,
         police: 0,
-    });
+    })
 
     const onCountRole = (role: string, number: number) => {
         switch (role) {
-            case "mafia":
+            case 'mafia':
                 if (number <= 2) {
-                    setRoleCount({ ...roleCount, mafia: number });
+                    setRoleCount({ ...roleCount, mafia: number })
                 }
-                break;
-            case "doctor":
-                setRoleCount({ ...roleCount, doctor: number });
-                break;
-            case "police":
-                setRoleCount({ ...roleCount, police: number });
-                break;
+                break
+            case 'doctor':
+                setRoleCount({ ...roleCount, doctor: number })
+                break
+            case 'police':
+                setRoleCount({ ...roleCount, police: number })
+                break
             default:
-                setRoleCount({ ...roleCount, total: number });
-                break;
+                setRoleCount({ ...roleCount, total: number })
+                break
         }
-    };
+    }
 
     /* 이동 */
-    const raady = () => {
+    const canCreateRoom = () => {
         return (
             roleCount.total > roleCount.mafia * 2 &&
             roleCount.total >= 3 &&
             roleCount.mafia >= 1 &&
             roleCount.total >= roleCount.mafia + roleCount.doctor + roleCount.police
-        );
-    };
-    const navigate = useNavigate();
-    const onCreateRoom = () => {
-        if (raady()) {
-            //방만들기 API
-            axiosInstance.post("/room", roleCount).then((response) => {
-                // 쿠키는 자동저장
-
-                // 방 코드받아서 쿼리에 담고 이동
-                navigate(`/name?code=${response.data.code}`);
-            });
+        )
+    }
+    const navigate = useNavigate()
+    const onCreateRoom = async () => {
+        if (canCreateRoom()) {
+            const roomCode = await createRoom(roleCount)
+            navigate(`/name?code=${roomCode.code}`)
         }
-    };
+    }
 
     return (
         <AppContainerCSS>
@@ -124,9 +119,9 @@ export function CreateRoom() {
                     <RoleCount role="police" count={roleCount.police} onCountRole={onCountRole} />
                 </div>
                 <div onClick={onCreateRoom}>
-                    <BottomButton use="complete" ready={raady()} />
+                    <BottomButton use="complete" ready={canCreateRoom()} />
                 </div>
             </div>
         </AppContainerCSS>
-    );
+    )
 }

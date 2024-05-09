@@ -6,7 +6,10 @@ import { VariablesCSS } from '../styles/VariablesCSS'
 import { useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import BottomButton from '../components/button/BottomButton'
-import { axiosInstance } from '../axios/instances'
+import { participateRooms } from '../axios/http'
+import { Toaster } from 'react-hot-toast'
+import { notifyUseToast } from '../components/toast/NotifyToast'
+
 
 export default function InputName() {
     const middle = css`
@@ -44,23 +47,23 @@ export default function InputName() {
     }
 
     /* 이동 */
-    const ready = () => {
-        return name.length > 0
+    const canParticipateRoom = () => {
+        return name.trim().length > 0
     }
 
     const [searchParams] = useSearchParams()
-    const code = searchParams.get('code')
+    const code = searchParams.get('code') as string
 
     const navigate = useNavigate()
-    const goWaitingRoom = () => {
-        if (ready()) {
-            //참가하기 api 호출
-            axiosInstance.get(`/rooms?code=${code}&name=${name}`).then(() => {
-                // 쿠키
-
-                // 대기방을 이동
+    const goWaitingRoom = async () => {
+        if (canParticipateRoom()) {
+            try {
+                const auth = await participateRooms({ code: code, name: name })
+                localStorage.setItem('auth', auth.auth)
                 navigate('/waiting')
-            })
+            } catch (error: Error | any) {
+                notifyUseToast(error.message)
+            }
         }
     }
 
@@ -82,8 +85,9 @@ export default function InputName() {
                     />
                 </div>
                 <div onClick={goWaitingRoom}>
-                    <BottomButton use="complete" ready={ready()} />
+                    <BottomButton use="complete" ready={canParticipateRoom()} />
                 </div>
+                <Toaster />
             </div>
         </AppContainerCSS>
     )
