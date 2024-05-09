@@ -1,3 +1,7 @@
+export interface RoomsStatus {
+    status: string
+}
+
 export interface Chat {
     name: string
     contents: string

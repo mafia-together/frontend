@@ -1,4 +1,4 @@
-import { useSuspenseQuery } from '@tanstack/react-query'
+import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
 import { http } from './instances'
 import {
     Chat,
@@ -22,6 +22,20 @@ export const useChatsQuery = () => {
         ...rest,
     }
 }
+
+export const useRoomsStatusQuery = () => {
+    const { data: roomsStatus } = useSuspenseQuery({
+        queryKey: ['rooms', 'status', localStorage.getItem('auth')],
+        queryFn: () => getRoomsStatus(),
+        refetchInterval: 1000,
+        staleTime: 1000,
+    })
+
+    return roomsStatus?.status
+}
+
+export const getRoomsStatus = () => {
+    return http.get<RoomsStatus>('/rooms/status')
 
 export const useRoomsInfoQuery = () => {
     const { data: roomInfo, ...rest } = useSuspenseQuery({

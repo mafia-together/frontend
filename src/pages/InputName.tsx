@@ -10,6 +10,7 @@ import { participateRooms } from '../axios/http'
 import { Toaster } from 'react-hot-toast'
 import { notifyUseToast } from '../components/toast/NotifyToast'
 
+
 export default function InputName() {
     const middle = css`
         display: flex;
