@@ -14,8 +14,8 @@ export const useChatsQuery = () => {
 }
 
 export const useRoomsStatusQuery = () => {
-    const { data: roomsStatus } = useQuery({
-        queryKey: ['rooms', 'status'],
+    const { data: roomsStatus } = useSuspenseQuery({
+        queryKey: ['rooms', 'status', localStorage.getItem('auth')],
         queryFn: () => getRoomsStatus(),
         refetchInterval: 1000,
         staleTime: 1000,
