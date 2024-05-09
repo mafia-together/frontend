@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../styles/VariablesCSS";
-import { useState } from "react";
-import AppContainerCSS from "../components/layout/AppContainerCSS";
-import TopResult from "../components/top/TopResult";
-import PlayerResult from "../components/player/PlayerResult";
-import BottomButton from "../components/button/BottomButton";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../styles/VariablesCSS'
+import AppContainerCSS from '../components/layout/AppContainerCSS'
+import TopResult from '../components/top/TopResult'
+import PlayerResult from '../components/player/PlayerResult'
+import BottomButton from '../components/button/BottomButton'
 
 export default function Result() {
-    const [victory, setVictory] = useState("mafia");
+    // const [victory, setVictory] = useState<'mafia' | 'citizen'>('mafia')
+    const victory = 'mafia'
 
     const middle = css`
         display: flex;
@@ -22,7 +22,7 @@ export default function Result() {
         &::-webkit-scrollbar {
             display: none;
         }
-    `;
+    `
 
     const winner = css`
         box-sizing: border-box;
@@ -34,24 +34,24 @@ export default function Result() {
         width: 92%;
         margin-top: 30px;
         padding: 30px;
-        ${victory === "mafia"
+        ${victory === 'mafia'
             ? `background-color: rgba(217, 217, 217, 0.2);`
             : ` background-color: rgba(255, 255, 255, 0.3);`}
 
         border-radius: 15px;
-    `;
+    `
 
     const description = css`
         display: flex;
         justify-content: center;
         align-items: center;
         gap: 10px;
-        ${victory === "mafia" ? `color: ${VariablesCSS.light};` : `color: ${VariablesCSS.day};`}
+        ${victory === 'mafia' ? `color: ${VariablesCSS.light};` : `color: ${VariablesCSS.day};`}
 
         font-family: "Cafe24Ssurround", sans-serif;
         font-size: ${VariablesCSS.default};
         word-break: keep-all;
-    `;
+    `
 
     const winnerGroup = css`
         display: flex;
@@ -59,7 +59,7 @@ export default function Result() {
         justify-content: center;
         align-items: center;
         gap: 10px;
-    `;
+    `
 
     const loserGroup = css`
         display: flex;
@@ -69,17 +69,17 @@ export default function Result() {
         gap: 10px;
         margin-top: 50px;
         margin-bottom: 50px;
-    `;
+    `
 
     return (
-        <AppContainerCSS background={victory === "mafia" ? "night" : "day"}>
+        <AppContainerCSS background={victory === 'mafia' ? 'night' : 'day'}>
             <div>
-                <TopResult daynight={victory === "mafia" ? "night" : "day"} />
+                <TopResult daynight={victory === 'mafia' ? 'night' : 'day'} />
 
                 <div css={middle}>
                     <div css={winner}>
                         <div css={description}>
-                            {victory === "mafia" ? (
+                            {victory === 'mafia' ? (
                                 <svg
                                     width="41"
                                     height="41"
@@ -138,28 +138,46 @@ export default function Result() {
                                 </svg>
                             )}
 
-                            <p>{victory === "mafia" ? "마피아" : "시민"} 승리</p>
+                            <p>{victory === 'mafia' ? '마피아' : '시민'} 승리</p>
                         </div>
                         <div css={winnerGroup}>
-                            <PlayerResult victory={victory} player={{ name: "일이" }} />
-                            <PlayerResult victory={victory} player={{ name: "일이" }} />
                             <PlayerResult
                                 victory={victory}
-                                player={{ name: "일이삼아오육칠팔오십" }}
+                                player={{ name: '일이', isAlive: true }}
+                            />
+                            <PlayerResult
+                                victory={victory}
+                                player={{ name: '일이', isAlive: true }}
+                            />
+                            <PlayerResult
+                                victory={victory}
+                                player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
                             />
                         </div>
                     </div>
                     <div css={loserGroup}>
-                        <PlayerResult victory={victory} player={{ name: "일이삼아오육칠팔오십" }} />
-                        <PlayerResult victory={victory} player={{ name: "일이삼아오육칠팔오십" }} />
-                        <PlayerResult victory={victory} player={{ name: "일이삼아오육칠팔오십" }} />
-                        <PlayerResult victory={victory} player={{ name: "일이삼아오육칠팔오십" }} />
+                        <PlayerResult
+                            victory={victory}
+                            player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
+                        />
+                        <PlayerResult
+                            victory={victory}
+                            player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
+                        />
+                        <PlayerResult
+                            victory={victory}
+                            player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
+                        />
+                        <PlayerResult
+                            victory={victory}
+                            player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
+                        />
                     </div>
                 </div>
                 <div>
-                    <BottomButton use="exit" daynight={victory === "mafia" ? "night" : "day"} />
+                    <BottomButton use="exit" daynight={victory === 'mafia' ? 'night' : 'day'} />
                 </div>
             </div>
         </AppContainerCSS>
-    );
+    )
 }

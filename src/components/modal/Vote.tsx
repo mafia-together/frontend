@@ -1,18 +1,18 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { useEffect, useState } from "react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
-import PlayerGrid from "../player/PlayerGrid";
-import PlayerVote from "../player/PlayerVote";
-import SmallButton from "../button/SmallButton";
-import { PlayerType } from "../../pages/WaitingRoom";
-import { axiosInstance } from "../../axios/instances";
+import { css } from '@emotion/react'
+import { useEffect, useState } from 'react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import PlayerGrid from '../player/PlayerGrid'
+import PlayerVote from '../player/PlayerVote'
+import SmallButton from '../button/SmallButton'
+import { axiosInstance } from '../../axios/instances'
+import { Player } from '../../type'
 
 type PropsType = {
-    onOpenModal?: () => void;
-    timeup?: boolean;
-    allVote?: boolean;
-};
+    onOpenModal?: () => void
+    timeup?: boolean
+    allVote?: boolean
+}
 
 export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
     const top = css`
@@ -20,21 +20,21 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
         top: 0;
         width: 100%;
         margin-top: 12px;
-    `;
+    `
 
     const timeText = css`
         text-align: center;
         font-size: ${VariablesCSS.title};
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         color: ${VariablesCSS.day};
-    `;
+    `
 
     const close = css`
         position: absolute;
         top: -6px;
         right: 4px;
         cursor: pointer;
-    `;
+    `
 
     const content = css`
         height: calc(100% - 70px - ${VariablesCSS.margin});
@@ -46,7 +46,7 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
         &::-webkit-scrollbar {
             display: none;
         }
-    `;
+    `
 
     const description = css`
         display: flex;
@@ -54,49 +54,49 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
         align-items: center;
         padding: 14px;
         margin-bottom: 10px;
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         font-size: 16px;
         color: ${VariablesCSS.day};
         text-align: center;
         opacity: 0.8;
-    `;
+    `
 
     const message = css`
         margin-bottom: 10px;
-        font-family: "DNFForgedBlade", sans-serif;
+        font-family: 'DNFForgedBlade', sans-serif;
         font-weight: 400;
         font-size: 12px;
         text-align: center;
         color: ${VariablesCSS.day50};
-    `;
+    `
 
     /* 참가목록 받아오기 */
-    const [players, setPlayers] = useState<PlayerType[]>([]);
+    const [players, setPlayers] = useState<Player[]>([])
 
     const onRoomsInfo = () => {
         try {
-            axiosInstance.get("/rooms/info").then((response) => {
+            axiosInstance.get('/rooms/info').then((response) => {
                 // 플레이어 배열
-                setPlayers([...response.data.players]);
-            });
+                setPlayers([...response.data.players])
+            })
         } catch (e) {
-            console.log(e);
+            console.log(e)
         }
-    };
+    }
 
     useEffect(() => {
-        onRoomsInfo();
-    }, []);
+        onRoomsInfo()
+    }, [])
 
-    const [voteTarget, setVoteTarget] = useState(-1);
+    const [voteTarget, setVoteTarget] = useState(-1)
 
     const setVote = (number: number, name: string) => {
         // 서버에 투표 전송
-        axiosInstance.post("/vote", { name: name }).then(() => {});
+        axiosInstance.post('/vote', { name: name }).then(() => {})
 
         // 화면에 표시
-        setVoteTarget(number);
-    };
+        setVoteTarget(number)
+    }
 
     return (
         <>
@@ -160,7 +160,7 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
                             color: ${VariablesCSS.light};
                             background-color: ${VariablesCSS.kill};
                     `}
-                    onChange={() => setVote(0, "")}
+                    onChange={() => setVote(0, '')}
                 />
                 <label
                     htmlFor="0"
@@ -175,5 +175,5 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
                 <p css={message}>모두 투표하면 대화시간이 종료됩니다.</p>
             </div>
         </>
-    );
+    )
 }

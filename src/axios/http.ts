@@ -6,7 +6,6 @@ import {
     ParticipateRequest,
     ParticipateResponse,
     Player,
-    RoomInfoResponse,
     RoomRequest,
     RoomResponse,
     RoomStatusRequest,

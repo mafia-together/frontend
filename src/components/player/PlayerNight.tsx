@@ -1,28 +1,28 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
-import { useState } from "react";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import { useState } from 'react'
 
 type PropsType = {
-    player: { name: string; isAlive: boolean; role?: string };
-    index: number;
-    myRole: "citizen" | "mafia" | "doctor" | "police";
-};
+    player: { name: string; isAlive: boolean; role?: string }
+    index: number
+    myRole: 'citizen' | 'mafia' | 'doctor' | 'police'
+}
 
 export default function PlayerNight({ player, index, myRole }: PropsType) {
     const backgounrdColor = {
         citizen: VariablesCSS.light30,
         mafia: VariablesCSS.kill,
-        doctor: "rgba(241,249,255,0.8)",
-        police: "rgba(233,246,255,0.8)",
-    };
+        doctor: 'rgba(241,249,255,0.8)',
+        police: 'rgba(233,246,255,0.8)',
+    }
 
     const color = {
         citizen: VariablesCSS.light,
         mafia: VariablesCSS.light,
         doctor: VariablesCSS.night,
         police: VariablesCSS.night,
-    };
+    }
 
     const inputCss = css`
         display: none;
@@ -38,7 +38,7 @@ export default function PlayerNight({ player, index, myRole }: PropsType) {
                 color: ${color[myRole]};
             }
         }
-    `;
+    `
 
     const label = css`
         & > div {
@@ -54,7 +54,7 @@ export default function PlayerNight({ player, index, myRole }: PropsType) {
         }
 
         color: ${VariablesCSS.light};
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         font-size: 14px;
         text-align: center;
         background-color: ${VariablesCSS.light30};
@@ -80,15 +80,15 @@ export default function PlayerNight({ player, index, myRole }: PropsType) {
                 transform: none;
             }
             `}
-    `;
+    `
 
     const p = css`
         display: flex;
         align-items: center;
         flex: 1;
-    `;
+    `
 
-    const [check, setCheck] = useState(false);
+    const [check, setCheck] = useState(false)
 
     return (
         <>
@@ -96,12 +96,12 @@ export default function PlayerNight({ player, index, myRole }: PropsType) {
                 css={inputCss}
                 type="radio"
                 name="vote"
-                id={"" + index}
+                id={'' + index}
                 checked={check}
                 onChange={() => setCheck(!check)}
                 disabled={!player.isAlive}
             />
-            <label htmlFor={"" + index} css={label}>
+            <label htmlFor={'' + index} css={label}>
                 <div>
                     <svg
                         width="40"
@@ -119,5 +119,5 @@ export default function PlayerNight({ player, index, myRole }: PropsType) {
                 </div>
             </label>
         </>
-    );
+    )
 }
