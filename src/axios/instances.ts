@@ -1,7 +1,7 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios'
 
 export const axiosInstance = axios.create({
-    baseURL: 'http://3.34.135.8:8080',
+    baseURL: 'https://mafia-together.com/api',
     withCredentials: true,
     timeout: 5000,
 })

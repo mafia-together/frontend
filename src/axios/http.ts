@@ -1,4 +1,4 @@
-import { useQuery, useSuspenseQuery } from '@tanstack/react-query'
+import { useSuspenseQuery } from '@tanstack/react-query'
 import { http } from './instances'
 import {
     Chat,
@@ -9,6 +9,7 @@ import {
     RoomRequest,
     RoomResponse,
     RoomStatusRequest,
+    RoomsStatus,
 } from '../type'
 
 export const useChatsQuery = () => {
@@ -36,12 +37,12 @@ export const useRoomsStatusQuery = () => {
 
 export const getRoomsStatus = () => {
     return http.get<RoomsStatus>('/rooms/status')
+}
 
 export const useRoomsInfoQuery = () => {
     const { data: roomInfo, ...rest } = useSuspenseQuery({
         queryKey: ['rooms', 'info', localStorage.getItem('auth')],
         queryFn: () => getRoomsInfo(),
-        refetchInterval: 1000,
     })
     return {
         roomInfo,
@@ -51,18 +52,25 @@ export const useRoomsInfoQuery = () => {
 
 export const getRoomsInfo = () => {
     // return http.get<RoomInfoResponse>(`/rooms/info`)
-    const mockPlayer: Player = {
-        name: '지윤짱짱맨',
-        isAlive: true,
-        role: 'mafia',
-    }
+    const mockPlayer: Player[] = [
+        {
+            name: '지윤짱짱맨',
+            isAlive: true,
+            role: 'mafia',
+        },
+        {
+            name: '재연짱짱맨',
+            isAlive: true,
+            role: 'citizen',
+        },
+    ]
     return {
         startTime: new Date(),
         endTime: new Date(),
-        alive: true,
+        isAlive: true,
         totalPlayers: 6,
         isMaster: true,
-        players: [mockPlayer],
+        players: mockPlayer,
     }
 }
 
