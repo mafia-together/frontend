@@ -16,7 +16,6 @@ export default function Room() {
     const { roomInfo } = useRoomsInfoQuery()
 
     useEffect(() => {
-        console.log('qkRNla')
         setRoomsInfoState(roomInfo)
     }, [roomInfo])
 
