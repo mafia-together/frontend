@@ -10,7 +10,6 @@ import { participateRooms } from '../axios/http'
 import { Toaster } from 'react-hot-toast'
 import { notifyUseToast } from '../components/toast/NotifyToast'
 
-
 export default function InputName() {
     const middle = css`
         display: flex;
@@ -60,7 +59,7 @@ export default function InputName() {
             try {
                 const auth = await participateRooms({ code: code, name: name })
                 localStorage.setItem('auth', auth.auth)
-                navigate('/waiting')
+                navigate('/room')
             } catch (error: Error | any) {
                 notifyUseToast(error.message)
             }
