@@ -9,8 +9,7 @@ import { useEffect } from 'react'
 
 export default function Room() {
     // 방 상태 불러오기
-    let roomsStatus = useRoomsStatusQuery()
-    roomsStatus = 'DAY'
+    const roomsStatus = useRoomsStatusQuery()
 
     // 방 정보 저장 (방 상태가 바뀔때만 작동?)
     const setRoomsInfoState = useSetRecoilState(roomInfoState)
