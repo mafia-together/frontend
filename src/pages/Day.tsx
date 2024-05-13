@@ -14,11 +14,11 @@ import { ChatInput } from '../components/chat/ChatInput'
 import { useRecoilState } from 'recoil'
 import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
 import { getMyJob } from '../axios/http'
-import { Job, RommStatus } from '../type'
+import { Job, RoomStatus } from '../type'
 import VoteResult from '../components/modal/VoteResult'
 
 type PropsType = {
-    roomsStatus: RommStatus
+    roomsStatus: RoomStatus
 }
 
 export default function Day({ roomsStatus }: PropsType) {

@@ -26,14 +26,17 @@ export const useChatsQuery = () => {
 }
 
 export const useRoomsStatusQuery = () => {
-    const { data: roomsStatus } = useSuspenseQuery({
+    const { data: roomsStatus, ...rest } = useSuspenseQuery({
         queryKey: ['rooms', 'status', localStorage.getItem('auth')],
         queryFn: () => getRoomsStatus(),
         refetchInterval: 1000,
         staleTime: 1000,
     })
 
-    return roomsStatus?.statusType
+    return {
+        roomsStatus,
+        ...rest,
+    }
 }
 
 export const getRoomsStatus = () => {
