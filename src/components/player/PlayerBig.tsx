@@ -29,6 +29,7 @@ export default function PlayerBig({ color, job, name }: PropsType) {
                 font-family: 'Cafe24Ssurround', sans-serif;
                 font-size: 20px;
                 text-align: center;
+                word-break: break-all;
             `}
         >
             <JobIcon job={job} size="big" color={color} />

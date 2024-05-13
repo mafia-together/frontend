@@ -15,6 +15,7 @@ import { useRecoilState } from 'recoil'
 import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
 import { getPlayersMyJob } from '../axios/http'
 import { Job, RommStatus } from '../type'
+import VoteResult from '../components/modal/VoteResult'
 
 type PropsType = {
     roomsStatus: RommStatus
@@ -70,7 +71,7 @@ export default function Day({ roomsStatus }: PropsType) {
     }, [])
 
     // 전날밤 사망공지
-    const [yesterdayDeadPlayer] = useRecoilState(lastDeadPlayer)
+    const [lastDeadPlayerStatus] = useRecoilState(lastDeadPlayer)
 
     /* 방 정보 */
     // 시간
@@ -105,6 +106,11 @@ export default function Day({ roomsStatus }: PropsType) {
         }
     }
 
+    /* 투표결과 */
+    const [voteResultTime, setVoteResultTime] = useState(false)
+    if (roomsStatus === 'VOTERESULT') {
+        setVoteResultTime(true)
+    }
     return (
         <AppContainerCSS background="day">
             {descriptionTime ? (
@@ -129,7 +135,7 @@ export default function Day({ roomsStatus }: PropsType) {
                             <NoticeMyJob myJob={myJob} />
                         ) : (
                             // 전날밤 사망공지
-                            <NoticeDead yesterdayDeadPlayer={yesterdayDeadPlayer}></NoticeDead>
+                            <NoticeDead yesterdayDeadPlayer={lastDeadPlayerStatus}></NoticeDead>
                         )}
                     </ModalContainer>
 
@@ -151,6 +157,11 @@ export default function Day({ roomsStatus }: PropsType) {
                     {/* 모두 투표함 */}
                     <ModalContainer isOpen={voteState === 'voteAll'}>
                         <Vote voteAll={voteState === 'voteAll'} />
+                    </ModalContainer>
+
+                    {/* 투표결과 */}
+                    <ModalContainer isOpen={voteResultTime}>
+                        <VoteResult deadPlayer={lastDeadPlayerStatus} />
                     </ModalContainer>
                 </div>
             )}
