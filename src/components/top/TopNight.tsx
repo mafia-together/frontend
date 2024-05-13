@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
 
 export default function TopNight() {
     const container = css`
@@ -16,19 +16,19 @@ export default function TopNight() {
             margin-top: 2px;
             display: block;
         }
-    `;
+    `
 
     const left = css`
         display: flex;
         align-items: center;
         gap: 8px;
-        font-family: "WAGURITTF", sans-serif;
-    `;
+        font-family: 'WAGURITTF', sans-serif;
+    `
 
     const timeText = css`
         padding-top: 2px;
-        font-family: "Cafe24Ssurround", sans-serif;
-    `;
+        font-family: 'Cafe24Ssurround', sans-serif;
+    `
     return (
         <div css={container}>
             <div css={left}>
@@ -37,5 +37,5 @@ export default function TopNight() {
             </div>
             <p css={timeText}>1:20</p>
         </div>
-    );
+    )
 }
