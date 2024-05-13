@@ -37,19 +37,23 @@ export interface RoomStatusRequest {
     status: 'WAIT' | 'DAY' | 'NIGHT' | 'END'
 }
 
-export type Role = 'citizen' | 'mafia' | 'doctor' | 'police' | null
+export type Job = 'CITIZEN' | 'MAFIA' | 'DOCTOR' | 'POLICE' | null
+
+export interface Player {
+    name: string
+    isAlive: boolean
+    job: Job
+}
 
 export interface RoomInfoResponse {
     startTime: Date
     endTime: Date
-    alive: boolean
+    isAlive: boolean
     totalPlayers: number
     isMaster: boolean
     players: Player[]
 }
 
-export interface Player {
-    name: string
-    isAlive: boolean
-    role: Role
+export interface MyJobResponse {
+    job: Job
 }

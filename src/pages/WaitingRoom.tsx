@@ -181,7 +181,7 @@ export default function WaitingRoom() {
     // 코드 복사
     const [code, setCode] = useState<string>('')
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             const roomResponse = await getRoomsCode()
             setCode(roomResponse.code)
         })()

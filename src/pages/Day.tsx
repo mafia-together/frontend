@@ -7,10 +7,14 @@ import TopDay from '../components/top/TopDay'
 import ModalContainer from '../components/modal/ModalContainer'
 import Vote from '../components/modal/Vote'
 import ViewRole from '../components/modal/ViewRole'
-import NoticeRole from '../components/modal/NoticeRole'
+import NoticeMyJob from '../components/modal/NoticeMyJob'
 import NoticeDead from '../components/modal/NoticeDead'
 import { Chats } from '../components/chat/Chats'
 import { ChatInput } from '../components/chat/ChatInput'
+import { useRecoilState } from 'recoil'
+import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
+import { getPlayersMyJob } from '../axios/http'
+import { Job } from '../type'
 
 export default function Day() {
     const gameMessage = css`
@@ -35,9 +39,6 @@ export default function Day() {
     `
 
     /* 공지모달 */
-    // const [role, setRole] = useState<'citizen' | 'mafia' | 'doctor' | 'police'>('mafia')
-    const role = 'mafia'
-
     const [descriptionTime, setDescriptionTime] = useState(true)
     const [noticeTime, setNoticeTime] = useState(false)
 
@@ -52,14 +53,37 @@ export default function Day() {
         }, 6000)
     }, [])
 
-    /* 시간 */
-    // const [time, setTime] = useState(0)
-    const time = 0
+    // 라운드 (몇일차)
+    const [gameRoundState] = useRecoilState(gameRound)
 
-    // const [round, setRound] = useState(1)
-    const round = 1
-    // const [yesterdayDead, setYesterdayDead] = useState(false)
-    const yesterdayDead = false
+    // 내 직업공지
+    const [myJob, setMyJob] = useState<Job>(null)
+    useEffect(() => {
+        ;(async () => {
+            const myJobResponse = await getPlayersMyJob()
+            setMyJob(myJobResponse.job)
+        })()
+    }, [])
+
+    // 전날밤 사망공지
+    const [yesterdayDeadPlayer] = useRecoilState(lastDeadPlayer)
+
+    /* 방 정보 */
+    // 시간
+    const [romeinfo] = useRecoilState(roomInfoState)
+    const [lastTime, setLastIime] = useState(20)
+    useEffect(() => {
+        const intervalCode = setInterval(() => {
+            setLastIime(Math.round((+new Date(romeinfo.endTime) - +new Date()) / 1000))
+        })
+
+        // const intervalCode = setInterval(() => {
+        //     setLastIime((new Date(romeinfo.endTime) - new Date()) / 1000)
+        // }, 1000)
+        return () => clearInterval(intervalCode)
+    }, [])
+
+    // const time = `${new Date(romeinfo.endTime) - new Date(romeinfo.startTime)}`
 
     /* 내가 살아있는지 */
     // const [isAlive, setIsAlive] = useState(true)
@@ -81,7 +105,7 @@ export default function Day() {
                 <p css={gameMessage}>낮이 되었습니다.</p> // 채팅
             ) : (
                 <div>
-                    <TopDay isAlive={isAlive} onOpenModal={onOpenModal} time={time} />
+                    <TopDay isAlive={isAlive} onOpenModal={onOpenModal} lastTime={lastTime} />
 
                     <>
                         <div css={middle}>
@@ -94,12 +118,12 @@ export default function Day() {
 
                     {/* 공지 모달 */}
                     <ModalContainer isOpen={noticeTime} openMotion={false}>
-                        {round === 1 ? (
+                        {gameRoundState === 1 ? (
                             // 직업공지
-                            <NoticeRole role={role} />
+                            <NoticeMyJob myJob={myJob} />
                         ) : (
-                            // 사망공지
-                            <NoticeDead yesterdayDead={yesterdayDead}></NoticeDead>
+                            // 전날밤 사망공지
+                            <NoticeDead yesterdayDeadPlayer={yesterdayDeadPlayer}></NoticeDead>
                         )}
                     </ModalContainer>
 
@@ -114,8 +138,8 @@ export default function Day() {
                     </ModalContainer>
 
                     {/* 시간이 다 됨 */}
-                    <ModalContainer isOpen={!!time}>
-                        <Vote timeup={!time} />
+                    <ModalContainer isOpen={!!lastTime}>
+                        <Vote timeup={!lastTime} />
                     </ModalContainer>
 
                     {/* 모두 투표함 */}

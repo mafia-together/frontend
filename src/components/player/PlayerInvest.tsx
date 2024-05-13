@@ -1,11 +1,11 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
-import RoleIcon from "../svg/RoleIcon";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import JobIcon from '../svg/JobIcon'
 
 type PropsType = {
-    role: "mafia" | "citizen";
-};
+    role: 'mafia' | 'citizen'
+}
 
 export default function PlayerInvest({ role }: PropsType) {
     return (
@@ -23,13 +23,13 @@ export default function PlayerInvest({ role }: PropsType) {
                 border-radius: 15px;
                 background-color: ${VariablesCSS.light15};
                 color: ${VariablesCSS.night};
-                font-family: "Cafe24Ssurround", sans-serif;
+                font-family: 'Cafe24Ssurround', sans-serif;
                 font-size: 20px;
                 text-align: center;
             `}
         >
-            <RoleIcon role={role} size="big" color="night" />
+            <JobIcon role={role} size="big" color="night" />
             <p>일이삼사오육칠팔구십</p>
         </div>
-    );
+    )
 }

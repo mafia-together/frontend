@@ -1,20 +1,21 @@
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import { Job } from '../../type'
 
 type PropsType = {
-    role?: "mafia" | "doctor" | "police" | "citizen";
-    size: "small" | "default" | "big";
-    color: "day" | "night" | "dark" | "light" | "kill" | "safe" | "dead";
-};
+    job: Job
+    size: 'small' | 'default' | 'big'
+    color: 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
+}
 
-export default function RoleIcon({ role, size, color }: PropsType) {
+export default function JobIcon({ job, size, color }: PropsType) {
     const sizeNumber = {
-        small: "20",
-        default: "40",
-        big: "80",
-    };
+        small: '20',
+        default: '40',
+        big: '80',
+    }
 
-    switch (role) {
-        case "mafia":
+    switch (job) {
+        case 'MAFIA':
             return (
                 <svg
                     width={sizeNumber[size]}
@@ -28,9 +29,9 @@ export default function RoleIcon({ role, size, color }: PropsType) {
                         fill={VariablesCSS[color]}
                     />
                 </svg>
-            );
+            )
 
-        case "doctor":
+        case 'DOCTOR':
             return (
                 <svg
                     width={sizeNumber[size]}
@@ -44,9 +45,9 @@ export default function RoleIcon({ role, size, color }: PropsType) {
                         fill={VariablesCSS[color]}
                     />
                 </svg>
-            );
+            )
 
-        case "police":
+        case 'POLICE':
             return (
                 <svg
                     width={sizeNumber[size]}
@@ -60,7 +61,7 @@ export default function RoleIcon({ role, size, color }: PropsType) {
                         fill={VariablesCSS[color]}
                     />
                 </svg>
-            );
+            )
         default:
             return (
                 <svg
@@ -75,6 +76,6 @@ export default function RoleIcon({ role, size, color }: PropsType) {
                         fill={VariablesCSS[color]}
                     />
                 </svg>
-            );
+            )
     }
 }

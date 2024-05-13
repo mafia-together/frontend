@@ -1,14 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
-import RoleIcon from "../svg/RoleIcon";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import JobIcon from '../svg/JobIcon'
+import { Job } from '../../type'
 
 type PropsType = {
-    color: "day" | "night" | "dark" | "light" | "kill" | "safe" | "dead";
-    role: "mafia" | "doctor" | "police" | "citizen";
-};
+    color: 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
+    job: Job
+    name: string
+}
 
-export default function PlayerBig({ color, role }: PropsType) {
+export default function PlayerBig({ color, job, name }: PropsType) {
     return (
         <div
             css={css`
@@ -24,13 +26,13 @@ export default function PlayerBig({ color, role }: PropsType) {
                 border-radius: 15px;
                 background-color: ${VariablesCSS.white30};
                 color: ${VariablesCSS[color]};
-                font-family: "Cafe24Ssurround", sans-serif;
+                font-family: 'Cafe24Ssurround', sans-serif;
                 font-size: 20px;
                 text-align: center;
             `}
         >
-            <RoleIcon role={role} size="big" color={color} />
-            <p>일이삼사오육칠팔구십</p>
+            <JobIcon job={job} size="big" color={color} />
+            <p>{name}</p>
         </div>
-    );
+    )
 }

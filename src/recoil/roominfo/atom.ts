@@ -1,18 +1,29 @@
 import { atom } from 'recoil'
 
+export const gameRound = atom({
+    key: 'gameRound',
+    default: 0,
+})
+
 export const roomInfoState = atom({
-    key: 'roomInfo',
+    key: 'roomInfoState',
     default: {
         startTime: new Date(),
         endTime: new Date(),
         isAlive: true,
         totalPlayers: 0,
         isMaster: true,
-        players: [{}],
+        players: [
+            {
+                name: '지윤짱짱맨',
+                isAlive: true,
+                job: 'MAFIA',
+            },
+        ],
     },
 })
 
-export const gameRound = atom({
-    key: 'gameRound',
-    default: 0,
+export const lastDeadPlayer = atom({
+    key: 'lastDeadPlayer',
+    default: '',
 })

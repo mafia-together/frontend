@@ -87,6 +87,7 @@ export default function ParticipateRoom() {
                         onChange={onCode}
                         spellCheck="false"
                         autoFocus
+                        autoComplete="off"
                     />
                     <div style={{ width: '100%' }} onClick={goInputName}>
                         <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
