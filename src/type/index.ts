@@ -47,7 +47,7 @@ export interface Player {
     job: Job
 }
 
-export interface RoomInfoResponse {
+export interface RoomInfo {
     startTime: Date
     endTime: Date
     isAlive: boolean

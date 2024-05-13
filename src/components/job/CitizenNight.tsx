@@ -7,9 +7,10 @@ import PlayerNight from '../player/PlayerNight'
 import AppContainerCSS from '../layout/AppContainerCSS'
 
 interface Props {
+    isAlive: boolean
     players: Player[]
 }
-export const CitizenNight = ({ players }: Props) => {
+export const CitizenNight = ({ players, isAlive }: Props) => {
     const description = css`
         margin: 36px auto;
         font-family: 'Cafe24Ssurround', sans-serif;

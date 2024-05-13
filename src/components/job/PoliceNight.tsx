@@ -10,9 +10,10 @@ import InvestResult from '../modal/InvestResult'
 import { useState } from 'react'
 
 interface Props {
+    isAlive: boolean
     players: Player[]
 }
-export const PoliceNight = ({ players }: Props) => {
+export const PoliceNight = ({ players, isAlive }: Props) => {
     const description = css`
         margin: 36px auto;
         font-family: 'Cafe24Ssurround', sans-serif;

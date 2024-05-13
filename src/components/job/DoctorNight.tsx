@@ -7,9 +7,10 @@ import PlayerGrid from '../player/PlayerGrid'
 import PlayerNight from '../player/PlayerNight'
 
 interface Props {
+    isAlive: boolean
     players: Player[]
 }
-export const DoctorNight = ({ players }: Props) => {
+export const DoctorNight = ({ players, isAlive }: Props) => {
     const description = css`
         margin: 36px auto;
         font-family: 'Cafe24Ssurround', sans-serif;

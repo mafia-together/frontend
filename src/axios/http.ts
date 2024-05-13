@@ -7,7 +7,7 @@ import {
     ParticipateRequest,
     ParticipateResponse,
     RoomCodeExistsResponse,
-    RoomInfoResponse,
+    RoomInfo,
     RoomRequest,
     RoomResponse,
     RoomStatusRequest,
@@ -61,7 +61,7 @@ export const useRoomsInfoQuery = () => {
 }
 
 export const getRoomsInfo = () => {
-    return http.get<RoomInfoResponse>(`/rooms/info`)
+    return http.get<RoomInfo>(`/rooms/info`)
 }
 
 export const getChats = () => {
