@@ -14,9 +14,13 @@ import { ChatInput } from '../components/chat/ChatInput'
 import { useRecoilState } from 'recoil'
 import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
 import { getPlayersMyJob } from '../axios/http'
-import { Job } from '../type'
+import { Job, RommStatus } from '../type'
 
-export default function Day() {
+type PropsType = {
+    roomsStatus: RommStatus
+}
+
+export default function Day({ roomsStatus }: PropsType) {
     const gameMessage = css`
         display: flex;
         justify-content: center;
@@ -77,17 +81,11 @@ export default function Day() {
             setLastIime(Math.round((+new Date(romeinfo.endTime) - +new Date()) / 1000))
         })
 
-        // const intervalCode = setInterval(() => {
-        //     setLastIime((new Date(romeinfo.endTime) - new Date()) / 1000)
-        // }, 1000)
         return () => clearInterval(intervalCode)
     }, [])
 
-    // const time = `${new Date(romeinfo.endTime) - new Date(romeinfo.startTime)}`
-
-    /* 내가 살아있는지 */
-    // const [isAlive, setIsAlive] = useState(true)
-    const isAlive = true
+    // 내가 살아있는지
+    const isAlive = romeinfo.isAlive
 
     /* 미리 투표하기 */
     const [openModal, setOpenModal] = useState(false)
@@ -95,9 +93,17 @@ export default function Day() {
         setOpenModal(!openModal)
     }
 
-    // 모두 미리 투표했는지
-    // const [allVote, setAllVote] = useState(false)
-    const allVote = false
+    /* 투표시간 */
+    const [voteState, setVoteStatus] = useState('')
+    if (roomsStatus === 'VOTE') {
+        if (lastTime <= 0) {
+            //낮 시간이 끝났음
+            setVoteStatus('timeUp')
+        } else {
+            //모든 플레이어가 투표를 완료했음
+            setVoteStatus('voteAll')
+        }
+    }
 
     return (
         <AppContainerCSS background="day">
@@ -138,13 +144,13 @@ export default function Day() {
                     </ModalContainer>
 
                     {/* 시간이 다 됨 */}
-                    <ModalContainer isOpen={!!lastTime}>
-                        <Vote timeup={!lastTime} />
+                    <ModalContainer isOpen={voteState === 'timeUp'}>
+                        <Vote timeup={voteState === 'timeUp'} />
                     </ModalContainer>
 
                     {/* 모두 투표함 */}
-                    <ModalContainer isOpen={allVote}>
-                        <Vote allVote={allVote} />
+                    <ModalContainer isOpen={voteState === 'voteAll'}>
+                        <Vote voteAll={voteState === 'voteAll'} />
                     </ModalContainer>
                 </div>
             )}

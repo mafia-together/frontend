@@ -33,8 +33,10 @@ export interface ParticipateRequest {
     name: string
 }
 
+export type RommStatus = 'WAIT' | 'DAY' | 'VOTE' | 'NIGHT' | 'END'
+
 export interface RoomStatusRequest {
-    status: 'WAIT' | 'DAY' | 'NIGHT' | 'END'
+    status: RommStatus
 }
 
 export type Job = 'CITIZEN' | 'MAFIA' | 'DOCTOR' | 'POLICE' | null
