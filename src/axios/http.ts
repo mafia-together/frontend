@@ -6,6 +6,7 @@ import {
     ParticipateRequest,
     ParticipateResponse,
     RoomCodeExistsResponse,
+    RoomInfoResponse,
     RoomRequest,
     RoomResponse,
     RoomStatusRequest,
@@ -19,6 +20,7 @@ export const useChatsQuery = () => {
         queryKey: ['chats', localStorage.getItem('auth')],
         queryFn: () => getChats(),
         refetchInterval: 1000,
+        staleTime: 1000,
     })
     return {
         chats,
@@ -49,6 +51,7 @@ export const useRoomsInfoQuery = () => {
         queryKey: ['rooms', 'info', localStorage.getItem('auth')],
         queryFn: () => getRoomsInfo(),
         refetchInterval: 1000,
+        staleTime: 1000,
     })
     return {
         roomInfo,
