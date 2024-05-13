@@ -2,40 +2,41 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import { useState } from 'react'
+import { Job, Player } from '../../type'
 
 type PropsType = {
-    player: { name: string; isAlive: boolean; role?: string }
+    player: Player
     index: number
-    myRole: 'citizen' | 'mafia' | 'doctor' | 'police'
+    myJob: Job
 }
 
-export default function PlayerNight({ player, index, myRole }: PropsType) {
+export default function PlayerNight({ player, index, myJob }: PropsType) {
     const backgounrdColor = {
-        citizen: VariablesCSS.light30,
-        mafia: VariablesCSS.kill,
-        doctor: 'rgba(241,249,255,0.8)',
-        police: 'rgba(233,246,255,0.8)',
+        CITIZEN: VariablesCSS.light30,
+        MAFIA: VariablesCSS.kill,
+        DOCTOR: 'rgba(241,249,255,0.8)',
+        POLICE: 'rgba(233,246,255,0.8)',
     }
 
     const color = {
-        citizen: VariablesCSS.light,
-        mafia: VariablesCSS.light,
-        doctor: VariablesCSS.night,
-        police: VariablesCSS.night,
+        CITIZEN: VariablesCSS.light,
+        MAFIA: VariablesCSS.light,
+        DOCTOR: VariablesCSS.night,
+        POLICE: VariablesCSS.night,
     }
 
     const inputCss = css`
         display: none;
 
         &:checked + label {
-            background-color: ${backgounrdColor[myRole]};
+            background-color: ${myJob && backgounrdColor[myJob]};
 
             & svg {
-                color: ${color[myRole]};
+                color: ${myJob && color[myJob]};
             }
 
             & p {
-                color: ${color[myRole]};
+                color: ${myJob && color[myJob]};
             }
         }
     `

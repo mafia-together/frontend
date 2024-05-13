@@ -3,6 +3,7 @@ import { http } from './instances'
 import {
     Chat,
     ChatRequest,
+    Job,
     ParticipateRequest,
     ParticipateResponse,
     RoomCodeExistsResponse,
