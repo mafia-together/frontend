@@ -9,9 +9,10 @@ import SmallButton from '../button/SmallButton'
 import { useState } from 'react'
 
 interface Props {
+    isAlive: boolean
     players: Player[]
 }
-export const MafiaNight = ({ players }: Props) => {
+export const MafiaNight = ({ players, isAlive }: Props) => {
     const description = css`
         margin: 36px auto;
         font-family: 'Cafe24Ssurround', sans-serif;

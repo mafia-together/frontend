@@ -7,7 +7,7 @@ import TopNight from '../components/top/TopNight'
 import { getMyJob, getRoomsInfo } from '../axios/http'
 import { MafiaNight } from '../components/job/MafiaNight'
 import { CitizenNight } from '../components/job/CitizenNight'
-import { Job, Player } from '../type'
+import { Job, RoomInfo } from '../type'
 import { PoliceNight } from '../components/job/PoliceNight'
 import { DoctorNight } from '../components/job/DoctorNight'
 
@@ -21,26 +21,38 @@ export default function Night() {
             display: none;
         }
     `
-    const [players, setPlayers] = useState<Player[]>([])
+    const [roomInfo, setRoomInfo] = useState<RoomInfo>()
     const [myJob, setMyJob] = useState<Job>(null)
     useEffect(() => {
         (async () => {
             const jobResponse = await getMyJob()
-            const roomsInfoResponse = await getRoomsInfo()
+            const roomInfoResponse = await getRoomsInfo()
             setMyJob(jobResponse.job)
-            setPlayers(roomsInfoResponse.players)
+            setRoomInfo(roomInfoResponse)
         })()
-    }, [myJob, players])
+    }, [myJob, roomInfo])
+
+    if (!roomInfo) {
+        return <></>
+    }
 
     return (
         <AppContainerCSS background="night">
             <div>
                 <TopNight />
                 <div css={middle}>
-                    {'MAFIA' === myJob && <MafiaNight players={players} />}
-                    {'CITIZEN' === myJob && <CitizenNight players={players} />}
-                    {'POLICE' === myJob && <PoliceNight players={players} />}
-                    {'DOCTOR' === myJob && <DoctorNight players={players} />}
+                    {'MAFIA' === myJob && (
+                        <MafiaNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                    )}
+                    {'CITIZEN' === myJob && (
+                        <CitizenNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                    )}
+                    {'POLICE' === myJob && (
+                        <PoliceNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                    )}
+                    {'DOCTOR' === myJob && (
+                        <DoctorNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                    )}
                 </div>
             </div>
         </AppContainerCSS>
