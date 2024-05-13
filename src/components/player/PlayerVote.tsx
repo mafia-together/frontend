@@ -1,13 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import { Job } from '../../type'
 
 type PropsType = {
-    player: { name: string; isAlive: boolean; role: string | null };
-    index: number;
-    voteTarget: number;
-    setVoteTarget: (number: number, name: string) => void;
-};
+    player: { name: string; isAlive: boolean; job: Job }
+    index: number
+    voteTarget: number
+    setVoteTarget: (number: number, name: string) => void
+}
 
 export default function PlayerVote({ player, index, voteTarget, setVoteTarget }: PropsType) {
     const inputCss = css`
@@ -24,7 +25,7 @@ export default function PlayerVote({ player, index, voteTarget, setVoteTarget }:
                 color: ${VariablesCSS.light};
             }
         }
-    `;
+    `
 
     const label = css`
         & > div {
@@ -40,7 +41,7 @@ export default function PlayerVote({ player, index, voteTarget, setVoteTarget }:
         }
 
         color: ${VariablesCSS.day};
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         font-size: 14px;
         text-align: center;
         background-color: ${VariablesCSS.light30};
@@ -72,7 +73,7 @@ export default function PlayerVote({ player, index, voteTarget, setVoteTarget }:
                     transform: none;
                 }
                 `}
-    `;
+    `
 
     return (
         <>
@@ -80,12 +81,12 @@ export default function PlayerVote({ player, index, voteTarget, setVoteTarget }:
                 css={inputCss}
                 type="radio"
                 name="vote"
-                id={"" + index}
+                id={'' + index}
                 checked={voteTarget === index}
                 onChange={() => setVoteTarget(index, player.name)}
                 disabled={!player.isAlive}
             />
-            <label htmlFor={"" + index} css={label}>
+            <label htmlFor={'' + index} css={label}>
                 <div>
                     <svg
                         width="40"
@@ -103,5 +104,5 @@ export default function PlayerVote({ player, index, voteTarget, setVoteTarget }:
                 </div>
             </label>
         </>
-    );
+    )
 }

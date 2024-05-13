@@ -11,10 +11,10 @@ import { Player } from '../../type'
 type PropsType = {
     onOpenModal?: () => void
     timeup?: boolean
-    allVote?: boolean
+    voteAll?: boolean
 }
 
-export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
+export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
     const top = css`
         position: absolute;
         top: 0;
@@ -102,7 +102,7 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
         <>
             <div css={top}>
                 <div css={timeText}>1:20</div>
-                {timeup || allVote || (
+                {timeup || voteAll || (
                     <button css={close} onClick={onOpenModal}>
                         <svg
                             width="51"
@@ -121,7 +121,7 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
                 )}
             </div>
             <div css={content}>
-                {timeup || allVote || <p css={description}>처형하고 싶은 사람을 투표해주세요.</p>}
+                {timeup || voteAll || <p css={description}>처형하고 싶은 사람을 투표해주세요.</p>}
                 {timeup && (
                     <p css={description}>
                         투표시간이 되었습니다.
@@ -129,7 +129,7 @@ export default function Vote({ onOpenModal, timeup, allVote }: PropsType) {
                         처형하고 싶은 사람을 투표해주세요.
                     </p>
                 )}
-                {allVote && (
+                {voteAll && (
                     <p css={description}>
                         모두 미리 투표를 하였습니다.
                         <br />
