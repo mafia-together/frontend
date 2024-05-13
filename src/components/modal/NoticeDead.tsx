@@ -1,14 +1,14 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
-import PlayerBig from "../player/PlayerBig";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import PlayerBig from '../player/PlayerBig'
 
 type PropsType = {
-    yesterdayDead: boolean;
-};
+    yesterdayDeadPlayer: string
+}
 
-export default function NoticeDead({ yesterdayDead }: PropsType) {
-    const color = yesterdayDead ? "kill" : "safe";
+export default function NoticeDead({ yesterdayDeadPlayer }: PropsType) {
+    const color = yesterdayDeadPlayer === '' ? 'safe' : 'kill'
 
     const container = css`
         display: flex;
@@ -18,21 +18,21 @@ export default function NoticeDead({ yesterdayDead }: PropsType) {
         color: ${VariablesCSS[color]};
         gap: 50px;
         height: 100%;
-    `;
+    `
 
     const description = css`
-        font-family: "DNFForgedBlade", sans-serif;
+        font-family: 'DNFForgedBlade', sans-serif;
         font-weight: bold;
         font-size: 26px;
         text-align: center;
-    `;
+    `
 
     return (
         <div css={container}>
-            {yesterdayDead ? (
+            {yesterdayDeadPlayer !== '' ? (
                 // 누눈가가 죽었음
                 <>
-                    <PlayerBig color={color} role="citizen" />
+                    <PlayerBig color={color} job="CITIZEN" name={yesterdayDeadPlayer} />
                     <p css={description}>
                         어젯밤 <br />
                         사망했습니다.
@@ -61,5 +61,5 @@ export default function NoticeDead({ yesterdayDead }: PropsType) {
                 </>
             )}
         </div>
-    );
+    )
 }

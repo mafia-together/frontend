@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
+import { DayTime } from '../time/DayTime'
 
 type PropsType = {
     isAlive: boolean
     onOpenModal: () => void
-    time: number
+    lastTime: number
 }
 
-export default function TopDay({ isAlive, onOpenModal, time }: PropsType) {
+export default function TopDay({ isAlive, onOpenModal, lastTime }: PropsType) {
     const container = css`
         display: flex;
         justify-content: space-between;
@@ -57,7 +58,9 @@ export default function TopDay({ isAlive, onOpenModal, time }: PropsType) {
                 <p css={dayText}>낮</p>
             </div>
 
-            <p css={timeText}>{time}</p>
+            <p css={timeText}>
+                <DayTime lastTime={lastTime} />
+            </p>
             {isAlive ? (
                 <button css={dayRight} onClick={onOpenModal}>
                     <img src="/assets/img/icon/vote.svg" alt="" />

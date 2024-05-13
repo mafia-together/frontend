@@ -1,6 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import RoleIcon from '../svg/RoleIcon'
+import JobIcon from '../svg/JobIcon'
 
 export default function PlayerChat() {
     const container = css`
@@ -16,7 +16,7 @@ export default function PlayerChat() {
 
     return (
         <div css={container}>
-            <RoleIcon size="small" color="day" />
+            <JobIcon size="small" color="day" />
         </div>
     )
 }

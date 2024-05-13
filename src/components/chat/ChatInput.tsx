@@ -59,6 +59,7 @@ export const ChatInput = () => {
                     name="chat"
                     id="chat"
                     placeholder="내용을 입력하세요."
+                    autoComplete="off"
                 />
                 <input
                     type="submit"
