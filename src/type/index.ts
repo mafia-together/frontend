@@ -33,7 +33,7 @@ export interface ParticipateRequest {
     name: string
 }
 
-export type RommStatus = 'WAIT' | 'DAY' | 'VOTE' | 'NIGHT' | 'END'
+export type RommStatus = 'WAIT' | 'DAY' | 'VOTE' | 'VOTERESULT' | 'NIGHT' | 'END'
 
 export interface RoomStatusRequest {
     status: RommStatus

@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import AppContainerCSS from '../components/layout/AppContainerCSS'
 import TopEnter from '../components/top/TopEnter'
 import { VariablesCSS } from '../styles/VariablesCSS'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import { useNavigate, useSearchParams } from 'react-router-dom'
 import BottomButton from '../components/button/BottomButton'
 import { participateRooms } from '../axios/http'
@@ -54,7 +54,9 @@ export default function InputName() {
     const code = searchParams.get('code') as string
 
     const navigate = useNavigate()
-    const goWaitingRoom = async () => {
+    const goWaitingRoom = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
         if (canParticipateRoom()) {
             try {
                 const auth = await participateRooms({ code: code, name: name })
@@ -70,22 +72,24 @@ export default function InputName() {
         <AppContainerCSS>
             <div>
                 <TopEnter use="inputName" />
-                <div css={middle}>
-                    <input
-                        css={nameCss}
-                        type="text"
-                        name="name"
-                        maxLength={10}
-                        autoComplete="off"
-                        value={name}
-                        onChange={onName}
-                        spellCheck="false"
-                        autoFocus
-                    />
-                </div>
-                <div onClick={goWaitingRoom}>
-                    <BottomButton use="complete" ready={canParticipateRoom()} />
-                </div>
+                <form onSubmit={(event) => goWaitingRoom(event)}>
+                    <div css={middle}>
+                        <input
+                            css={nameCss}
+                            type="text"
+                            name="name"
+                            maxLength={10}
+                            autoComplete="off"
+                            value={name}
+                            onChange={onName}
+                            spellCheck="false"
+                            autoFocus
+                        />
+                    </div>
+                    <button type="submit">
+                        <BottomButton use="complete" ready={canParticipateRoom()} />
+                    </button>
+                </form>
                 <Toaster />
             </div>
         </AppContainerCSS>
