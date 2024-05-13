@@ -7,7 +7,6 @@ import { FormEvent, useState } from 'react'
 import TopEnter from '../components/top/TopEnter'
 import BigButton from '../components/button/BigButton'
 import { Toaster } from 'react-hot-toast'
-import { notifyUseToast as notifyUseToast } from '../components/toast/NotifyToast'
 
 export default function ParticipateRoom() {
     const middle = css`
@@ -66,12 +65,12 @@ export default function ParticipateRoom() {
         event.preventDefault()
 
         if (isValidCode()) {
-            try {
-                // Code 확인하는 API 요청
-                navigate(`/name?code=${code}`)
-            } catch (error) {
-                notifyUseToast('해당하는 방이 존재하지 않습니다.')
-            }
+            // const roomCodeExistsResponse = await getValidRoomCode(code)
+            // if (!roomCodeExistsResponse.exists) {
+            //     notifyUseToast('해당하는 방이 존재하지 않습니다.')
+            //     return
+            // } 현재 API 설계가 get에 body를 담아서 보내느 것으로 되어 있는데 이가 제대로 동작하지 않아 일단 주석처리해놓겠습니다.
+            navigate(`/name?code=${code}`)
         }
     }
 

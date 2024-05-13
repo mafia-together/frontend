@@ -5,6 +5,7 @@ import {
     ChatRequest,
     ParticipateRequest,
     ParticipateResponse,
+    RoomCodeExistsResponse,
     RoomRequest,
     RoomResponse,
     RoomStatusRequest,
@@ -94,4 +95,8 @@ export const patchRoomStatus = async (payload: RoomStatusRequest) => {
 
 export const getMyJob = () => {
     return http.get<MyJobResponse>('/players/my/job')
+}
+
+export const getValidRoomCode = async (code: string | null) => {
+    return http.get<RoomCodeExistsResponse>(`/rooms/code/exist?code=${code}`)
 }

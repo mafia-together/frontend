@@ -61,3 +61,6 @@ export interface MyJobResponse {
 }
 
 export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
+export interface RoomCodeExistsResponse {
+    exists: boolean
+}
