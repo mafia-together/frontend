@@ -6,10 +6,10 @@ import { SpecialJob } from '../../type'
 type PropsType = {
     job: 'total' | SpecialJob
     count: number
-    onCountRole: (role: string, number: number) => void
+    onCountJob: (Job: string, number: number) => void
 }
 
-export default function CountButton({ job, count, onCountRole }: PropsType) {
+export default function CountButton({ job, count, onCountJob }: PropsType) {
     const countGroup = css`
         display: flex;
         justify-content: space-between;
@@ -59,13 +59,13 @@ export default function CountButton({ job, count, onCountRole }: PropsType) {
 
     const onMinus = () => {
         if (count > 0) {
-            onCountRole(job, Number(count) - 1)
+            onCountJob(job, Number(count) - 1)
         }
     }
 
     const onPlus = () => {
         if (count < 99) {
-            onCountRole(job, Number(count) + 1)
+            onCountJob(job, Number(count) + 1)
         }
     }
 

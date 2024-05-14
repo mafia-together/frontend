@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react'
 import TopDay from '../components/top/TopDay'
 import ModalContainer from '../components/modal/ModalContainer'
 import Vote from '../components/modal/Vote'
-import ViewRole from '../components/modal/ViewRole'
+import ViewJob from '../components/modal/ViewJob'
 import NoticeMyJob from '../components/modal/NoticeMyJob'
 import NoticeDead from '../components/modal/NoticeDead'
 import { Chats } from '../components/chat/Chats'
@@ -164,7 +164,7 @@ export default function Day({ roomsStatus }: PropsType) {
                             <Vote onOpenModal={onOpenModal} />
                         ) : (
                             /* 직업보기모달 */
-                            <ViewRole onOpenModal={onOpenModal} />
+                            <ViewJob onOpenModal={onOpenModal} />
                         )}
                     </ModalContainer>
 
