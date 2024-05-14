@@ -152,7 +152,7 @@ export default function WaitingRoom() {
         const virtualPlayer = {
             name: '',
             isAlive: true,
-            role: null,
+            job: null,
         }
         return Array.from({ length: virtualPlayersLength }, () => virtualPlayer)
     }

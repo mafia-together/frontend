@@ -1,16 +1,16 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
 
 type PropsType = {
-    text: string;
-    color: "day" | "night";
-};
+    text: string
+    color: 'day' | 'night'
+}
 
 export default function SmallButton({ text, color }: PropsType) {
     const container = css`
         padding: 16px 30px;
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         font-size: 20px;
         text-align: center;
         border-radius: 15px;
@@ -18,7 +18,7 @@ export default function SmallButton({ text, color }: PropsType) {
         transition-property: box-shadow, transform, background-color, color;
         transition-duration: 0.1s;
         cursor: pointer;
-        ${color === "day"
+        ${color === 'day'
             ? `color: ${VariablesCSS.day}; 
         background-color: ${VariablesCSS.light30};`
             : `color: ${VariablesCSS.light};
@@ -28,11 +28,11 @@ export default function SmallButton({ text, color }: PropsType) {
             box-shadow: inset -1px -1px 2px rgba(0, 0, 0, 0.25);
             transform: translate(0.5px, 1px);
         }
-    `;
+    `
 
     return (
-        <div role="button" css={container}>
+        <div job="button" css={container}>
             <p>{text}</p>
         </div>
-    );
+    )
 }

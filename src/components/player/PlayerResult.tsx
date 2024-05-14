@@ -4,7 +4,7 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 
 type PropsType = {
     victory: 'mafia' | 'citizen'
-    player: { name: string; isAlive: boolean; role?: string }
+    player: { name: string; isAlive: boolean; job?: string }
 }
 
 export default function PlayerResult({ victory, player }: PropsType) {

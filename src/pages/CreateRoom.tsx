@@ -5,7 +5,7 @@ import TopEnter from '../components/top/TopEnter'
 import { VariablesCSS } from '../styles/VariablesCSS'
 import CountButton from '../components/button/CountButton'
 import { useState } from 'react'
-import RoleCount from '../components/etc/RoleCount'
+import JobCount from '../components/etc/JobCount'
 import { useNavigate } from 'react-router-dom'
 import BottomButton from '../components/button/BottomButton'
 import { createRoom } from '../axios/http'
@@ -44,28 +44,28 @@ export function CreateRoom() {
     `
 
     /* data */
-    const [roleCount, setRoleCount] = useState({
+    const [jobCount, setjobCount] = useState({
         total: 0,
         mafia: 0,
         doctor: 0,
         police: 0,
     })
 
-    const onCountRole = (role: string, number: number) => {
-        switch (role) {
+    const onCountjob = (job: string, number: number) => {
+        switch (job) {
             case 'MAFIA':
                 if (number <= 2) {
-                    setRoleCount({ ...roleCount, mafia: number })
+                    setjobCount({ ...jobCount, mafia: number })
                 }
                 break
             case 'DOCTOR':
-                setRoleCount({ ...roleCount, doctor: number })
+                setjobCount({ ...jobCount, doctor: number })
                 break
             case 'POLICE':
-                setRoleCount({ ...roleCount, police: number })
+                setjobCount({ ...jobCount, police: number })
                 break
             default:
-                setRoleCount({ ...roleCount, total: number })
+                setjobCount({ ...jobCount, total: number })
                 break
         }
     }
@@ -73,16 +73,16 @@ export function CreateRoom() {
     /* 이동 */
     const canCreateRoom = () => {
         return (
-            roleCount.total > roleCount.mafia * 2 &&
-            roleCount.total >= 3 &&
-            roleCount.mafia >= 1 &&
-            roleCount.total >= roleCount.mafia + roleCount.doctor + roleCount.police
+            jobCount.total > jobCount.mafia * 2 &&
+            jobCount.total >= 3 &&
+            jobCount.mafia >= 1 &&
+            jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police
         )
     }
     const navigate = useNavigate()
     const onCreateRoom = async () => {
         if (canCreateRoom()) {
-            const roomCode = await createRoom(roleCount)
+            const roomCode = await createRoom(jobCount)
             navigate(`/name?code=${roomCode.code}`)
         }
     }
@@ -108,15 +108,11 @@ export function CreateRoom() {
                             </svg>
                             <p>총인원</p>
                         </div>
-                        <CountButton
-                            job="total"
-                            count={roleCount.total}
-                            onCountRole={onCountRole}
-                        />
+                        <CountButton job="total" count={jobCount.total} onCountjob={onCountjob} />
                     </div>
-                    <RoleCount job="MAFIA" count={roleCount.mafia} onCountRole={onCountRole} />
-                    <RoleCount job="DOCTOR" count={roleCount.doctor} onCountRole={onCountRole} />
-                    <RoleCount job="POLICE" count={roleCount.police} onCountRole={onCountRole} />
+                    <JobCount job="MAFIA" count={jobCount.mafia} onCountjob={onCountjob} />
+                    <JobCount job="DOCTOR" count={jobCount.doctor} onCountjob={onCountjob} />
+                    <JobCount job="POLICE" count={jobCount.police} onCountjob={onCountjob} />
                 </div>
                 <div onClick={onCreateRoom}>
                     <BottomButton use="complete" ready={canCreateRoom()} />

@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import { Player } from '../../type'
 
 type PropsType = {
-    player: { name: string; isAlive: boolean; role?: string };
-};
+    player: Player
+}
 
-export default function PlayerRole({ player }: PropsType) {
+export default function PlayerJob({ player }: PropsType) {
     const container = css`
         box-sizing: border-box;
         display: flex;
@@ -18,7 +19,7 @@ export default function PlayerRole({ player }: PropsType) {
         height: 102px;
         padding: 11px 14px;
         color: ${VariablesCSS.day};
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         font-size: 14px;
         text-align: center;
         background-color: ${VariablesCSS.white30};
@@ -32,8 +33,8 @@ export default function PlayerRole({ player }: PropsType) {
 
         ${!player.isAlive &&
         `color: ${VariablesCSS.dead};
-background: none;`}
-    `;
+        background: none;`}
+    `
 
     return (
         <div css={container}>
@@ -51,5 +52,5 @@ background: none;`}
             </svg>
             <p>{player.name}</p>
         </div>
-    );
+    )
 }

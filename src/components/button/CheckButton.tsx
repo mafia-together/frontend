@@ -6,10 +6,10 @@ import { SpecialJob } from '../../type'
 type PropsType = {
     job: SpecialJob
     count: number
-    onCountRole: (role: string, number: number) => void
+    onCountJob: (job: string, number: number) => void
 }
 
-export default function CheckButton({ job, count, onCountRole }: PropsType) {
+export default function CheckButton({ job, count, onCountJob }: PropsType) {
     const countGroup = css`
         display: flex;
         justify-content: space-between;
@@ -50,9 +50,9 @@ export default function CheckButton({ job, count, onCountRole }: PropsType) {
     /* 체크 */
     const onChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
-            onCountRole(job, 1)
+            onCountJob(job, 1)
         } else {
-            onCountRole(job, 0)
+            onCountJob(job, 0)
         }
     }
 

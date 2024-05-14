@@ -1,34 +1,34 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
-import PlayerGrid from "../player/PlayerGrid";
-import PlayerRole from "../player/PlayerRole";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
+import PlayerGrid from '../player/PlayerGrid'
+import PlayerJob from '../player/PlayerJob'
 
 type PropsType = {
-    onOpenModal: () => void;
-};
+    onOpenModal: () => void
+}
 
-export default function ViewRole({ onOpenModal }: PropsType) {
+export default function ViewJob({ onOpenModal }: PropsType) {
     const top = css`
         position: absolute;
         top: 0;
         width: 100%;
         margin-top: 12px;
-    `;
+    `
 
     const title = css`
         text-align: center;
         font-size: ${VariablesCSS.title};
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         color: ${VariablesCSS.day};
-    `;
+    `
 
     const close = css`
         position: absolute;
         top: -6px;
         right: 4px;
         cursor: pointer;
-    `;
+    `
 
     const content = css`
         height: calc(100% - 70px - ${VariablesCSS.margin});
@@ -40,7 +40,7 @@ export default function ViewRole({ onOpenModal }: PropsType) {
         &::-webkit-scrollbar {
             display: none;
         }
-    `;
+    `
 
     const description = css`
         display: flex;
@@ -48,43 +48,43 @@ export default function ViewRole({ onOpenModal }: PropsType) {
         align-items: center;
         padding: 14px;
         margin-bottom: 10px;
-        font-family: "Cafe24Ssurround", sans-serif;
+        font-family: 'Cafe24Ssurround', sans-serif;
         font-size: 16px;
         color: ${VariablesCSS.day};
         text-align: center;
         opacity: 0.8;
-    `;
+    `
 
     const players = [
         {
-            name: "name",
+            name: 'name',
             isAlive: true,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: true,
         },
         {
-            name: "일이삼",
+            name: '일이삼',
             isAlive: true,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: false,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: true,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: true,
         },
         {
-            name: "일이삼사오육칠팔구십",
+            name: '일이삼사오육칠팔구십',
             isAlive: true,
         },
-    ];
+    ]
 
     return (
         <>
@@ -110,10 +110,10 @@ export default function ViewRole({ onOpenModal }: PropsType) {
                 <p css={description}></p>
                 <PlayerGrid>
                     {players.map((player, i) => (
-                        <PlayerRole player={player} key={i + 1} />
+                        <PlayerJob player={player} key={i + 1} />
                     ))}
                 </PlayerGrid>
             </div>
         </>
-    );
+    )
 }
