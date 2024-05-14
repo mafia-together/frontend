@@ -60,6 +60,12 @@ export interface MyJobResponse {
     job: Job
 }
 
+export interface Player {
+    name: string
+    isAlive: boolean
+    job: Job
+}
+
 export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
 export interface RoomCodeExistsResponse {
     exists: boolean

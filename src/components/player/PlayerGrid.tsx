@@ -1,9 +1,9 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
+import { css } from '@emotion/react'
 
 type PropsType = {
-    children: JSX.Element[];
-};
+    children: JSX.Element[]
+}
 export default function PlayerGrid({ children }: PropsType) {
     const grid = css`
         display: grid;
@@ -13,7 +13,7 @@ export default function PlayerGrid({ children }: PropsType) {
         grid-template-columns: repeat(auto-fill, 102px);
 
         user-select: none;
-    `;
+    `
 
-    return <div css={grid}>{children}</div>;
+    return <div css={grid}>{children}</div>
 }
