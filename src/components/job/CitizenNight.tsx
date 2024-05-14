@@ -21,7 +21,9 @@ export const CitizenNight = ({ players, isAlive }: Props) => {
     return (
         <AppContainerCSS background="night">
             <>
-                <div css={description}>오늘밤은 무사하기를..</div>
+                <div css={description}>
+                    {isAlive ? '오늘밤은 무사하기를..' : '밤이 지나가고 있습니다..'}
+                </div>
                 <PlayerGrid>
                     {players.map((player, i) => (
                         <PlayerNight player={player} key={i + 1} index={i + 1} myJob={'CITIZEN'} />
