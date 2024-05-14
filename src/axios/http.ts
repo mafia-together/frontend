@@ -35,7 +35,7 @@ export const useRoomsStatusQuery = () => {
         staleTime: 1000,
     })
 
-    return roomsStatus?.status
+    return roomsStatus?.statusType
 }
 
 export const getRoomsStatus = () => {
@@ -46,6 +46,7 @@ export const useRoomsInfoQuery = () => {
     const { data: roomInfo, ...rest } = useSuspenseQuery({
         queryKey: ['rooms', 'info', localStorage.getItem('auth')],
         queryFn: () => getRoomsInfo(),
+        refetchInterval: 1000,
     })
     return {
         roomInfo,
