@@ -5,8 +5,8 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerGrid from '../player/PlayerGrid'
 import PlayerVote from '../player/PlayerVote'
 import SmallButton from '../button/SmallButton'
-import { axiosInstance } from '../../axios/instances'
 import { Player } from '../../type'
+import { postVote, useRoomsInfoQuery } from '../../axios/http'
 
 type PropsType = {
     onOpenModal?: () => void
@@ -72,28 +72,16 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
 
     /* 참가목록 받아오기 */
     const [players, setPlayers] = useState<Player[]>([])
-
-    const onRoomsInfo = () => {
-        try {
-            axiosInstance.get('/rooms/info').then((response) => {
-                // 플레이어 배열
-                setPlayers([...response.data.players])
-            })
-        } catch (e) {
-            console.log(e)
-        }
-    }
-
+    const { roomInfo } = useRoomsInfoQuery()
     useEffect(() => {
-        onRoomsInfo()
-    }, [])
+        setPlayers(roomInfo.players)
+    }, [roomInfo.players])
 
     const [voteTarget, setVoteTarget] = useState(-1)
 
-    const setVote = (number: number, name: string) => {
+    const setVote = async (number: number, name: string) => {
         // 서버에 투표 전송
-        axiosInstance.post('/vote', { name: name }).then(() => {})
-
+        await postVote({ name: name })
         // 화면에 표시
         setVoteTarget(number)
     }

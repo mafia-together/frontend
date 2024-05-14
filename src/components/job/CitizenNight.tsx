@@ -5,6 +5,7 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerGrid from '../player/PlayerGrid'
 import PlayerNight from '../player/PlayerNight'
 import AppContainerCSS from '../layout/AppContainerCSS'
+import { middle } from '../../pages/Night'
 
 interface Props {
     isAlive: boolean
@@ -20,7 +21,7 @@ export const CitizenNight = ({ players, isAlive }: Props) => {
     `
     return (
         <AppContainerCSS background="night">
-            <>
+            <div css={middle}>
                 <div css={description}>
                     {isAlive ? '오늘밤은 무사하기를..' : '밤이 지나가고 있습니다..'}
                 </div>
@@ -29,7 +30,7 @@ export const CitizenNight = ({ players, isAlive }: Props) => {
                         <PlayerNight player={player} key={i + 1} index={i + 1} myJob={'CITIZEN'} />
                     ))}
                 </PlayerGrid>
-            </>
+            </div>
         </AppContainerCSS>
     )
 }

@@ -8,6 +8,7 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import SmallButton from '../button/SmallButton'
 import { useEffect, useState } from 'react'
 import { postSkill, useMafiaVoteResultQuery } from '../../axios/http'
+import { middle } from '../../pages/Night'
 
 interface Props {
     isAlive: boolean
@@ -47,7 +48,7 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
 
     return (
         <AppContainerCSS background="night">
-            <>
+            <div css={middle}>
                 <div css={description}>
                     {isAlive
                         ? '오늘밤 죽일 사람을 지목해주세요.'
@@ -90,7 +91,7 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
                 >
                     <SmallButton text="안죽이기" color="night" />
                 </label>
-            </>
+            </div>
         </AppContainerCSS>
     )
 }

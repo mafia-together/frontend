@@ -8,6 +8,7 @@ import PlayerNight from '../player/PlayerNight'
 import ModalContainer from '../modal/ModalContainer'
 import { useEffect, useState } from 'react'
 import InvestResult from '../modal/InvestResult'
+import { middle } from '../../pages/Night'
 
 interface Props {
     isAlive: boolean
@@ -34,7 +35,7 @@ export const PoliceNight = ({ players, isAlive }: Props) => {
 
     return (
         <AppContainerCSS background="night">
-            <>
+            <div css={middle}>
                 <div css={description}>
                     {isAlive ? '마피아로 의심되는 사람을 조사하세요.' : '밤이 지나가고 있습니다..'}
                 </div>
@@ -54,7 +55,7 @@ export const PoliceNight = ({ players, isAlive }: Props) => {
                 <ModalContainer isOpen={openModal}>
                     <InvestResult target={players[check - 1]?.name} />
                 </ModalContainer>
-            </>
+            </div>
         </AppContainerCSS>
     )
 }
