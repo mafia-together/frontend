@@ -7,6 +7,7 @@ import PlayerGrid from '../player/PlayerGrid'
 import PlayerNight from '../player/PlayerNight'
 import { useEffect, useState } from 'react'
 import { postSkill } from '../../axios/http'
+import { middle } from '../../pages/Night'
 
 interface Props {
     isAlive: boolean
@@ -35,7 +36,7 @@ export const DoctorNight = ({ players, isAlive }: Props) => {
     }, [check, players])
     return (
         <AppContainerCSS background="night">
-            <>
+            <div css={middle}>
                 <div css={description}>
                     {isAlive ? '오늘밤 살릴 사람을 지목해주세요.' : '밤이 지나가고 있습니다..'}
                 </div>
@@ -51,7 +52,7 @@ export const DoctorNight = ({ players, isAlive }: Props) => {
                         />
                     ))}
                 </PlayerGrid>
-            </>
+            </div>
         </AppContainerCSS>
     )
 }

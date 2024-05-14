@@ -12,9 +12,9 @@ import NoticeDead from '../components/modal/NoticeDead'
 import { Chats } from '../components/chat/Chats'
 import { ChatInput } from '../components/chat/ChatInput'
 import { useRecoilState } from 'recoil'
-import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
-import { getMyJob } from '../axios/http'
-import { Job, Status } from '../type'
+import { gameRound, lastDeadPlayer } from '../recoil/roominfo/atom'
+import { getMyJob, getRoomsInfo } from '../axios/http'
+import { Job, RoomInfo, Status } from '../type'
 import VoteResult from '../components/modal/VoteResult'
 
 type PropsType = {
@@ -75,20 +75,28 @@ export default function Day({ roomsStatus }: PropsType) {
 
     /* 방 정보 */
     // 시간
-    const [roominfo] = useRecoilState(roomInfoState)
+    // const [roominfo] = useRecoilState(roomInfoState)
+    const [roomInfo, setRoomInfo] = useState<RoomInfo>()
+    useEffect(() => {
+        ;(async () => {
+            const roomInfoResponse = await getRoomsInfo()
+            setRoomInfo(roomInfoResponse)
+        })()
+    }, [])
+
     const [lastTime, setLastIime] = useState(
-        +new Date(roominfo.endTime) - +new Date(roominfo.startTime)
+        roomInfo && +new Date(roomInfo.endTime) - +new Date(roomInfo.startTime)
     )
     useEffect(() => {
         const intervalCode = setInterval(() => {
-            setLastIime(Math.round((+new Date(roominfo.endTime) - +new Date()) / 1000))
+            roomInfo && setLastIime(Math.round((+new Date(roomInfo.endTime) - +new Date()) / 1000))
         })
 
         return () => clearInterval(intervalCode)
     }, [])
 
     // 내가 살아있는지
-    const isAlive = roominfo.isAlive
+    const isAlive = roomInfo?.isAlive
 
     /* 미리 투표하기 */
     const [openModal, setOpenModal] = useState(false)
@@ -100,7 +108,7 @@ export default function Day({ roomsStatus }: PropsType) {
     const [voteState, setVoteStatus] = useState('')
     useEffect(() => {
         if (roomsStatus === 'VOTE') {
-            if (lastTime <= 0) {
+            if (lastTime && lastTime <= 0) {
                 //낮 시간이 끝났음
                 setVoteStatus('timeUp')
             } else {
@@ -124,7 +132,11 @@ export default function Day({ roomsStatus }: PropsType) {
                 <p css={gameMessage}>낮이 되었습니다.</p> // 채팅
             ) : (
                 <div>
-                    <TopDay isAlive={isAlive} onOpenModal={onOpenModal} lastTime={lastTime} />
+                    <TopDay
+                        isAlive={isAlive ? true : false}
+                        onOpenModal={onOpenModal}
+                        lastTime={lastTime ? lastTime : 0}
+                    />
 
                     <>
                         <div css={middle}>

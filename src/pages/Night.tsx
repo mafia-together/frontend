@@ -6,21 +6,22 @@ import AppContainerCSS from '../components/layout/AppContainerCSS'
 import TopNight from '../components/top/TopNight'
 import { getMyJob, getRoomsInfo } from '../axios/http'
 import { MafiaNight } from '../components/job/MafiaNight'
-import { CitizenNight } from '../components/job/CitizenNight'
 import { Job, RoomInfo } from '../type'
 import { PoliceNight } from '../components/job/PoliceNight'
 import { DoctorNight } from '../components/job/DoctorNight'
+import { CitizenNight } from '../components/job/CitizenNight'
+
+export const middle = css`
+    height: calc(100% - ${VariablesCSS.top});
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`
 
 export default function Night() {
-    const middle = css`
-        height: calc(100% - ${VariablesCSS.top});
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    `
     const [roomInfo, setRoomInfo] = useState<RoomInfo>()
     const [myJob, setMyJob] = useState<Job | null>(null)
     useEffect(() => {

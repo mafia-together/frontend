@@ -77,3 +77,7 @@ export interface SkillResponse {
 export interface MafiaVoteResult {
     target: string
 }
+
+export interface VoteRequest {
+    name: string
+}

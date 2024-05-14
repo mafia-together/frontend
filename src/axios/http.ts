@@ -15,6 +15,7 @@ import {
     MyJobResponse,
     SkillRequest,
     SkillResponse,
+    VoteRequest,
 } from '../type'
 
 export const useChatsQuery = () => {
@@ -125,4 +126,8 @@ export const useMafiaVoteResultQuery = () => {
 
 export const getMafiaVoteResult = async () => {
     return http.get<MafiaVoteResult>(`players/skill`)
+}
+
+export const postVote = async (payload: VoteRequest) => {
+    return http.post('/vote', payload)
 }
