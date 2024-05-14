@@ -79,5 +79,5 @@ export interface MafiaVoteResult {
 }
 
 export interface VoteRequest {
-    name: string
+    target: string
 }
