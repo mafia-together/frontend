@@ -21,15 +21,6 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
         text-align: center;
         color: ${VariablesCSS.light};
     `
-    const middle = css`
-        height: calc(100% - ${VariablesCSS.top});
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    `
     const { mafiaVoteResult } = useMafiaVoteResultQuery()
     let nowVoteResult = mafiaVoteResult.target === '' ? 0 : -1
     players.forEach((player, i) => {
@@ -56,7 +47,7 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
 
     return (
         <AppContainerCSS background="night">
-            <div css={middle}>
+            <>
                 <div css={description}>
                     {isAlive
                         ? '오늘밤 죽일 사람을 지목해주세요.'
@@ -99,7 +90,7 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
                 >
                     <SmallButton text="안죽이기" color="night" />
                 </label>
-            </div>
+            </>
         </AppContainerCSS>
     )
 }
