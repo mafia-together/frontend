@@ -7,6 +7,7 @@ import PlayerNight from '../player/PlayerNight'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import SmallButton from '../button/SmallButton'
 import { useState } from 'react'
+import TopNight from '../top/TopNight'
 
 interface Props {
     isAlive: boolean
@@ -20,10 +21,19 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
         text-align: center;
         color: ${VariablesCSS.light};
     `
+    const middle = css`
+        height: calc(100% - ${VariablesCSS.top});
+        overflow: scroll;
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+        &::-webkit-scrollbar {
+            display: none;
+        }
+    `
     const [check, setCheck] = useState(-1)
     return (
         <AppContainerCSS background="night">
-            <>
+            <div css={middle}>
                 <div css={description}>오늘밤 죽일 사람을 지목해주세요.</div>
                 <PlayerGrid>
                     {players.map((player, i) => (
@@ -55,7 +65,7 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
                 >
                     <SmallButton text="안죽이기" color="night" />
                 </label>
-            </>
+            </div>
         </AppContainerCSS>
     )
 }
