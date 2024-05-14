@@ -14,11 +14,11 @@ import { ChatInput } from '../components/chat/ChatInput'
 import { useRecoilState } from 'recoil'
 import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
 import { getMyJob } from '../axios/http'
-import { Job, RoomStatus } from '../type'
+import { Job, Status } from '../type'
 import VoteResult from '../components/modal/VoteResult'
 
 type PropsType = {
-    roomsStatus: RoomStatus
+    roomsStatus: Status
 }
 
 export default function Day({ roomsStatus }: PropsType) {
@@ -110,7 +110,7 @@ export default function Day({ roomsStatus }: PropsType) {
 
     /* 투표결과 */
     const [voteResultTime, setVoteResultTime] = useState(false)
-    if (roomsStatus === 'VOTERESULT') {
+    if (roomsStatus === 'VOTE_RESULT') {
         setVoteResultTime(true)
     }
     return (
