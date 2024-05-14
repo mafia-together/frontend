@@ -1,10 +1,10 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
-import { Job } from '../../type'
+import { Player } from '../../type'
 
 type PropsType = {
-    player: { name: string; isAlive: boolean; job: Job }
+    player: Player
     index: number
     voteTarget: number
     setVoteTarget: (number: number, name: string) => void

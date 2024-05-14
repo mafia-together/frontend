@@ -92,7 +92,9 @@ export default function ParticipateRoom() {
                             autoComplete="off"
                         />
                         <div style={{ width: '100%' }}>
-                            <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
+                            <button type="submit">
+                                <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
+                            </button>
                         </div>
                     </form>
                     <Toaster />

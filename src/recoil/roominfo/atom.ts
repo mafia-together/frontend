@@ -19,6 +19,7 @@ export const roomInfoState = atom({
                 isAlive: true,
                 job: 'MAFIA',
             },
+            { name: '재연짱짱맨', isAlive: true, job: null },
         ],
     },
 })

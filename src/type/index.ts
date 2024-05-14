@@ -59,7 +59,7 @@ export interface MyJobResponse {
 export interface Player {
     name: string
     isAlive: boolean
-    job: Job
+    job: Job | null
 }
 
 export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'

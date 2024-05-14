@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
+import { SpecialJob } from '../../type'
 
 type PropsType = {
-    role: 'total' | 'mafia' | 'doctor' | 'police'
+    job: 'total' | SpecialJob
     count: number
     onCountRole: (role: string, number: number) => void
 }
 
-export default function CountButton({ role, count, onCountRole }: PropsType) {
+export default function CountButton({ job, count, onCountRole }: PropsType) {
     const countGroup = css`
         display: flex;
         justify-content: space-between;
@@ -58,13 +59,13 @@ export default function CountButton({ role, count, onCountRole }: PropsType) {
 
     const onMinus = () => {
         if (count > 0) {
-            onCountRole(role, Number(count) - 1)
+            onCountRole(job, Number(count) - 1)
         }
     }
 
     const onPlus = () => {
         if (count < 99) {
-            onCountRole(role, Number(count) + 1)
+            onCountRole(job, Number(count) + 1)
         }
     }
 
@@ -74,7 +75,7 @@ export default function CountButton({ role, count, onCountRole }: PropsType) {
                 <img src="/assets/img/icon/typcn_minus.svg" alt="-1" />
             </button>
             <div css={countLetterContainer}>
-                {role !== 'total' ? <p></p> : <p css={countletter}>{countString[0]}</p>}
+                {job !== 'total' ? <p></p> : <p css={countletter}>{countString[0]}</p>}
                 <p css={countletter}>{countString[1]}</p>
             </div>
             <button css={button} onClick={onPlus}>

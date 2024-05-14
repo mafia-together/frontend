@@ -2,7 +2,7 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import { Job } from '../../type'
 
 type PropsType = {
-    job: Job
+    job?: Job
     size: 'small' | 'default' | 'big'
     color: 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
 }

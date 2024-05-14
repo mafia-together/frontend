@@ -1,14 +1,15 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
+import { SpecialJob } from '../../type'
 
 type PropsType = {
-    role: 'doctor' | 'police'
+    job: SpecialJob
     count: number
     onCountRole: (role: string, number: number) => void
 }
 
-export default function CheckButton({ role, count, onCountRole }: PropsType) {
+export default function CheckButton({ job, count, onCountRole }: PropsType) {
     const countGroup = css`
         display: flex;
         justify-content: space-between;
@@ -49,9 +50,9 @@ export default function CheckButton({ role, count, onCountRole }: PropsType) {
     /* 체크 */
     const onChecked = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.checked) {
-            onCountRole(role, 1)
+            onCountRole(job, 1)
         } else {
-            onCountRole(role, 0)
+            onCountRole(job, 0)
         }
     }
 
@@ -60,12 +61,12 @@ export default function CheckButton({ role, count, onCountRole }: PropsType) {
             <input
                 css={checkinput}
                 type="checkbox"
-                name={role}
-                id={role}
+                name={job}
+                id={job}
                 checked={!!count}
                 onChange={(e) => onChecked(e)}
             />
-            <label htmlFor={role}></label>
+            <label htmlFor={job}></label>
         </div>
     )
 }

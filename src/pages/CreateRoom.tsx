@@ -53,15 +53,15 @@ export function CreateRoom() {
 
     const onCountRole = (role: string, number: number) => {
         switch (role) {
-            case 'mafia':
+            case 'MAFIA':
                 if (number <= 2) {
                     setRoleCount({ ...roleCount, mafia: number })
                 }
                 break
-            case 'doctor':
+            case 'DOCTOR':
                 setRoleCount({ ...roleCount, doctor: number })
                 break
-            case 'police':
+            case 'POLICE':
                 setRoleCount({ ...roleCount, police: number })
                 break
             default:
@@ -109,14 +109,14 @@ export function CreateRoom() {
                             <p>총인원</p>
                         </div>
                         <CountButton
-                            role="total"
+                            job="total"
                             count={roleCount.total}
                             onCountRole={onCountRole}
                         />
                     </div>
-                    <RoleCount role="mafia" count={roleCount.mafia} onCountRole={onCountRole} />
-                    <RoleCount role="doctor" count={roleCount.doctor} onCountRole={onCountRole} />
-                    <RoleCount role="police" count={roleCount.police} onCountRole={onCountRole} />
+                    <RoleCount job="MAFIA" count={roleCount.mafia} onCountRole={onCountRole} />
+                    <RoleCount job="DOCTOR" count={roleCount.doctor} onCountRole={onCountRole} />
+                    <RoleCount job="POLICE" count={roleCount.police} onCountRole={onCountRole} />
                 </div>
                 <div onClick={onCreateRoom}>
                     <BottomButton use="complete" ready={canCreateRoom()} />
