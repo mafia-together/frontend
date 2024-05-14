@@ -64,7 +64,7 @@ export default function Day({ roomsStatus }: PropsType) {
     // 내 직업공지
     const [myJob, setMyJob] = useState<Job>('CITIZEN')
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             const myJobResponse = await getMyJob()
             setMyJob(myJobResponse.job)
         })()
@@ -98,21 +98,26 @@ export default function Day({ roomsStatus }: PropsType) {
 
     /* 투표시간 */
     const [voteState, setVoteStatus] = useState('')
-    if (roomsStatus === 'VOTE') {
-        if (lastTime <= 0) {
-            //낮 시간이 끝났음
-            setVoteStatus('timeUp')
-        } else {
-            //모든 플레이어가 투표를 완료했음
-            setVoteStatus('voteAll')
+    useEffect(() => {
+        if (roomsStatus === 'VOTE') {
+            if (lastTime <= 0) {
+                //낮 시간이 끝났음
+                setVoteStatus('timeUp')
+            } else {
+                //모든 플레이어가 투표를 완료했음
+                setVoteStatus('voteAll')
+            }
         }
-    }
+    }, [roomsStatus])
 
     /* 투표결과 */
     const [voteResultTime, setVoteResultTime] = useState(false)
-    if (roomsStatus === 'VOTE_RESULT') {
-        setVoteResultTime(true)
-    }
+    useEffect(() => {
+        if (roomsStatus === 'VOTE_RESULT') {
+            setVoteResultTime(true)
+        }
+    }, [roomsStatus])
+
     return (
         <AppContainerCSS background="day">
             {descriptionTime ? (
