@@ -59,3 +59,5 @@ export interface RoomInfoResponse {
 export interface MyJobResponse {
     job: Job
 }
+
+export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'

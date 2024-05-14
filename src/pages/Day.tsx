@@ -13,7 +13,7 @@ import { Chats } from '../components/chat/Chats'
 import { ChatInput } from '../components/chat/ChatInput'
 import { useRecoilState } from 'recoil'
 import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
-import { getPlayersMyJob } from '../axios/http'
+import { getMyJob } from '../axios/http'
 import { Job, RommStatus } from '../type'
 import VoteResult from '../components/modal/VoteResult'
 
@@ -65,7 +65,7 @@ export default function Day({ roomsStatus }: PropsType) {
     const [myJob, setMyJob] = useState<Job>(null)
     useEffect(() => {
         ;(async () => {
-            const myJobResponse = await getPlayersMyJob()
+            const myJobResponse = await getMyJob()
             setMyJob(myJobResponse.job)
         })()
     }, [])
@@ -75,18 +75,20 @@ export default function Day({ roomsStatus }: PropsType) {
 
     /* 방 정보 */
     // 시간
-    const [romeinfo] = useRecoilState(roomInfoState)
-    const [lastTime, setLastIime] = useState(20)
+    const [roominfo] = useRecoilState(roomInfoState)
+    const [lastTime, setLastIime] = useState(
+        +new Date(roominfo.endTime) - +new Date(roominfo.startTime)
+    )
     useEffect(() => {
         const intervalCode = setInterval(() => {
-            setLastIime(Math.round((+new Date(romeinfo.endTime) - +new Date()) / 1000))
+            setLastIime(Math.round((+new Date(roominfo.endTime) - +new Date()) / 1000))
         })
 
         return () => clearInterval(intervalCode)
     }, [])
 
     // 내가 살아있는지
-    const isAlive = romeinfo.isAlive
+    const isAlive = roominfo.isAlive
 
     /* 미리 투표하기 */
     const [openModal, setOpenModal] = useState(false)

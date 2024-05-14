@@ -5,8 +5,6 @@ import {
     ChatRequest,
     ParticipateRequest,
     ParticipateResponse,
-    Player,
-    Job,
     RoomRequest,
     RoomResponse,
     RoomStatusRequest,
@@ -56,26 +54,6 @@ export const useRoomsInfoQuery = () => {
 
 export const getRoomsInfo = () => {
     return http.get<RoomInfoResponse>(`/rooms/info`)
-    // const mockPlayer: Player[] = [
-    //     {
-    //         name: '지윤짱짱맨',
-    //         isAlive: true,
-    //         job: 'MAFIA',
-    //     },
-    //     {
-    //         name: '재연짱짱맨',
-    //         isAlive: true,
-    //         job: 'CITIZEN',
-    //     },
-    // ]
-    // return {
-    //     startTime: new Date(),
-    //     endTime: new Date(),
-    //     isAlive: true,
-    //     totalPlayers: 6,
-    //     isMaster: true,
-    //     players: mockPlayer,
-    // }
 }
 
 export const getChats = () => {
@@ -111,6 +89,6 @@ export const patchRoomStatus = async (payload: RoomStatusRequest) => {
     http.patch(`/rooms/status`, payload)
 }
 
-export const getPlayersMyJob = () => {
+export const getMyJob = () => {
     return http.get<MyJobResponse>('/players/my/job')
 }
