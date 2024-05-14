@@ -2,12 +2,13 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import JobIcon from '../svg/JobIcon'
+import { Job } from '../../type'
 
 type PropsType = {
-    role: 'mafia' | 'citizen'
+    job: Job
 }
 
-export default function PlayerInvest({ role }: PropsType) {
+export default function PlayerInvest({ job }: PropsType) {
     return (
         <div
             css={css`
@@ -28,7 +29,7 @@ export default function PlayerInvest({ role }: PropsType) {
                 text-align: center;
             `}
         >
-            <JobIcon role={role} size="big" color="night" />
+            <JobIcon job={job} size="big" color="night" />
             <p>일이삼사오육칠팔구십</p>
         </div>
     )

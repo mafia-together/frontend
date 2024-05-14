@@ -107,24 +107,20 @@ export const getValidRoomCode = async (code: string | null) => {
 }
 
 export const postSkill = async (payload: SkillRequest) => {
-    console.log(payload)
-    // return http.post<SkillResponse>(`players/skill`, payload)
+    return http.post<SkillResponse>(`players/skill`, payload)
 }
 
 export const useMafiaVoteResultQuery = () => {
+    const { data: mafiaVoteResult, ...rest } = useSuspenseQuery({
+        queryKey: ['players', 'skill', localStorage.getItem('auth')],
+        queryFn: () => getMafiaVoteResult(),
+        refetchInterval: 1000,
+        staleTime: 1000,
+    })
     return {
-        mafiaVoteResult: { target: '' },
+        mafiaVoteResult,
+        ...rest,
     }
-    // const { data: mafiaVoteResult, ...rest } = useSuspenseQuery({
-    //     queryKey: ['players', 'skill', localStorage.getItem('auth')],
-    //     queryFn: () => getMafiaVoteResult(),
-    //     refetchInterval: 1000,
-    //     staleTime: 1000,
-    // })
-    // return {
-    //     mafiaVoteResult,
-    //     ...rest,
-    // }
 }
 
 export const getMafiaVoteResult = async () => {

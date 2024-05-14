@@ -2,10 +2,21 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerInvest from '../player/PlayerInvest'
+import { useEffect, useState } from 'react'
+import { Job, SkillResponse } from '../../type'
+import { postSkill } from '../../axios/http'
 
-export default function InvestResult() {
-    // const [roleResult, setRoleResult] = useState<'mafia' | 'citizen'>('mafia')
-    const roleResult = 'mafia'
+interface Props {
+    target: string
+}
+export default function InvestResult({ target }: Props) {
+    const [jobResult, setJobResult] = useState<Job>('CITIZEN')
+    useEffect(() => {
+        (async () => {
+            const skillResponse: SkillResponse = await postSkill({ target: target })
+            setJobResult(skillResponse.result)
+        })()
+    }, [target])
 
     const container = css`
         display: flex;
@@ -22,14 +33,14 @@ export default function InvestResult() {
         font-size: 26px;
         text-align: center;
 
-        ${roleResult === 'mafia' && `text-decoration: underline;`}
+        ${jobResult === 'MAFIA' && `text-decoration: underline;`}
     `
 
     return (
         <div css={container}>
-            <PlayerInvest role={roleResult} />
+            <PlayerInvest job={jobResult} />
             <p css={description}>
-                {roleResult === 'mafia' ? '마피아가 맞습니다' : '마피아가 아닙니다'}
+                {jobResult === 'MAFIA' ? '마피아가 맞습니다' : '마피아가 아닙니다'}
             </p>
         </div>
     )
