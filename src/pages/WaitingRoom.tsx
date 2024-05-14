@@ -215,7 +215,7 @@ export default function WaitingRoom() {
     const onGameStart = async () => {
         if (canStartGame()) {
             await patchRoomStatus({ status: 'DAY' })
-            navigate('/day')
+            navigate('/room')
         }
     }
 

@@ -1,5 +1,5 @@
 export interface RoomsStatus {
-    status: string
+    statusType: string
 }
 
 export interface Chat {

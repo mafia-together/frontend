@@ -1,5 +1,3 @@
-import React from 'react'
-
 type PropsType = {
     lastTime: number
 }
@@ -19,8 +17,8 @@ export const DayTime = ({ lastTime }: PropsType) => {
     }
 
     return (
-        <div>
+        <>
             {lastMinutes} : {lastSecond}
-        </div>
+        </>
     )
 }

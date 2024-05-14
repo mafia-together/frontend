@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import { VariablesCSS } from '../styles/VariablesCSS'
 import AppContainerCSS from '../components/layout/AppContainerCSS'
 import { useNavigate, useSearchParams } from 'react-router-dom'
-import { useState } from 'react'
+import { FormEvent, useState } from 'react'
 import TopEnter from '../components/top/TopEnter'
 import BigButton from '../components/button/BigButton'
 import { Toaster } from 'react-hot-toast'
@@ -62,7 +62,9 @@ export default function ParticipateRoom() {
         return code?.length === 10
     }
     const navigate = useNavigate()
-    const goInputName = async () => {
+    const goInputName = async (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault()
+
         if (isValidCode()) {
             try {
                 // Code 확인하는 API 요청
@@ -78,20 +80,22 @@ export default function ParticipateRoom() {
             <div>
                 <TopEnter use="participateRoom" />
                 <div css={middle}>
-                    <input
-                        css={codeinput}
-                        type="text"
-                        value={code || ''}
-                        name="code"
-                        maxLength={10}
-                        onChange={onCode}
-                        spellCheck="false"
-                        autoFocus
-                        autoComplete="off"
-                    />
-                    <div style={{ width: '100%' }} onClick={goInputName}>
-                        <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
-                    </div>
+                    <form onSubmit={(event) => goInputName(event)}>
+                        <input
+                            css={codeinput}
+                            type="text"
+                            value={code || ''}
+                            name="code"
+                            maxLength={10}
+                            onChange={onCode}
+                            spellCheck="false"
+                            autoFocus
+                            autoComplete="off"
+                        />
+                        <div style={{ width: '100%' }}>
+                            <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
+                        </div>
+                    </form>
                     <Toaster />
                 </div>
             </div>
