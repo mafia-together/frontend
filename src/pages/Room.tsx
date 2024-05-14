@@ -36,7 +36,7 @@ export default function Room() {
     return (
         <>
             {roomsStatus === 'WAIT' && <WaitingRoom />}
-            {(roomsStatus === 'DAY' || roomsStatus === 'VOTE') && <Day />}
+            {(roomsStatus === 'DAY' || roomsStatus === 'VOTE') && <Day roomsStatus={roomsStatus} />}
             {roomsStatus === 'NIGHT' && <Night />}
             {roomsStatus === 'END' && <Result />}
         </>
