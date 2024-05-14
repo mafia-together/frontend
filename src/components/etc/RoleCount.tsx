@@ -4,18 +4,19 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import JobIcon from '../svg/JobIcon'
 import CountButton from '../button/CountButton'
 import CheckButton from '../button/CheckButton'
+import { SpecialJob } from '../../type'
 
 type PropsType = {
-    role: 'mafia' | 'doctor' | 'police'
+    job: SpecialJob
     count: number
     onCountRole: (role: string, number: number) => void
 }
 
-export default function RoleCount({ role, count, onCountRole }: PropsType) {
+export default function RoleCount({ job, count, onCountRole }: PropsType) {
     const roleName = {
-        mafia: '마피아',
-        doctor: '의사',
-        police: '경찰',
+        MAFIA: '마피아',
+        DOCTOR: '의사',
+        POLICE: '경찰',
     }
 
     const roleCountContainer = css`
@@ -42,13 +43,13 @@ export default function RoleCount({ role, count, onCountRole }: PropsType) {
     return (
         <div css={roleCountContainer}>
             <div css={roleGroup}>
-                <JobIcon role={role} size="default" color="light" />
-                <p css={roleText}>{roleName[role]}</p>
+                <JobIcon job={job} size="default" color="light" />
+                <p css={roleText}>{roleName[job]}</p>
             </div>
-            {role === 'mafia' ? (
-                <CountButton role={role} count={count} onCountRole={onCountRole} />
+            {job === 'MAFIA' ? (
+                <CountButton job={job} count={count} onCountRole={onCountRole} />
             ) : (
-                <CheckButton role={role} count={count} onCountRole={onCountRole} />
+                <CheckButton job={job} count={count} onCountRole={onCountRole} />
             )}
         </div>
     )

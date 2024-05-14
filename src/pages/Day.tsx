@@ -62,9 +62,9 @@ export default function Day({ roomsStatus }: PropsType) {
     const [gameRoundState] = useRecoilState(gameRound)
 
     // 내 직업공지
-    const [myJob, setMyJob] = useState<Job>(null)
+    const [myJob, setMyJob] = useState<Job>('CITIZEN')
     useEffect(() => {
-        ;(async () => {
+        (async () => {
             const myJobResponse = await getMyJob()
             setMyJob(myJobResponse.job)
         })()
@@ -134,7 +134,7 @@ export default function Day({ roomsStatus }: PropsType) {
                     <ModalContainer isOpen={noticeTime} openMotion={false}>
                         {gameRoundState === 1 ? (
                             // 직업공지
-                            <NoticeMyJob myJob={myJob} />
+                            <NoticeMyJob name={'지윤짱은 css천재'} myJob={myJob} />
                         ) : (
                             // 전날밤 사망공지
                             <NoticeDead yesterdayDeadPlayer={lastDeadPlayerStatus}></NoticeDead>

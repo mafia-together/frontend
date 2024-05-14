@@ -6,9 +6,10 @@ import { Job } from '../../type'
 
 type PropsType = {
     myJob: Job
+    name: string
 }
 
-export default function NoticeMyJob({ myJob }: PropsType) {
+export default function NoticeMyJob({ myJob, name }: PropsType) {
     const container = css`
         display: flex;
         flex-direction: column;
@@ -34,7 +35,7 @@ export default function NoticeMyJob({ myJob }: PropsType) {
 
     return (
         <div css={container}>
-            <PlayerBig color="day" job={myJob} />
+            <PlayerBig color="day" job={myJob} name={name} />
             <p css={description}>
                 당신은 <br />
                 {myJob && text[myJob]}입니다.
