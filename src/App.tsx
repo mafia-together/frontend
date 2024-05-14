@@ -12,7 +12,7 @@ function App() {
         },
         {
             name: '재연짱짱맨',
-            isAlive: false,
+            isAlive: true,
             job: 'CITIZEN',
         },
     ]
