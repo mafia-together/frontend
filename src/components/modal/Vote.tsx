@@ -81,7 +81,7 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
 
     const setVote = async (number: number, name: string) => {
         // 서버에 투표 전송
-        await postVote({ name: name })
+        await postVote({ target: name })
         // 화면에 표시
         setVoteTarget(number)
     }
