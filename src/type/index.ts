@@ -1,3 +1,7 @@
+export type SpecialJob = 'MAFIA' | 'DOCTOR' | 'POLICE'
+export type Job = SpecialJob | 'CITIZEN'
+export type Status = 'WAIT' | 'DAY' | 'NIGHT' | 'END'
+
 export interface RoomsStatus {
     statusType: string
 }
@@ -36,15 +40,7 @@ export interface ParticipateRequest {
 export type RoomStatus = 'WAIT' | 'DAY' | 'VOTE' | 'VOTERESULT' | 'NIGHT' | 'END'
 
 export interface RoomStatusRequest {
-    status: RoomStatus
-}
-
-export type Job = 'CITIZEN' | 'MAFIA' | 'DOCTOR' | 'POLICE' | null
-
-export interface Player {
-    name: string
-    isAlive: boolean
-    job: Job
+    status: Status
 }
 
 export interface RoomInfo {
