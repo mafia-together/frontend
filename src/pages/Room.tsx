@@ -18,7 +18,7 @@ export default function Room() {
 
     useEffect(() => {
         const dead = roomsInfoState.players.find((player, index) => {
-            return player.isAlive !== roomInfo.players[index].isAlive
+            return player.isAlive !== roomInfo.players[index]?.isAlive
         })
 
         setLastDeadPlayer(dead ? dead.name : '')

@@ -1,6 +1,7 @@
 export type SpecialJob = 'MAFIA' | 'DOCTOR' | 'POLICE'
-export type Job = SpecialJob | 'CITIZEN'
-export type Status = 'WAIT' | 'DAY' | 'NIGHT' | 'END'
+export type Job = SpecialJob | 'CITIZEN' | null
+export type Status = 'WAIT' | 'DAY' | 'NIGHT' | 'END' | 'VOTE' | 'VOTE_RESULT'
+export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
 
 export interface RoomsStatus {
     statusType: string
@@ -37,8 +38,6 @@ export interface ParticipateRequest {
     name: string
 }
 
-export type RoomStatus = 'WAIT' | 'DAY' | 'VOTE' | 'VOTERESULT' | 'NIGHT' | 'END'
-
 export interface RoomStatusRequest {
     status: Status
 }
@@ -62,7 +61,6 @@ export interface Player {
     job: Job | null
 }
 
-export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
 export interface RoomCodeExistsResponse {
     exists: boolean
 }
