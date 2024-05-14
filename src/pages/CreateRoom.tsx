@@ -70,8 +70,6 @@ export function CreateRoom() {
         }
     }
 
-    console.log(roleCount)
-
     /* 이동 */
     const canCreateRoom = () => {
         return (
