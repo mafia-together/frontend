@@ -11,8 +11,6 @@ export default function Room() {
     // 방 상태 불러오기
     const roomsStatus = useRoomsStatusQuery()
 
-    // roomsStatus = 'DAY'
-
     // 방 정보 저장 (방 상태가 바뀔때만 작동?)
     const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState) // 방 정보
     const setLastDeadPlayer = useSetRecoilState(lastDeadPlayer) // 마지막으로 죽은 사람

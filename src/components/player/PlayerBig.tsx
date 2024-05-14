@@ -2,10 +2,10 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import JobIcon from '../svg/JobIcon'
-import { Job } from '../../type'
+import { Color, Job } from '../../type'
 
 type PropsType = {
-    color: 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
+    color: Color
     job: Job
     name: string
 }
