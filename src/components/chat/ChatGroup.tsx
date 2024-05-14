@@ -8,14 +8,14 @@ import { forwardRef } from 'react'
 interface Props {
     name: string
     contents: string
-    owner: boolean
+    isOwner: boolean
 }
-export default forwardRef(function ChatGroup({ name, contents, owner }: Props, ref: any) {
+export default forwardRef(function ChatGroup({ name, contents, isOwner }: Props, ref: any) {
     const container = css`
         display: flex;
         margin-bottom: 8px;
         gap: 8px;
-        ${owner && 'flex-direction: row-reverse;'}
+        ${isOwner && 'flex-direction: row-reverse;'}
 
         &:first-of-type {
             margin-top: 20px;
@@ -28,7 +28,7 @@ export default forwardRef(function ChatGroup({ name, contents, owner }: Props, r
         flex-direction: column;
         flex-grow: 0;
 
-        ${owner && 'align-items: end;'}
+        ${isOwner && 'align-items: end;'}
     `
 
     const nameText = css`
@@ -43,7 +43,7 @@ export default forwardRef(function ChatGroup({ name, contents, owner }: Props, r
             <PlayerChat />
             <div css={right}>
                 <p css={nameText}>{name}</p>
-                <ChatMessage contents={contents} owner={owner} />
+                <ChatMessage contents={contents} isOwner={isOwner} />
             </div>
         </div>
     )

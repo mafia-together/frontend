@@ -21,14 +21,14 @@ export const Chats = () => {
                         key={idx}
                         name={chat.name}
                         contents={chat.contents}
-                        owner={chat.owner}
+                        isOwner={chat.isOwner}
                     />
                 ) : (
                     <ChatGroup
                         key={idx}
                         name={chat.name}
                         contents={chat.contents}
-                        owner={chat.owner}
+                        isOwner={chat.isOwner}
                     />
                 )
             )}

@@ -11,7 +11,7 @@ export interface Chat {
     name: string
     contents: string
     timestamp: Date
-    owner: boolean
+    isOwner: boolean
 }
 
 export interface ChatRequest {
