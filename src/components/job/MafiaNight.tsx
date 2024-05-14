@@ -6,8 +6,8 @@ import PlayerGrid from '../player/PlayerGrid'
 import PlayerNight from '../player/PlayerNight'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import SmallButton from '../button/SmallButton'
-import { useState } from 'react'
-import TopNight from '../top/TopNight'
+import { useEffect, useState } from 'react'
+import { postSkill, useMafiaVoteResultQuery } from '../../axios/http'
 
 interface Props {
     isAlive: boolean
@@ -30,14 +30,44 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
             display: none;
         }
     `
+    const { mafiaVoteResult } = useMafiaVoteResultQuery()
+    let nowVoteResult = mafiaVoteResult.target === '' ? 0 : -1
+    players.forEach((player, i) => {
+        if (player.name === mafiaVoteResult.target) {
+            nowVoteResult = i + 1
+        }
+    })
     const [check, setCheck] = useState(-1)
+    useEffect(() => {
+        (async () => {
+            if (check === -1) {
+                return
+            }
+            let targetName = ''
+            players.forEach((player, i) => {
+                if (check === i + 1) {
+                    targetName = player.name
+                    return
+                }
+            })
+            await postSkill({ target: targetName })
+        })()
+    }, [check, players])
+
     return (
         <AppContainerCSS background="night">
             <div css={middle}>
                 <div css={description}>오늘밤 죽일 사람을 지목해주세요.</div>
                 <PlayerGrid>
                     {players.map((player, i) => (
-                        <PlayerNight player={player} key={i + 1} index={i + 1} myJob={'MAFIA'} />
+                        <PlayerNight
+                            player={player}
+                            key={i + 1}
+                            index={i + 1}
+                            myJob={'MAFIA'}
+                            nowVoteResult={nowVoteResult}
+                            setCheck={setCheck}
+                        />
                     ))}
                 </PlayerGrid>
 
@@ -52,7 +82,7 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
                         color: ${VariablesCSS.light};
                         background-color: ${VariablesCSS.kill};
                 `}
-                    checked={check === 0}
+                    checked={nowVoteResult === 0}
                     onChange={() => setCheck(0)}
                 />
                 <label

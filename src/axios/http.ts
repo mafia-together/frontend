@@ -3,7 +3,7 @@ import { http } from './instances'
 import {
     Chat,
     ChatRequest,
-    Job,
+    MafiaVoteResult,
     ParticipateRequest,
     ParticipateResponse,
     RoomCodeExistsResponse,
@@ -13,7 +13,8 @@ import {
     RoomStatusRequest,
     RoomsStatus,
     MyJobResponse,
-    RoomInfoResponse,
+    SkillRequest,
+    SkillResponse,
 } from '../type'
 
 export const useChatsQuery = () => {
@@ -103,4 +104,25 @@ export const getMyJob = () => {
 
 export const getValidRoomCode = async (code: string | null) => {
     return http.get<RoomCodeExistsResponse>(`/rooms/code/exist?code=${code}`)
+}
+
+export const postSkill = async (payload: SkillRequest) => {
+    return http.post<SkillResponse>(`players/skill`, payload)
+}
+
+export const useMafiaVoteResultQuery = () => {
+    const { data: mafiaVoteResult, ...rest } = useSuspenseQuery({
+        queryKey: ['players', 'skill', localStorage.getItem('auth')],
+        queryFn: () => getMafiaVoteResult(),
+        refetchInterval: 1000,
+        staleTime: 1000,
+    })
+    return {
+        mafiaVoteResult,
+        ...rest,
+    }
+}
+
+export const getMafiaVoteResult = async () => {
+    return http.get<MafiaVoteResult>(`players/skill`)
 }

@@ -70,3 +70,16 @@ export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead
 export interface RoomCodeExistsResponse {
     exists: boolean
 }
+
+export interface SkillRequest {
+    target: string | null
+}
+
+export interface SkillResponse {
+    job: Job
+    result: Job
+}
+
+export interface MafiaVoteResult {
+    target: string
+}

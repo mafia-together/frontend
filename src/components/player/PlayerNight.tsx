@@ -1,16 +1,18 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
-import { useState } from 'react'
 import { Job, Player } from '../../type'
+import { noWait } from 'recoil'
 
 type PropsType = {
     player: Player
     index: number
     myJob: Job
+    nowVoteResult?: number
+    setCheck?: (check: number) => void
 }
 
-export default function PlayerNight({ player, index, myJob }: PropsType) {
+export default function PlayerNight({ player, index, myJob, nowVoteResult, setCheck }: PropsType) {
     const backgounrdColor = {
         CITIZEN: VariablesCSS.light30,
         MAFIA: VariablesCSS.kill,
@@ -89,8 +91,6 @@ export default function PlayerNight({ player, index, myJob }: PropsType) {
         flex: 1;
     `
 
-    const [check, setCheck] = useState(false)
-
     return (
         <>
             <input
@@ -98,8 +98,10 @@ export default function PlayerNight({ player, index, myJob }: PropsType) {
                 type="radio"
                 name="vote"
                 id={'' + index}
-                checked={check}
-                onChange={() => setCheck(!check)}
+                checked={nowVoteResult === index}
+                onChange={() => {
+                    setCheck && setCheck(index)
+                }}
                 disabled={!player.isAlive}
             />
             <label htmlFor={'' + index} css={label}>
