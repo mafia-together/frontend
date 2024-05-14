@@ -57,7 +57,11 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
     return (
         <AppContainerCSS background="night">
             <div css={middle}>
-                <div css={description}>오늘밤 죽일 사람을 지목해주세요.</div>
+                <div css={description}>
+                    {isAlive
+                        ? '오늘밤 죽일 사람을 지목해주세요.'
+                        : '마피아가 죽일 사람을 지목하고 있습니다.'}
+                </div>
                 <PlayerGrid>
                     {players.map((player, i) => (
                         <PlayerNight
@@ -66,7 +70,7 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
                             index={i + 1}
                             myJob={'MAFIA'}
                             nowVoteResult={nowVoteResult}
-                            setCheck={setCheck}
+                            {...(isAlive && { setCheck: setCheck })}
                         />
                     ))}
                 </PlayerGrid>
@@ -77,13 +81,13 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
                     name="vote"
                     id="0"
                     css={css`
-                    display: none;
-                    &:checked + label > div{
-                        color: ${VariablesCSS.light};
-                        background-color: ${VariablesCSS.kill};
-                `}
+                                        display: none;
+                                        &:checked + label > div{
+                                            color: ${VariablesCSS.light};
+                                            background-color: ${VariablesCSS.kill};
+                                    `}
                     checked={nowVoteResult === 0}
-                    onChange={() => setCheck(0)}
+                    onChange={() => isAlive && setCheck(0)}
                 />
                 <label
                     htmlFor="0"

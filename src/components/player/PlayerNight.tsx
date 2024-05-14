@@ -2,7 +2,6 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import { Job, Player } from '../../type'
-import { noWait } from 'recoil'
 
 type PropsType = {
     player: Player
