@@ -108,11 +108,11 @@ export function CreateRoom() {
                             </svg>
                             <p>총인원</p>
                         </div>
-                        <CountButton job="total" count={jobCount.total} onCountjob={onCountjob} />
+                        <CountButton job="total" count={jobCount.total} onCountJob={onCountjob} />
                     </div>
-                    <JobCount job="MAFIA" count={jobCount.mafia} onCountjob={onCountjob} />
-                    <JobCount job="DOCTOR" count={jobCount.doctor} onCountjob={onCountjob} />
-                    <JobCount job="POLICE" count={jobCount.police} onCountjob={onCountjob} />
+                    <JobCount job="MAFIA" count={jobCount.mafia} onCountJob={onCountjob} />
+                    <JobCount job="DOCTOR" count={jobCount.doctor} onCountJob={onCountjob} />
+                    <JobCount job="POLICE" count={jobCount.police} onCountJob={onCountjob} />
                 </div>
                 <div onClick={onCreateRoom}>
                     <BottomButton use="complete" ready={canCreateRoom()} />

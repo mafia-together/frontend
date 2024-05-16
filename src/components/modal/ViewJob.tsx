@@ -3,6 +3,9 @@ import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerGrid from '../player/PlayerGrid'
 import PlayerJob from '../player/PlayerJob'
+import { useEffect, useState } from 'react'
+import { Player } from '../../type'
+import { useRoomsInfoQuery } from '../../axios/http'
 
 type PropsType = {
     onOpenModal: () => void
@@ -55,36 +58,11 @@ export default function ViewJob({ onOpenModal }: PropsType) {
         opacity: 0.8;
     `
 
-    const players = [
-        {
-            name: 'name',
-            isAlive: true,
-        },
-        {
-            name: '일이삼사오육칠팔구십',
-            isAlive: true,
-        },
-        {
-            name: '일이삼',
-            isAlive: true,
-        },
-        {
-            name: '일이삼사오육칠팔구십',
-            isAlive: false,
-        },
-        {
-            name: '일이삼사오육칠팔구십',
-            isAlive: true,
-        },
-        {
-            name: '일이삼사오육칠팔구십',
-            isAlive: true,
-        },
-        {
-            name: '일이삼사오육칠팔구십',
-            isAlive: true,
-        },
-    ]
+    const [players, setPlayers] = useState<Player[]>([])
+    const { roomInfo } = useRoomsInfoQuery()
+    useEffect(() => {
+        setPlayers(roomInfo.players)
+    }, [roomInfo.players])
 
     return (
         <>
