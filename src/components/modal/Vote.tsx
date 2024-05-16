@@ -144,9 +144,10 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
                     checked={voteTarget === 0}
                     css={css`
                         display: none;
-                        &:checked + label > div{
+                        &:checked + label > div {
                             color: ${VariablesCSS.light};
                             background-color: ${VariablesCSS.kill};
+                        }
                     `}
                     onChange={() => setVote(0, '')}
                 />

@@ -6,7 +6,7 @@ import { SpecialJob } from '../../type'
 type PropsType = {
     job: 'total' | SpecialJob
     count: number
-    onCountJob: (Job: string, number: number) => void
+    onCountJob: (job: string, number: number) => void
 }
 
 export default function CountButton({ job, count, onCountJob }: PropsType) {
