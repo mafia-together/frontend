@@ -25,8 +25,3 @@ export const roomInfoState = atom<RoomInfo>({
         ],
     },
 })
-
-export const lastDeadPlayer = atom({
-    key: 'lastDeadPlayer',
-    default: '',
-})

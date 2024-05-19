@@ -2,15 +2,13 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import { Time } from '../time/Time'
-import { Status } from '../../type'
 
 type PropsType = {
     isAlive: boolean
     onOpenModal: () => void
-    statusType: Status
 }
 
-export default function TopDay({ isAlive, onOpenModal, statusType }: PropsType) {
+export default function TopDay({ isAlive, onOpenModal }: PropsType) {
     const container = css`
         display: flex;
         justify-content: space-between;
@@ -60,7 +58,7 @@ export default function TopDay({ isAlive, onOpenModal, statusType }: PropsType) 
             </div>
 
             <p css={timeText}>
-                <Time statusType={statusType} />
+                <Time />
             </p>
             {isAlive ? (
                 <button css={dayRight} onClick={onOpenModal}>

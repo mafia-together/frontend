@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../styles/VariablesCSS'
 import AppContainerCSS from '../components/layout/AppContainerCSS'
-import { useEffect, useState } from 'react'
+import { Suspense, useEffect, useState } from 'react'
 import TopDay from '../components/top/TopDay'
 import ModalContainer from '../components/modal/ModalContainer'
 import Vote from '../components/modal/Vote'
@@ -12,10 +12,11 @@ import NoticeDead from '../components/modal/NoticeDead'
 import { Chats } from '../components/chat/Chats'
 import { ChatInput } from '../components/chat/ChatInput'
 import { useRecoilState } from 'recoil'
-import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
+import { gameRound, roomInfoState } from '../recoil/roominfo/atom'
 import { getMyJob, getRoomNightResultDead } from '../axios/http'
 import { Dead, Job, Status } from '../type'
 import VoteResult from '../components/modal/VoteResult'
+import { Loading } from '../components/etc/Loading'
 
 type PropsType = {
     statusType: Status
@@ -93,70 +94,68 @@ export default function Day({ statusType }: PropsType) {
     /* 투표결과 */
     return (
         <AppContainerCSS background="day">
-            {/* INTRO TIME */}
-            {statusType === 'DAY_INTRO' || statusType === 'NOTICE' ? (
-                <>
-                    <p css={gameMessage}>낮이 되었습니다.</p>
-
-                    {/* 공지 모달 TIME*/}
-                    <ModalContainer isOpen={statusType === 'NOTICE'} openMotion={false}>
-                        {gameRoundState === 1 ? (
-                            // 직업공지
-                            <NoticeMyJob name={roomInfo?.myName || ''} myJob={myJob} />
-                        ) : (
-                            // 전날밤 사망공지
-                            <NoticeDead dead={dead}></NoticeDead>
-                        )}
-                    </ModalContainer>
-                </>
-            ) : (
-                <div>
-                    <TopDay
-                        isAlive={isAlive ? true : false}
-                        onOpenModal={onToggleModal}
-                        statusType={statusType}
-                    />
-
+            <Suspense fallback={<Loading />}>
+                {/* INTRO TIME */}
+                {statusType === 'DAY_INTRO' || statusType === 'NOTICE' ? (
                     <>
-                        <div css={middle}>
-                            <Chats />
-                        </div>
+                        <p css={gameMessage}>낮이 되었습니다.</p>
 
-                        {/* 살아있는 경우에만 input창이 보인다. */}
-                        {isAlive && <ChatInput />}
+                        {/* 공지 모달 TIME*/}
+                        <ModalContainer isOpen={statusType === 'NOTICE'} openMotion={false}>
+                            {gameRoundState === 1 ? (
+                                // 직업공지
+                                <NoticeMyJob name={roomInfo?.myName || ''} myJob={myJob} />
+                            ) : (
+                                // 전날밤 사망공지
+                                <NoticeDead dead={dead}></NoticeDead>
+                            )}
+                        </ModalContainer>
                     </>
+                ) : (
+                    <div>
+                        <TopDay isAlive={isAlive ? true : false} onOpenModal={onToggleModal} />
 
-                    <ModalContainer isOpen={openModal}>
-                        {isAlive ? (
-                            /* 투표모달 */
-                            <Vote onOpenModal={onToggleModal} />
-                        ) : (
-                            /* 직업보기모달 */
-                            <ViewJob onOpenModal={onToggleModal} />
-                        )}
-                    </ModalContainer>
+                        <>
+                            <div css={middle}>
+                                <Chats />
+                            </div>
 
-                    {/* 시간이 다 됨 */}
-                    <ModalContainer isOpen={voteState === 'timeUp' && roomInfo.isAlive}>
-                        <Vote timeup={voteState === 'timeUp'} />
-                    </ModalContainer>
+                            {/* 살아있는 경우에만 input창이 보인다. */}
+                            {isAlive && <ChatInput />}
+                        </>
 
-                    {/* 모두 투표함 */}
-                    <ModalContainer isOpen={voteState === 'voteAll' && roomInfo.isAlive}>
-                        <Vote voteAll={voteState === 'voteAll'} />
-                    </ModalContainer>
+                        <ModalContainer isOpen={openModal}>
+                            {isAlive ? (
+                                /* 투표모달 */
+                                <Vote onOpenModal={onToggleModal} />
+                            ) : (
+                                /* 직업보기모달 */
+                                <ViewJob onOpenModal={onToggleModal} />
+                            )}
+                        </ModalContainer>
 
-                    {/* 죽었는데 투표시간이 되었을 때 */}
-                    <ModalContainer isOpen={!roomInfo.isAlive && statusType == 'VOTE'}>
-                        <ViewJob onOpenModal={onToggleModal} voteTime={statusType == 'VOTE'} />
-                    </ModalContainer>
+                        {/* 시간이 다 됨 */}
+                        <ModalContainer isOpen={voteState === 'timeUp' && roomInfo.isAlive}>
+                            <Vote timeup={voteState === 'timeUp'} />
+                        </ModalContainer>
 
-                    {/* 투표결과 */}
-                    <ModalContainer isOpen={statusType === 'VOTE_RESULT'}>
-                        <VoteResult />
-                    </ModalContainer>
-                </div>
-            )}
+                        {/* 모두 투표함 */}
+                        <ModalContainer isOpen={voteState === 'voteAll' && roomInfo.isAlive}>
+                            <Vote voteAll={voteState === 'voteAll'} />
+                        </ModalContainer>
+
+                        {/* 죽었는데 투표시간이 되었을 때 */}
+                        <ModalContainer isOpen={!roomInfo.isAlive && statusType == 'VOTE'}>
+                            <ViewJob onOpenModal={onToggleModal} voteTime={statusType == 'VOTE'} />
+                        </ModalContainer>
+
+                        {/* 투표결과 */}
+                        <ModalContainer isOpen={statusType === 'VOTE_RESULT'}>
+                            <VoteResult />
+                        </ModalContainer>
+                    </div>
+                )}
+            </Suspense>
         </AppContainerCSS>
     )
 }
