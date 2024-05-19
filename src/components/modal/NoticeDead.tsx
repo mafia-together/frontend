@@ -2,14 +2,20 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerBig from '../player/PlayerBig'
+import { getRoomNightResultDead } from '../../axios/http'
+import { useEffect, useState } from 'react'
+import { Dead } from '../../type'
 
-type PropsType = {
-    yesterdayDeadPlayer: string
-}
+export default function NoticeDead() {
+    const [dead, setDead] = useState<Dead>(null)
+    useEffect(() => {
+        ;(async () => {
+            const deadResponse = await getRoomNightResultDead()
+            setDead(deadResponse.dead)
+        })()
+    }, [])
 
-export default function NoticeDead({ yesterdayDeadPlayer }: PropsType) {
-    const color = yesterdayDeadPlayer === '' ? 'safe' : 'kill'
-
+    const color = dead ? 'kill' : 'safe'
     const container = css`
         display: flex;
         flex-direction: column;
@@ -29,10 +35,10 @@ export default function NoticeDead({ yesterdayDeadPlayer }: PropsType) {
 
     return (
         <div css={container}>
-            {yesterdayDeadPlayer !== '' ? (
+            {dead ? (
                 // 누눈가가 죽었음
                 <>
-                    <PlayerBig color={color} job="CITIZEN" name={yesterdayDeadPlayer} />
+                    <PlayerBig color={color} job="CITIZEN" name={dead} />
                     <p css={description}>
                         어젯밤 <br />
                         사망했습니다.
