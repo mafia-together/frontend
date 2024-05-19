@@ -5,12 +5,11 @@ import PlayerGrid from '../player/PlayerGrid'
 import PlayerJob from '../player/PlayerJob'
 import { useRecoilState } from 'recoil'
 import { roomInfoState } from '../../recoil/roominfo/atom'
-import { Status } from '../../type'
 import { TimeOnlySeconds } from '../time/TimeOnlySeconds'
 
 type PropsType = {
     onOpenModal: () => void
-    voteTime: Status
+    voteTime?: boolean
 }
 
 export default function ViewJob({ onOpenModal, voteTime }: PropsType) {

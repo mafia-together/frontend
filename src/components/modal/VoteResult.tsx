@@ -2,13 +2,21 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerBig from '../player/PlayerBig'
+import { getVote } from '../../axios/http'
+import { useEffect, useState } from 'react'
+import { Dead } from '../../type'
 
-type PropsType = {
-    deadPlayer: string
-}
+export default function VoteResult() {
+    const [dead, setDead] = useState<Dead>(null)
 
-export default function VoteResult({ deadPlayer }: PropsType) {
-    const color = deadPlayer === '' ? 'safe' : 'kill'
+    useEffect(() => {
+        ;(async () => {
+            const deadResponse = await getVote()
+            setDead(deadResponse.dead)
+        })()
+    }, [])
+
+    const color = dead === '' ? 'kill' : 'safe'
 
     const container = css`
         display: flex;
@@ -28,10 +36,10 @@ export default function VoteResult({ deadPlayer }: PropsType) {
     `
     return (
         <div css={container}>
-            {deadPlayer !== '' ? (
+            {dead ? (
                 // 누눈가가 죽었음
                 <>
-                    <PlayerBig color={color} job="CITIZEN" name={deadPlayer} />
+                    <PlayerBig color={color} job="CITIZEN" name={dead} />
                     <p css={description}>
                         플레이어가
                         <br />

@@ -31,7 +31,7 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
     })
     const [check, setCheck] = useState(-1)
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             if (check === -1) {
                 return
             }

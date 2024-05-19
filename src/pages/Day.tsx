@@ -13,8 +13,8 @@ import { Chats } from '../components/chat/Chats'
 import { ChatInput } from '../components/chat/ChatInput'
 import { useRecoilState } from 'recoil'
 import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
-import { getMyJob } from '../axios/http'
-import { Job, Status } from '../type'
+import { getMyJob, getRoomNightResultDead } from '../axios/http'
+import { Dead, Job, Status } from '../type'
 import VoteResult from '../components/modal/VoteResult'
 
 type PropsType = {
@@ -55,8 +55,14 @@ export default function Day({ statusType }: PropsType) {
         })()
     }, [])
 
-    // 전날밤 사망공지
-    const [lastDeadPlayerStatus] = useRecoilState(lastDeadPlayer)
+    // 전날밤
+    const [dead, setDead] = useState<Dead>(null)
+    useEffect(() => {
+        ;(async () => {
+            const deadResponse = await getRoomNightResultDead()
+            setDead(deadResponse.dead)
+        })()
+    }, [])
 
     /* 방 정보 */
     const [roomInfo] = useRecoilState(roomInfoState)
@@ -99,7 +105,7 @@ export default function Day({ statusType }: PropsType) {
                             <NoticeMyJob name={roomInfo?.myName || ''} myJob={myJob} />
                         ) : (
                             // 전날밤 사망공지
-                            <NoticeDead yesterdayDeadPlayer={lastDeadPlayerStatus}></NoticeDead>
+                            <NoticeDead dead={dead}></NoticeDead>
                         )}
                     </ModalContainer>
                 </>
@@ -147,7 +153,7 @@ export default function Day({ statusType }: PropsType) {
 
                     {/* 투표결과 */}
                     <ModalContainer isOpen={statusType === 'VOTE_RESULT'}>
-                        <VoteResult deadPlayer={lastDeadPlayerStatus} />
+                        <VoteResult />
                     </ModalContainer>
                 </div>
             )}
