@@ -2,9 +2,9 @@ import WaitingRoom from './WaitingRoom'
 import Day from './Day'
 import Night from './Night'
 import Result from './Result'
-import { getRoomsInfo, useRoomsInfoQuery, useRoomsStatusQuery } from '../axios/http'
+import { getRoomsInfo, useRoomsStatusQuery } from '../axios/http'
 import { useRecoilState, useSetRecoilState } from 'recoil'
-import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
+import { gameRound, roomInfoState } from '../recoil/roominfo/atom'
 import { useEffect } from 'react'
 
 export default function Room() {
@@ -12,32 +12,23 @@ export default function Room() {
     const { roomsStatus } = useRoomsStatusQuery()
 
     // 방 정보 저장 (방 상태가 바뀔때만 작동?)
-    const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState) // 방 정보
-    const setLastDeadPlayer = useSetRecoilState(lastDeadPlayer) // 마지막으로 죽은 사람
-    const { roomInfo } = useRoomsInfoQuery()
+    const setRoomsInfoState = useSetRecoilState(roomInfoState) // 방 정보
 
-    useEffect(() => {
-        const dead = roomsInfoState.players.find((player, index) => {
-            return player.isAlive !== roomInfo.players[index]?.isAlive
-        })
-
-        setLastDeadPlayer(dead ? dead.name : '')
-        setRoomsInfoState(roomInfo)
-    }, [roomInfo])
-
-    // DAY로 바뀔때 마다 라운드 +1
     const [gameRoundState, setGameRoundState] = useRecoilState(gameRound)
     useEffect(() => {
-        ;async () => {
+        console.log(roomsStatus.statusType)
+
+        // 방 정보 불러오기
+        ;(async () => {
             const roomInfoResponse = await getRoomsInfo()
             setRoomsInfoState(roomInfoResponse)
-        }
+        })()
+
+        // DAY로 바뀔때 마다 라운드 +1
         if (roomsStatus.statusType === 'DAY') {
             setGameRoundState(gameRoundState + 1)
         }
-
-        console.log(roomsInfoState)
-    }, [roomsStatus])
+    }, [roomsStatus.statusType])
 
     return (
         <>
@@ -47,7 +38,7 @@ export default function Room() {
                 roomsStatus.statusType === 'DAY' ||
                 roomsStatus.statusType === 'VOTE' ||
                 roomsStatus.statusType === 'VOTE_RESULT') && (
-                <Day roomsStatus={roomsStatus.statusType} />
+                <Day statusType={roomsStatus.statusType} />
             )}
             {roomsStatus.statusType === 'NIGHT_INTRO' ||
                 (roomsStatus.statusType === 'NIGHT' && <Night />)}

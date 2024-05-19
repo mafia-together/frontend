@@ -16,6 +16,7 @@ import {
     SkillRequest,
     SkillResponse,
     VoteRequest,
+    DeadResult,
 } from '../type'
 
 export const useChatsQuery = () => {
@@ -130,4 +131,8 @@ export const getMafiaVoteResult = async () => {
 
 export const postVote = async (payload: VoteRequest) => {
     return http.post('/vote', payload)
+}
+
+export const getRoomNightResultDead = async () => {
+    return http.get<DeadResult>('/rooms/night/result')
 }

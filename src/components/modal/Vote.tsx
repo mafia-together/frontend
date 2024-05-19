@@ -8,6 +8,8 @@ import SmallButton from '../button/SmallButton'
 import { postVote } from '../../axios/http'
 import { useRecoilState } from 'recoil'
 import { roomInfoState } from '../../recoil/roominfo/atom'
+import { Time } from '../time/Time'
+import { TimeOnlySeconds } from '../time/TimeOnlySeconds'
 
 type PropsType = {
     onOpenModal?: () => void
@@ -89,7 +91,7 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
     return (
         <>
             <div css={top}>
-                <div css={timeText}>1:20</div>
+                <div css={timeText}>{timeup || voteAll ? <TimeOnlySeconds /> : <Time />}</div>
                 {timeup || voteAll || (
                     <button css={close} onClick={onOpenModal}>
                         <svg

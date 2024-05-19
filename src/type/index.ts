@@ -11,6 +11,7 @@ export type Status =
     | 'NIGHT'
     | 'END'
 export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
+export type Dead = string | null
 
 export interface RoomsStatus {
     statusType: Status
@@ -90,4 +91,8 @@ export interface MafiaVoteResult {
 
 export interface VoteRequest {
     target: string
+}
+
+export interface DeadResult {
+    dead: Dead
 }
