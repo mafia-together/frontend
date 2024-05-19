@@ -25,7 +25,7 @@ export const PoliceNight = ({ players, isAlive }: Props) => {
     const [check, setCheck] = useState<number>(-1)
     const [openModal, setOpenModal] = useState<boolean>(false)
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             if (check === -1) {
                 return
             }
@@ -35,27 +35,31 @@ export const PoliceNight = ({ players, isAlive }: Props) => {
 
     return (
         <AppContainerCSS background="night">
-            <div css={middle}>
-                <div css={description}>
-                    {isAlive ? '마피아로 의심되는 사람을 조사하세요.' : '밤이 지나가고 있습니다..'}
+            <>
+                <div css={middle}>
+                    <div css={description}>
+                        {isAlive
+                            ? '마피아로 의심되는 사람을 조사하세요.'
+                            : '밤이 지나가고 있습니다..'}
+                    </div>
+                    <PlayerGrid>
+                        {players.map((player, i) => (
+                            <PlayerNight
+                                player={player}
+                                key={i + 1}
+                                index={i + 1}
+                                myJob={'POLICE'}
+                                {...(isAlive && { nowVoteResult: check })}
+                                {...(isAlive && { setCheck: setCheck })}
+                            />
+                        ))}
+                    </PlayerGrid>
                 </div>
-                <PlayerGrid>
-                    {players.map((player, i) => (
-                        <PlayerNight
-                            player={player}
-                            key={i + 1}
-                            index={i + 1}
-                            myJob={'POLICE'}
-                            {...(isAlive && { nowVoteResult: check })}
-                            {...(isAlive && { setCheck: setCheck })}
-                        />
-                    ))}
-                </PlayerGrid>
                 {/* 경찰: 조사하기 */}
                 <ModalContainer isOpen={openModal}>
                     <InvestResult target={players[check - 1]?.name} />
                 </ModalContainer>
-            </div>
+            </>
         </AppContainerCSS>
     )
 }

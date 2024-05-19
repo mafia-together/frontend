@@ -1,7 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
-import { DayTime } from '../time/DayTime'
+import { Time } from '../time/Time'
 
 type PropsType = {
     isAlive: boolean
@@ -59,7 +59,7 @@ export default function TopDay({ isAlive, onOpenModal, lastTime }: PropsType) {
             </div>
 
             <p css={timeText}>
-                <DayTime lastTime={lastTime} />
+                <Time lastTime={lastTime} />
             </p>
             {isAlive ? (
                 <button css={dayRight} onClick={onOpenModal}>

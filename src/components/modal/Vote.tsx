@@ -1,12 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerGrid from '../player/PlayerGrid'
 import PlayerVote from '../player/PlayerVote'
 import SmallButton from '../button/SmallButton'
-import { Player } from '../../type'
-import { postVote, useRoomsInfoQuery } from '../../axios/http'
+import { postVote } from '../../axios/http'
+import { useRecoilState } from 'recoil'
+import { roomInfoState } from '../../recoil/roominfo/atom'
 
 type PropsType = {
     onOpenModal?: () => void
@@ -70,13 +71,12 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
         color: ${VariablesCSS.day50};
     `
 
-    /* 참가목록 받아오기 */
-    const [players, setPlayers] = useState<Player[]>([])
-    const { roomInfo } = useRoomsInfoQuery()
-    useEffect(() => {
-        setPlayers(roomInfo.players)
-    }, [roomInfo.players])
+    /* 방 정보 - 참가목록 받아오기 */
+    const [roominfo] = useRecoilState(roomInfoState)
 
+    // 투표
+    const ABSTAIN_NUMBER = 0
+    const ABSTAIN_STRING = ''
     const [voteTarget, setVoteTarget] = useState(-1)
 
     const setVote = async (number: number, name: string) => {
@@ -126,7 +126,7 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
                 )}
 
                 <PlayerGrid>
-                    {players.map((player, i) => (
+                    {roominfo.players.map((player, i) => (
                         <PlayerVote
                             player={player}
                             key={`${player.name}_${i}`}
@@ -141,7 +141,7 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
                     type="radio"
                     name="vote"
                     id="0"
-                    checked={voteTarget === 0}
+                    checked={voteTarget === ABSTAIN_NUMBER}
                     css={css`
                         display: none;
                         &:checked + label > div {
@@ -149,7 +149,7 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
                             background-color: ${VariablesCSS.kill};
                         }
                     `}
-                    onChange={() => setVote(0, '')}
+                    onChange={() => setVote(ABSTAIN_NUMBER, ABSTAIN_STRING)}
                 />
                 <label
                     htmlFor="0"

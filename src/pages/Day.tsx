@@ -96,8 +96,7 @@ export default function Day({ roomsStatus }: PropsType) {
     }, [])
 
     // 내가 살아있는지
-    // const isAlive = roomInfo?.isAlive
-    const isAlive = false
+    const isAlive = roomInfo?.isAlive
 
     /* 미리 투표하기 */
     const [openModal, setOpenModal] = useState(false)

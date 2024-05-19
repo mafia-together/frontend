@@ -13,8 +13,9 @@ export default function ParticipateRoom() {
         display: flex;
         height: calc(100vh - ${VariablesCSS.top});
         flex-direction: column;
-        justify-content: space-evenly;
+        justify-content: center;
         align-items: center;
+        gap: 10%;
     `
 
     const codeinput = css`
@@ -78,27 +79,29 @@ export default function ParticipateRoom() {
         <AppContainerCSS>
             <div>
                 <TopEnter use="participateRoom" />
-                <div css={middle}>
-                    <form onSubmit={(event) => goInputName(event)}>
-                        <input
-                            css={codeinput}
-                            type="text"
-                            value={code || ''}
-                            name="code"
-                            maxLength={10}
-                            onChange={onCode}
-                            spellCheck="false"
-                            autoFocus
-                            autoComplete="off"
-                        />
-                        <div style={{ width: '100%' }}>
-                            <button type="submit">
-                                <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
-                            </button>
-                        </div>
-                    </form>
-                    <Toaster />
-                </div>
+                <form css={middle} onSubmit={(event) => goInputName(event)}>
+                    <input
+                        css={codeinput}
+                        type="text"
+                        value={code || ''}
+                        name="code"
+                        maxLength={10}
+                        onChange={onCode}
+                        spellCheck="false"
+                        autoFocus
+                        autoComplete="off"
+                    />
+                    <button
+                        type="submit"
+                        css={css`
+                            display: block;
+                            width: 100%;
+                        `}
+                    >
+                        <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
+                    </button>
+                </form>
+                <Toaster />
             </div>
         </AppContainerCSS>
     )

@@ -1,10 +1,19 @@
 export type SpecialJob = 'MAFIA' | 'DOCTOR' | 'POLICE'
 export type Job = SpecialJob | 'CITIZEN' | null
-export type Status = 'WAIT' | 'DAY' | 'NIGHT' | 'END' | 'VOTE' | 'VOTE_RESULT'
+export type Status =
+    | 'WAIT'
+    | 'DAY_INTRO'
+    | 'NOTICE'
+    | 'DAY'
+    | 'VOTE'
+    | 'VOTE_RESULT'
+    | 'NIGHT_INTRO'
+    | 'NIGHT'
+    | 'END'
 export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
 
 export interface RoomsStatus {
-    statusType: string
+    statusType: Status
 }
 
 export interface Chat {
@@ -48,6 +57,7 @@ export interface RoomInfo {
     isAlive: boolean
     totalPlayers: number
     isMaster: boolean
+    myName: string
     players: Player[]
 }
 

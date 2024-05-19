@@ -2,7 +2,7 @@ type PropsType = {
     lastTime: number
 }
 
-export const DayTime = ({ lastTime }: PropsType) => {
+export const Time = ({ lastTime }: PropsType) => {
     let lastMinutes = `${Math.ceil(lastTime / 60)}`
     let lastSecond = `${Math.ceil(lastTime % 60)}`
 

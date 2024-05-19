@@ -3,9 +3,8 @@ import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerGrid from '../player/PlayerGrid'
 import PlayerJob from '../player/PlayerJob'
-import { useEffect, useState } from 'react'
-import { Player } from '../../type'
-import { getRoomsInfo } from '../../axios/http'
+import { useRecoilState } from 'recoil'
+import { roomInfoState } from '../../recoil/roominfo/atom'
 
 type PropsType = {
     onOpenModal: () => void
@@ -58,13 +57,8 @@ export default function ViewJob({ onOpenModal }: PropsType) {
         opacity: 0.8;
     `
 
-    const [players, setPlayers] = useState<Player[]>([])
-    useEffect(() => {
-        ;(async () => {
-            const roomInfo = await getRoomsInfo()
-            setPlayers(roomInfo.players)
-        })()
-    }, [])
+    // 방정보 - 참가목록 받아오기
+    const [roominfo] = useRecoilState(roomInfoState)
 
     return (
         <>
@@ -89,7 +83,7 @@ export default function ViewJob({ onOpenModal }: PropsType) {
             <div css={content}>
                 <p css={description}></p>
                 <PlayerGrid>
-                    {players.map((player, i) => (
+                    {roominfo.players.map((player, i) => (
                         <PlayerJob player={player} key={i + 1} />
                     ))}
                 </PlayerGrid>
