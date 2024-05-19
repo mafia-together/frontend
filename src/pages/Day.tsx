@@ -66,7 +66,7 @@ export default function Day({ statusType }: PropsType) {
 
     /* 미리 투표하기 */
     const [openModal, setOpenModal] = useState(false)
-    const onOpenModal = () => {
+    const onToggleModal = () => {
         setOpenModal(!openModal)
     }
 
@@ -107,7 +107,7 @@ export default function Day({ statusType }: PropsType) {
                 <div>
                     <TopDay
                         isAlive={isAlive ? true : false}
-                        onOpenModal={onOpenModal}
+                        onOpenModal={onToggleModal}
                         statusType={statusType}
                     />
 
@@ -123,21 +123,26 @@ export default function Day({ statusType }: PropsType) {
                     <ModalContainer isOpen={openModal}>
                         {isAlive ? (
                             /* 투표모달 */
-                            <Vote onOpenModal={onOpenModal} />
+                            <Vote onOpenModal={onToggleModal} />
                         ) : (
                             /* 직업보기모달 */
-                            <ViewJob onOpenModal={onOpenModal} />
+                            <ViewJob onOpenModal={onToggleModal} />
                         )}
                     </ModalContainer>
 
                     {/* 시간이 다 됨 */}
-                    <ModalContainer isOpen={voteState === 'timeUp'}>
+                    <ModalContainer isOpen={voteState === 'timeUp' && roomInfo.isAlive}>
                         <Vote timeup={voteState === 'timeUp'} />
                     </ModalContainer>
 
                     {/* 모두 투표함 */}
-                    <ModalContainer isOpen={voteState === 'voteAll'}>
+                    <ModalContainer isOpen={voteState === 'voteAll' && roomInfo.isAlive}>
                         <Vote voteAll={voteState === 'voteAll'} />
+                    </ModalContainer>
+
+                    {/* 죽었는데 투표시간이 되었을 때 */}
+                    <ModalContainer isOpen={!roomInfo.isAlive && statusType == 'VOTE'}>
+                        <ViewJob onOpenModal={onToggleModal} voteTime={statusType == 'VOTE'} />
                     </ModalContainer>
 
                     {/* 투표결과 */}
