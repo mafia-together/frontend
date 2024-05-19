@@ -5,7 +5,7 @@ import PlayerGrid from '../player/PlayerGrid'
 import PlayerJob from '../player/PlayerJob'
 import { useEffect, useState } from 'react'
 import { Player } from '../../type'
-import { useRoomsInfoQuery } from '../../axios/http'
+import { getRoomsInfo } from '../../axios/http'
 
 type PropsType = {
     onOpenModal: () => void
@@ -59,10 +59,12 @@ export default function ViewJob({ onOpenModal }: PropsType) {
     `
 
     const [players, setPlayers] = useState<Player[]>([])
-    const { roomInfo } = useRoomsInfoQuery()
     useEffect(() => {
-        setPlayers(roomInfo.players)
-    }, [roomInfo.players])
+        ;(async () => {
+            const roomInfo = await getRoomsInfo()
+            setPlayers(roomInfo.players)
+        })()
+    }, [])
 
     return (
         <>
