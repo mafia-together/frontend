@@ -12,16 +12,16 @@ import NoticeDead from '../components/modal/NoticeDead'
 import { Chats } from '../components/chat/Chats'
 import { ChatInput } from '../components/chat/ChatInput'
 import { useRecoilState } from 'recoil'
-import { gameRound, lastDeadPlayer } from '../recoil/roominfo/atom'
-import { getMyJob, getRoomsInfo } from '../axios/http'
-import { Job, RoomInfo, Status } from '../type'
+import { gameRound, lastDeadPlayer, roomInfoState } from '../recoil/roominfo/atom'
+import { getMyJob } from '../axios/http'
+import { Job, Status } from '../type'
 import VoteResult from '../components/modal/VoteResult'
 
 type PropsType = {
-    roomsStatus: Status
+    statusType: Status
 }
 
-export default function Day({ roomsStatus }: PropsType) {
+export default function Day({ statusType }: PropsType) {
     const gameMessage = css`
         display: flex;
         justify-content: center;
@@ -43,21 +43,6 @@ export default function Day({ roomsStatus }: PropsType) {
         }
     `
 
-    /* 공지모달 */
-    const [descriptionTime, setDescriptionTime] = useState(true)
-    const [noticeTime, setNoticeTime] = useState(false)
-
-    useEffect(() => {
-        setTimeout(() => {
-            setDescriptionTime(false)
-            setNoticeTime(true)
-        }, 3000)
-
-        setTimeout(() => {
-            setNoticeTime(false)
-        }, 6000)
-    }, [])
-
     // 라운드 (몇일차)
     const [gameRoundState] = useRecoilState(gameRound)
 
@@ -74,26 +59,7 @@ export default function Day({ roomsStatus }: PropsType) {
     const [lastDeadPlayerStatus] = useRecoilState(lastDeadPlayer)
 
     /* 방 정보 */
-    // 시간
-    // const [roominfo] = useRecoilState(roomInfoState)
-    const [roomInfo, setRoomInfo] = useState<RoomInfo>()
-    useEffect(() => {
-        ;(async () => {
-            const roomInfoResponse = await getRoomsInfo()
-            setRoomInfo(roomInfoResponse)
-        })()
-    }, [])
-
-    const [lastTime, setLastIime] = useState(
-        roomInfo && +new Date(roomInfo.endTime) - +new Date(roomInfo.startTime)
-    )
-    useEffect(() => {
-        const intervalCode = setInterval(() => {
-            roomInfo && setLastIime(Math.round((+new Date(roomInfo.endTime) - +new Date()) / 1000))
-        })
-
-        return () => clearInterval(intervalCode)
-    }, [])
+    const [roomInfo] = useRecoilState(roomInfoState)
 
     // 내가 살아있는지
     const isAlive = roomInfo?.isAlive
@@ -107,8 +73,8 @@ export default function Day({ roomsStatus }: PropsType) {
     /* 투표시간 */
     const [voteState, setVoteStatus] = useState('')
     useEffect(() => {
-        if (roomsStatus === 'VOTE') {
-            if (lastTime && lastTime <= 0) {
+        if (statusType === 'VOTE') {
+            if (Math.round((+new Date(roomInfo.endTime) - +new Date()) / 1000) <= 1) {
                 //낮 시간이 끝났음
                 setVoteStatus('timeUp')
             } else {
@@ -116,26 +82,33 @@ export default function Day({ roomsStatus }: PropsType) {
                 setVoteStatus('voteAll')
             }
         }
-    }, [roomsStatus])
+    }, [statusType])
 
     /* 투표결과 */
-    const [voteResultTime, setVoteResultTime] = useState(false)
-    useEffect(() => {
-        if (roomsStatus === 'VOTE_RESULT') {
-            setVoteResultTime(true)
-        }
-    }, [roomsStatus])
-
     return (
         <AppContainerCSS background="day">
-            {descriptionTime ? (
-                <p css={gameMessage}>낮이 되었습니다.</p> // 채팅
+            {/* INTRO TIME */}
+            {statusType === 'DAY_INTRO' || statusType === 'NOTICE' ? (
+                <>
+                    <p css={gameMessage}>낮이 되었습니다.</p>
+
+                    {/* 공지 모달 TIME*/}
+                    <ModalContainer isOpen={statusType === 'NOTICE'} openMotion={false}>
+                        {gameRoundState === 1 ? (
+                            // 직업공지
+                            <NoticeMyJob name={roomInfo?.myName || ''} myJob={myJob} />
+                        ) : (
+                            // 전날밤 사망공지
+                            <NoticeDead yesterdayDeadPlayer={lastDeadPlayerStatus}></NoticeDead>
+                        )}
+                    </ModalContainer>
+                </>
             ) : (
                 <div>
                     <TopDay
                         isAlive={isAlive ? true : false}
                         onOpenModal={onOpenModal}
-                        lastTime={lastTime ? lastTime : 0}
+                        statusType={statusType}
                     />
 
                     <>
@@ -146,17 +119,6 @@ export default function Day({ roomsStatus }: PropsType) {
                         {/* 살아있는 경우에만 input창이 보인다. */}
                         {isAlive && <ChatInput />}
                     </>
-
-                    {/* 공지 모달 */}
-                    <ModalContainer isOpen={noticeTime} openMotion={false}>
-                        {gameRoundState === 1 ? (
-                            // 직업공지
-                            <NoticeMyJob name={'지윤짱은 css천재'} myJob={myJob} />
-                        ) : (
-                            // 전날밤 사망공지
-                            <NoticeDead yesterdayDeadPlayer={lastDeadPlayerStatus}></NoticeDead>
-                        )}
-                    </ModalContainer>
 
                     <ModalContainer isOpen={openModal}>
                         {isAlive ? (
@@ -179,7 +141,7 @@ export default function Day({ roomsStatus }: PropsType) {
                     </ModalContainer>
 
                     {/* 투표결과 */}
-                    <ModalContainer isOpen={voteResultTime}>
+                    <ModalContainer isOpen={statusType === 'VOTE_RESULT'}>
                         <VoteResult deadPlayer={lastDeadPlayerStatus} />
                     </ModalContainer>
                 </div>
