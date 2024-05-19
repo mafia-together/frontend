@@ -133,6 +133,10 @@ export const postVote = async (payload: VoteRequest) => {
     return http.post('/vote', payload)
 }
 
+export const getVote = async () => {
+    return http.get<DeadResult>('/vote')
+}
+
 export const getRoomNightResultDead = async () => {
     return http.get<DeadResult>('/rooms/night/result')
 }
