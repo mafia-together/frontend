@@ -30,7 +30,7 @@ export const Time = () => {
 
     useEffect(() => {
         timer.current = setInterval(() => {
-            const tempTime = Math.round((+new Date(roomInfo.endTime) - +new Date()) / 1000)
+            const tempTime = Math.trunc((+new Date(roomInfo.endTime) - +new Date()) / 1000)
             setLastTime(tempTime)
 
             const timeString = hanleTimeString(tempTime)

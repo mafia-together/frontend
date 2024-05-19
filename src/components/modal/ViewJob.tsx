@@ -8,7 +8,7 @@ import { roomInfoState } from '../../recoil/roominfo/atom'
 import { TimeOnlySeconds } from '../time/TimeOnlySeconds'
 
 type PropsType = {
-    onOpenModal: () => void
+    onOpenModal?: () => void
     voteTime?: boolean
 }
 
