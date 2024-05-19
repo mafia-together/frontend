@@ -1,11 +1,12 @@
 import { atom } from 'recoil'
+import { RoomInfo } from '../../type'
 
 export const gameRound = atom({
     key: 'gameRound',
     default: 0,
 })
 
-export const roomInfoState = atom({
+export const roomInfoState = atom<RoomInfo>({
     key: 'roomInfoState',
     default: {
         startTime: new Date(),
@@ -13,6 +14,7 @@ export const roomInfoState = atom({
         isAlive: true,
         totalPlayers: 0,
         isMaster: true,
+        myName: '지윤짱짱맨',
         players: [
             {
                 name: '지윤짱짱맨',

@@ -61,9 +61,9 @@ export default function BigButton({ vatiety, use, ready = true }: PropsType) {
     `
 
     return (
-        <button type="button" css={button}>
+        <div css={button}>
             <img src={icon[use]} draggable="false" />
             <p>{text[use]}</p>
-        </button>
+        </div>
     )
 }

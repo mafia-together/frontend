@@ -25,7 +25,7 @@ export default function Night() {
     const [roomInfo, setRoomInfo] = useState<RoomInfo>()
     const [myJob, setMyJob] = useState<Job | null>(null)
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             const jobResponse = await getMyJob()
             const roomInfoResponse = await getRoomsInfo()
             setMyJob(jobResponse.job)
