@@ -1,6 +1,5 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
-import { useState } from 'react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerGrid from '../player/PlayerGrid'
 import PlayerVote from '../player/PlayerVote'
@@ -15,9 +14,17 @@ type PropsType = {
     onOpenModal?: () => void
     timeup?: boolean
     voteAll?: boolean
+    voteTarget: number
+    setVoteTarget: (number: number) => void
 }
 
-export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
+export default function Vote({
+    onOpenModal,
+    timeup,
+    voteAll,
+    voteTarget,
+    setVoteTarget,
+}: PropsType) {
     const top = css`
         position: absolute;
         top: 0;
@@ -79,7 +86,6 @@ export default function Vote({ onOpenModal, timeup, voteAll }: PropsType) {
     // 투표
     const ABSTAIN_NUMBER = 0
     const ABSTAIN_STRING = ''
-    const [voteTarget, setVoteTarget] = useState(-1)
 
     const setVote = async (number: number, name: string) => {
         // 서버에 투표 전송

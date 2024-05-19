@@ -2,13 +2,15 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import { Time } from '../time/Time'
+import { Status } from '../../type'
 
 type PropsType = {
     isAlive: boolean
     onOpenModal: () => void
+    statusType: Status
 }
 
-export default function TopDay({ isAlive, onOpenModal }: PropsType) {
+export default function TopDay({ isAlive, onOpenModal, statusType }: PropsType) {
     const container = css`
         display: flex;
         justify-content: space-between;
@@ -56,10 +58,8 @@ export default function TopDay({ isAlive, onOpenModal }: PropsType) {
                 <img src="/assets/img/icon/sun.svg" alt="" />
                 <p css={dayText}>낮</p>
             </div>
-
-            <p css={timeText}>
-                <Time />
-            </p>
+            {/* DAY 일때만 시간 보여줘서 최적화 */}
+            <p css={timeText}>{statusType == 'DAY' ? <Time /> : '0:00'}</p>
             {isAlive ? (
                 <button css={dayRight} onClick={onOpenModal}>
                     <img src="/assets/img/icon/vote.svg" alt="" />

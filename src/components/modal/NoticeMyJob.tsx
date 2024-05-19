@@ -3,13 +3,14 @@ import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerBig from '../player/PlayerBig'
 import { Job } from '../../type'
+import { useEffect, useState } from 'react'
+import { getMyJob } from '../../axios/http'
 
 type PropsType = {
-    myJob: Job
     name: string
 }
 
-export default function NoticeMyJob({ myJob, name }: PropsType) {
+export default function NoticeMyJob({ name }: PropsType) {
     const container = css`
         display: flex;
         flex-direction: column;
@@ -32,6 +33,15 @@ export default function NoticeMyJob({ myJob, name }: PropsType) {
         DOCTOR: '의사',
         POLICE: '경찰',
     }
+
+    // 내 직업공지
+    const [myJob, setMyJob] = useState<Job>('CITIZEN')
+    useEffect(() => {
+        ;(async () => {
+            const myJobResponse = await getMyJob()
+            setMyJob(myJobResponse.job)
+        })()
+    }, [])
 
     return (
         <div css={container}>
