@@ -1,13 +1,8 @@
 import { useRecoilState } from 'recoil'
 import { roomInfoState } from '../../recoil/roominfo/atom'
 import { useEffect, useRef, useState } from 'react'
-import { Status } from '../../type'
 
-type PropsType = {
-    statusType: Status
-}
-
-export const Time = ({ statusType }: PropsType) => {
+export const Time = () => {
     const [roomInfo] = useRecoilState(roomInfoState)
 
     const hanleTimeString = (lastTime: number) => {
@@ -44,7 +39,7 @@ export const Time = ({ statusType }: PropsType) => {
         }, 1000)
 
         return () => clearInterval(timer.current)
-    }, [statusType, roomInfo])
+    }, [roomInfo])
 
     return (
         <>

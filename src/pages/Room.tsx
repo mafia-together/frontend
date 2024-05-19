@@ -14,10 +14,8 @@ export default function Room() {
     // 방 정보 저장 (방 상태가 바뀔때만 작동?)
     const setRoomsInfoState = useSetRecoilState(roomInfoState) // 방 정보
 
-    const [gameRoundState, setGameRoundState] = useRecoilState(gameRound)
+    const [, setGameRoundState] = useRecoilState(gameRound)
     useEffect(() => {
-        console.log(roomsStatus.statusType)
-
         // 방 정보 불러오기
         ;(async () => {
             const roomInfoResponse = await getRoomsInfo()
@@ -26,7 +24,7 @@ export default function Room() {
 
         // DAY로 바뀔때 마다 라운드 +1
         if (roomsStatus.statusType === 'DAY') {
-            setGameRoundState(gameRoundState + 1)
+            setGameRoundState((gameRoundState) => gameRoundState + 1)
         }
     }, [roomsStatus.statusType])
 
