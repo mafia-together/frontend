@@ -3,12 +3,19 @@ import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerBig from '../player/PlayerBig'
 import { Dead } from '../../type'
+import { useEffect, useState } from 'react'
+import { getRoomNightResultDead } from '../../axios/http'
 
-type PropType = {
-    dead: Dead
-}
+export default function NoticeDead() {
+    // 전날밤
+    const [dead, setDead] = useState<Dead>(null)
+    useEffect(() => {
+        ;(async () => {
+            const deadResponse = await getRoomNightResultDead()
+            setDead(deadResponse.dead)
+        })()
+    }, [])
 
-export default function NoticeDead({ dead }: PropType) {
     const color = dead ? 'kill' : 'safe'
     const container = css`
         display: flex;

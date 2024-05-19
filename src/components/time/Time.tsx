@@ -43,7 +43,7 @@ export const Time = () => {
 
     return (
         <>
-            {minutes} : {seconds}
+            {minutes}:{seconds}
         </>
     )
 }
