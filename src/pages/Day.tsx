@@ -70,6 +70,13 @@ export default function Day({ statusType }: PropsType) {
                 //모든 플레이어가 투표를 완료했음
                 setVoteStatus('voteAll')
             }
+        } else {
+            setVoteStatus('')
+        }
+
+        // 공지 모달이 뜨는 시간엔 사용자가 켠 모달 끄기
+        if (statusType !== 'DAY') {
+            setOpenModal(false)
         }
     }, [statusType])
 
@@ -144,7 +151,7 @@ export default function Day({ statusType }: PropsType) {
 
                         {/* 죽었는데 투표시간이 되었을 때 */}
                         <ModalContainer isOpen={!roomInfo.isAlive && statusType == 'VOTE'}>
-                            <ViewJob onOpenModal={onToggleModal} voteTime={statusType == 'VOTE'} />
+                            <ViewJob voteTime={statusType == 'VOTE'} />
                         </ModalContainer>
 
                         {/* 투표결과 */}

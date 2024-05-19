@@ -39,7 +39,7 @@ export default function PlayerJob({ player }: PropsType) {
 
     return (
         <div css={container}>
-            <JobIcon job={player.job} size="default" color={'day'} />
+            <JobIcon job={player.job} size="default" color={player.isAlive ? 'day' : 'dead'} />
             <p>{player.name}</p>
         </div>
     )
