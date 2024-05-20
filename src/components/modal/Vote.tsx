@@ -6,8 +6,7 @@ import PlayerVote from '../player/PlayerVote'
 import SmallButton from '../button/SmallButton'
 import { postVote } from '../../axios/http'
 import { useRecoilState } from 'recoil'
-import { myJobState, roomInfoState } from '../../recoil/roominfo/atom'
-import { Time } from '../time/Time'
+import { roomInfoState } from '../../recoil/roominfo/atom'
 import { TimeOnlySeconds } from '../time/TimeOnlySeconds'
 
 type PropsType = {
@@ -99,7 +98,7 @@ export default function Vote({
     return (
         <>
             <div css={top}>
-                <div css={timeText}>{timeup || voteAll ? <TimeOnlySeconds /> : <Time />}</div>
+                <div css={timeText}>{timeup || voteAll ? <TimeOnlySeconds /> : '투표'}</div>
                 {timeup || voteAll || (
                     <button css={close} onClick={onOpenModal}>
                         <svg

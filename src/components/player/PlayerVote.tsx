@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import { Player } from '../../type'
 import JobIcon from '../svg/JobIcon'
-import { myJobState, roomInfoState } from '../../recoil/roominfo/atom'
+import { myJobState } from '../../recoil/roominfo/atom'
 import { useRecoilState } from 'recoil'
 
 type PropsType = {
