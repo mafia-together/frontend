@@ -63,12 +63,12 @@ export default function Day({ statusType }: PropsType) {
     const [voteState, setVoteStatus] = useState('')
     useEffect(() => {
         if (statusType === 'VOTE') {
-            if (Math.round((+new Date(roomInfo.endTime) - +new Date()) / 1000) <= 1) {
-                //낮 시간이 끝났음
-                setVoteStatus('timeUp')
-            } else {
+            if (Math.trunc((+new Date(roomInfo.endTime) - +new Date()) / 1000) > 2) {
                 //모든 플레이어가 투표를 완료했음
                 setVoteStatus('voteAll')
+            } else {
+                //낮 시간이 끝났음
+                setVoteStatus('timeUp')
             }
         } else {
             setVoteStatus('')
