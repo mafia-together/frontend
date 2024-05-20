@@ -6,23 +6,16 @@ export const Time = () => {
     const [roomInfo] = useRecoilState(roomInfoState)
 
     const hanleTimeString = (lastTime: number) => {
-        let lastMinutes = `${Math.trunc(lastTime / 60)}`
-        let lastSecond = `${Math.trunc(lastTime % 60)}`
+        const lastMinutes = `${Math.trunc(lastTime / 60)}`
+        const lastSecond = `${Math.trunc(lastTime % 60)}`.padStart(2, '0')
 
-        if (+lastMinutes <= 0) {
-            lastMinutes = '0'
-        }
-
-        if (+lastSecond <= 0) {
-            lastSecond = '00'
-        } else if (+lastSecond < 10) {
-            lastSecond = '0' + lastSecond
-        }
+        // if (+lastMinutes <= 0) {
+        //     lastMinutes = '0'
+        // }
 
         return [lastMinutes, lastSecond]
     }
 
-    const [, setLastTime] = useState(0)
     const [minutes, setMinutes] = useState('0')
     const [seconds, setSeconds] = useState('00')
 
@@ -31,7 +24,6 @@ export const Time = () => {
     useEffect(() => {
         timer.current = setInterval(() => {
             const tempTime = Math.trunc((+new Date(roomInfo.endTime) - +new Date()) / 1000)
-            setLastTime(tempTime)
 
             const timeString = hanleTimeString(tempTime)
             setMinutes(timeString[0])
