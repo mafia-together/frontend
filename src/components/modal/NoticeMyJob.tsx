@@ -5,6 +5,8 @@ import PlayerBig from '../player/PlayerBig'
 import { Job } from '../../type'
 import { useEffect, useState } from 'react'
 import { getMyJob } from '../../axios/http'
+import { useSetRecoilState } from 'recoil'
+import { myJobState } from '../../recoil/roominfo/atom'
 
 type PropsType = {
     name: string
@@ -35,11 +37,14 @@ export default function NoticeMyJob({ name }: PropsType) {
     }
 
     // 내 직업공지
+
     const [myJob, setMyJob] = useState<Job>('CITIZEN')
+    const setMyJobRecoilState = useSetRecoilState(myJobState) // 방 정보
     useEffect(() => {
         ;(async () => {
             const myJobResponse = await getMyJob()
             setMyJob(myJobResponse.job)
+            setMyJobRecoilState(myJobResponse.job)
         })()
     }, [])
 

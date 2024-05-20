@@ -6,7 +6,7 @@ import PlayerVote from '../player/PlayerVote'
 import SmallButton from '../button/SmallButton'
 import { postVote } from '../../axios/http'
 import { useRecoilState } from 'recoil'
-import { roomInfoState } from '../../recoil/roominfo/atom'
+import { myJobState, roomInfoState } from '../../recoil/roominfo/atom'
 import { Time } from '../time/Time'
 import { TimeOnlySeconds } from '../time/TimeOnlySeconds'
 
@@ -94,6 +94,8 @@ export default function Vote({
         setVoteTarget(number)
     }
 
+    // 방정보 받아와서 내 이름과 같은지 비교
+
     return (
         <>
             <div css={top}>
@@ -136,11 +138,12 @@ export default function Vote({
                 <PlayerGrid>
                     {roominfo.players.map((player, i) => (
                         <PlayerVote
+                            isOwner={player.name == roominfo.myName}
                             player={player}
                             key={`${player.name}_${i}`}
                             index={i + 1}
                             voteTarget={voteTarget}
-                            setVoteTarget={setVote}
+                            setVoteTarget={(number: number, name: string) => setVote(number, name)}
                         />
                     ))}
                 </PlayerGrid>
