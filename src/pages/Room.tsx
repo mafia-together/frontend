@@ -23,7 +23,7 @@ export default function Room() {
         })()
 
         // DAY로 바뀔때 마다 라운드 +1
-        if (roomsStatus.statusType === 'DAY') {
+        if (roomsStatus.statusType === 'NOTICE') {
             setGameRoundState((gameRoundState) => gameRoundState + 1)
         } else if (roomsStatus.statusType === 'WAIT') {
             setGameRoundState(0)
