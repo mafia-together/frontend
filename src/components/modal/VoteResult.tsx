@@ -13,10 +13,12 @@ export default function VoteResult() {
         ;(async () => {
             const deadResponse = await getVote()
             setDead(deadResponse.dead)
+            console.log(deadResponse)
+            console.log(dead)
         })()
     }, [])
 
-    const color = dead === '' ? 'kill' : 'safe'
+    const color = dead ? 'kill' : 'safe'
 
     const container = css`
         display: flex;
