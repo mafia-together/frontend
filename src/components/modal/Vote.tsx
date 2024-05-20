@@ -171,7 +171,9 @@ export default function Vote({
                 >
                     <SmallButton text="기권" color="day" />
                 </label>
-                <p css={message}>모두 투표하면 대화시간이 종료됩니다.</p>
+                {(timeup || voteAll) && (
+                    <p css={message}>모든 플레이어가 투표할 시 대화 시간이 종료됩니다.</p>
+                )}
             </div>
         </>
     )
