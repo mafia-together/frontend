@@ -46,6 +46,9 @@ export default function Vote({
     `
 
     const content = css`
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
         height: calc(100% - 70px - ${VariablesCSS.margin});
         margin-top: 70px;
         margin-bottom: ${VariablesCSS.margin};
@@ -71,7 +74,7 @@ export default function Vote({
     `
 
     const message = css`
-        margin-bottom: 10px;
+        margin-bottom: 30px;
         font-family: 'DNFForgedBlade', sans-serif;
         font-weight: 400;
         font-size: 12px;
@@ -98,7 +101,7 @@ export default function Vote({
     return (
         <>
             <div css={top}>
-                <div css={timeText}>{timeup || voteAll ? <TimeOnlySeconds /> : '투표'}</div>
+                <div css={timeText}>{timeup || voteAll ? <TimeOnlySeconds /> : '투표하기'}</div>
                 {timeup || voteAll || (
                     <button css={close} onClick={onOpenModal}>
                         <svg
@@ -118,62 +121,69 @@ export default function Vote({
                 )}
             </div>
             <div css={content}>
-                {timeup || voteAll || <p css={description}>처형하고 싶은 사람을 투표해주세요.</p>}
-                {timeup && (
-                    <p css={description}>
-                        투표시간이 되었습니다.
-                        <br />
-                        처형하고 싶은 사람을 투표해주세요.
-                    </p>
-                )}
-                {voteAll && (
-                    <p css={description}>
-                        모두 미리 투표를 하였습니다.
-                        <br />
-                        투표를 최종 확인해주세요.
-                    </p>
-                )}
+                <div>
+                    {timeup || voteAll || (
+                        <p css={description}>처형하고 싶은 사람을 투표해주세요.</p>
+                    )}
+                    {timeup && (
+                        <p css={description}>
+                            투표시간이 되었습니다.
+                            <br />
+                            처형하고 싶은 사람을 투표해주세요.
+                        </p>
+                    )}
+                    {voteAll && (
+                        <p css={description}>
+                            모두 미리 투표를 하였습니다.
+                            <br />
+                            투표를 최종 확인해주세요.
+                        </p>
+                    )}
 
-                <PlayerGrid>
-                    {roominfo.players.map((player, i) => (
-                        <PlayerVote
-                            isOwner={player.name == roominfo.myName}
-                            player={player}
-                            key={`${player.name}_${i}`}
-                            index={i + 1}
-                            voteTarget={voteTarget}
-                            setVoteTarget={(number: number, name: string) => setVote(number, name)}
-                        />
-                    ))}
-                </PlayerGrid>
-
-                <input
-                    type="radio"
-                    name="vote"
-                    id="0"
-                    checked={voteTarget === ABSTAIN_NUMBER}
-                    css={css`
-                        display: none;
-                        &:checked + label > div {
-                            color: ${VariablesCSS.light};
-                            background-color: ${VariablesCSS.kill};
-                        }
-                    `}
-                    onChange={() => setVote(ABSTAIN_NUMBER, ABSTAIN_STRING)}
-                />
-                <label
-                    htmlFor="0"
-                    css={css`
-                        margin: 30px auto 16px;
-                        display: flex;
-                        justify-content: center;
-                    `}
-                >
-                    <SmallButton text="기권" color="day" />
-                </label>
-                {(timeup || voteAll) && (
-                    <p css={message}>모든 플레이어가 투표할 시 대화 시간이 종료됩니다.</p>
-                )}
+                    <PlayerGrid>
+                        {roominfo.players.map((player, i) => (
+                            <PlayerVote
+                                isOwner={player.name == roominfo.myName}
+                                player={player}
+                                key={`${player.name}_${i}`}
+                                index={i + 1}
+                                voteTarget={voteTarget}
+                                setVoteTarget={(number: number, name: string) =>
+                                    setVote(number, name)
+                                }
+                            />
+                        ))}
+                    </PlayerGrid>
+                </div>
+                <div>
+                    <input
+                        type="radio"
+                        name="vote"
+                        id="0"
+                        checked={voteTarget === ABSTAIN_NUMBER}
+                        css={css`
+                            display: none;
+                            &:checked + label > div {
+                                color: ${VariablesCSS.light};
+                                background-color: ${VariablesCSS.kill};
+                            }
+                        `}
+                        onChange={() => setVote(ABSTAIN_NUMBER, ABSTAIN_STRING)}
+                    />
+                    <label
+                        htmlFor="0"
+                        css={css`
+                            margin: 30px auto 16px;
+                            display: flex;
+                            justify-content: center;
+                        `}
+                    >
+                        <SmallButton text="기권" color="day" />
+                    </label>
+                    {timeup || voteAll || (
+                        <p css={message}>모든 플레이어가 투표할 시 대화 시간이 종료됩니다.</p>
+                    )}
+                </div>
             </div>
         </>
     )

@@ -9,7 +9,6 @@ export const TimeOnlySeconds = () => {
         return `${Math.trunc(lastTime % 60)}`
     }
 
-    const [, setLastTime] = useState(0)
     const [seconds, setSeconds] = useState('10')
 
     const timer = useRef<number>(0)
@@ -17,7 +16,6 @@ export const TimeOnlySeconds = () => {
     useEffect(() => {
         timer.current = setInterval(() => {
             const tempTime = Math.trunc((+new Date(roomInfo.endTime) - +new Date()) / 1000)
-            setLastTime(tempTime)
 
             const timeString = hanleTimeString(tempTime)
             setSeconds(timeString)
