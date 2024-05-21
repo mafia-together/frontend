@@ -97,14 +97,12 @@ export default function Day({ statusType }: PropsType) {
                             statusType={statusType}
                         />
 
-                        <div>
-                            <div css={middle}>
-                                <Chats />
-                            </div>
-
-                            {/* 살아있는 경우에만 input창이 보인다. */}
-                            {isAlive && <ChatInput />}
+                        <div css={middle}>
+                            <Chats />
                         </div>
+
+                        {/* 살아있는 경우에만 input창이 보인다. */}
+                        {isAlive && <ChatInput />}
 
                         <ModalContainer isOpen={openModal}>
                             {isAlive ? (

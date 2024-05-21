@@ -73,11 +73,12 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
                     name="vote"
                     id="0"
                     css={css`
-                                        display: none;
-                                        &:checked + label > div{
-                                            color: ${VariablesCSS.light};
-                                            background-color: ${VariablesCSS.kill};
-                                    `}
+                        display: none;
+                        &:checked + label > div {
+                            color: ${VariablesCSS.light};
+                            background-color: ${VariablesCSS.kill};
+                        }
+                    `}
                     checked={nowVoteResult === 0}
                     onChange={() => isAlive && setCheck(0)}
                 />
