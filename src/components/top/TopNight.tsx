@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
+import { Time } from '../time/Time'
 
 export default function TopNight() {
     const container = css`
@@ -35,7 +36,9 @@ export default function TopNight() {
                 <img src="/img/icon/moon.svg" alt="" />
                 <p>밤</p>
             </div>
-            <p css={timeText}>1:20</p>
+            <p css={timeText}>
+                <Time />
+            </p>
         </div>
     )
 }
