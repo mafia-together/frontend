@@ -23,8 +23,8 @@ export const useChatsQuery = () => {
     const { data: chats, ...rest } = useSuspenseQuery({
         queryKey: ['chats', localStorage.getItem('auth')],
         queryFn: () => getChats(),
-        refetchInterval: 1000,
-        staleTime: 1000,
+        refetchInterval: 100,
+        staleTime: 100,
     })
     return {
         chats,
@@ -36,8 +36,8 @@ export const useRoomsStatusQuery = () => {
     const { data: roomsStatus, ...rest } = useSuspenseQuery({
         queryKey: ['rooms', 'status', localStorage.getItem('auth')],
         queryFn: () => getRoomsStatus(),
-        refetchInterval: 1000,
-        staleTime: 1000,
+        refetchInterval: 100,
+        staleTime: 100,
     })
 
     return {
@@ -54,8 +54,8 @@ export const useRoomsInfoQuery = () => {
     const { data: roomInfo, ...rest } = useSuspenseQuery({
         queryKey: ['rooms', 'info', localStorage.getItem('auth')],
         queryFn: () => getRoomsInfo(),
-        refetchInterval: 1000,
-        staleTime: 1000,
+        refetchInterval: 100,
+        staleTime: 100,
     })
     return {
         roomInfo,
@@ -116,8 +116,8 @@ export const useMafiaVoteResultQuery = () => {
     const { data: mafiaVoteResult, ...rest } = useSuspenseQuery({
         queryKey: ['players', 'skill', localStorage.getItem('auth')],
         queryFn: () => getMafiaVoteResult(),
-        refetchInterval: 1000,
-        staleTime: 1000,
+        refetchInterval: 100,
+        staleTime: 100,
     })
     return {
         mafiaVoteResult,
