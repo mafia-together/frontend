@@ -4,20 +4,19 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerChat from '../player/PlayerChat'
 import ChatMessage from './ChatMessage'
 import { forwardRef } from 'react'
-import { useRecoilState, useRecoilValue } from 'recoil'
+import { useRecoilValue } from 'recoil'
 import { myJobState, roomInfoState } from '../../recoil/roominfo/atom'
+import { Chat } from '../../type'
 
 interface Props {
-    name: string
-    contents: string
-    isOwner: boolean
+    chats: Chat[]
 }
-export default forwardRef(function ChatGroup({ name, contents, isOwner }: Props, ref: any) {
+export default forwardRef(function ChatGroup({ chats }: Props, ref: any) {
     const container = css`
         display: flex;
         margin-bottom: 8px;
         gap: 8px;
-        ${isOwner && 'flex-direction: row-reverse;'}
+        ${chats[0].isOwner && 'flex-direction: row-reverse;'}
 
         &:first-of-type {
             margin-top: 20px;
@@ -30,7 +29,7 @@ export default forwardRef(function ChatGroup({ name, contents, isOwner }: Props,
         flex-direction: column;
         flex-grow: 0;
 
-        ${isOwner && 'align-items: end;'}
+        ${chats[0].isOwner && 'align-items: end;'}
     `
 
     const nameText = css`
@@ -45,10 +44,16 @@ export default forwardRef(function ChatGroup({ name, contents, isOwner }: Props,
 
     return (
         <div ref={ref} css={container}>
-            <PlayerChat job={roomInfo.myName == name ? myjob : null} />
+            <PlayerChat job={roomInfo.myName == chats[0].name ? myjob : null} />
             <div css={right}>
-                <p css={nameText}>{name}</p>
-                <ChatMessage contents={contents} isOwner={isOwner} />
+                <p css={nameText}>{chats[0].name}</p>
+                {chats.map((chat) => (
+                    <ChatMessage
+                        contents={chat.contents}
+                        isOwner={chat.isOwner}
+                        key={`${chat.timestamp}`}
+                    />
+                ))}
             </div>
         </div>
     )

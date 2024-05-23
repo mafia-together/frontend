@@ -12,24 +12,31 @@ export const Chats = () => {
         if (!chatRef.current) return
         chatRef.current.scrollIntoView()
     }, [chatRef, chats])
+
+    const chatReduce = chats.reduce(
+        (acc: [Chat[]], chat, index) => {
+            if (index > 0) {
+                if (chat.name === chats[index - 1].name) {
+                    acc[acc.length - 1].push(chat)
+                } else {
+                    acc.push([chat])
+                }
+                return acc
+            } else {
+                acc[0] = [chat]
+                return acc
+            }
+        },
+        [[]]
+    )
+
     return (
         <>
-            {chats.map((chat: Chat, idx: number) =>
+            {chatReduce.map((chats: Chat[], idx: number) =>
                 idx === chats.length - 1 ? (
-                    <ChatGroup
-                        ref={chatRef}
-                        key={idx}
-                        name={chat.name}
-                        contents={chat.contents}
-                        isOwner={chat.isOwner}
-                    />
+                    <ChatGroup ref={chatRef} key={idx} chats={chats} />
                 ) : (
-                    <ChatGroup
-                        key={idx}
-                        name={chat.name}
-                        contents={chat.contents}
-                        isOwner={chat.isOwner}
-                    />
+                    <ChatGroup key={idx} chats={chats} />
                 )
             )}
         </>
