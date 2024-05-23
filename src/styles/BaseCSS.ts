@@ -25,6 +25,7 @@ export const BaseCss = `
         border: none;
         background: none;
     }
+
     
     // 폰트
     @font-face {
