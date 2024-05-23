@@ -4,6 +4,8 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerChat from '../player/PlayerChat'
 import ChatMessage from './ChatMessage'
 import { forwardRef } from 'react'
+import { useRecoilState, useRecoilValue } from 'recoil'
+import { myJobState, roomInfoState } from '../../recoil/roominfo/atom'
 
 interface Props {
     name: string
@@ -38,9 +40,12 @@ export default forwardRef(function ChatGroup({ name, contents, isOwner }: Props,
         color: ${VariablesCSS.day};
     `
 
+    const myjob = useRecoilValue(myJobState)
+    const roomInfo = useRecoilValue(roomInfoState)
+
     return (
         <div ref={ref} css={container}>
-            <PlayerChat />
+            <PlayerChat job={roomInfo.myName == name ? myjob : null} />
             <div css={right}>
                 <p css={nameText}>{name}</p>
                 <ChatMessage contents={contents} isOwner={isOwner} />
