@@ -22,6 +22,7 @@ export interface Chat {
     contents: string
     timestamp: Date
     isOwner: boolean
+    job: Job
 }
 
 export interface ChatRequest {

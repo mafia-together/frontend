@@ -39,12 +39,9 @@ export default forwardRef(function ChatGroup({ chats }: Props, ref: any) {
         color: ${VariablesCSS.day};
     `
 
-    const myjob = useRecoilValue(myJobState)
-    const roomInfo = useRecoilValue(roomInfoState)
-
     return (
         <div ref={ref} css={container}>
-            <PlayerChat job={roomInfo.myName == chats[0].name ? myjob : null} />
+            <PlayerChat job={chats[0].job} />
             <div css={right}>
                 <p css={nameText}>{chats[0].name}</p>
                 {chats.map((chat) => (
