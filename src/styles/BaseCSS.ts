@@ -1,6 +1,11 @@
-import { VariablesCSS } from "./VariablesCSS";
+import { VariablesCSS } from './VariablesCSS'
 
 export const BaseCss = `
+    :root{
+        --vh: 100%;
+    }
+
+
     body,
     html,
     main,
@@ -153,4 +158,4 @@ export const BaseCss = `
     //         transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 5%));
     //     }
     // }
-`;
+`

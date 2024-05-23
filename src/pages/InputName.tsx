@@ -15,7 +15,7 @@ export default function InputName() {
         display: flex;
         justify-content: center;
         align-items: center;
-        height: calc(100vh - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
+        height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
     `
 
     const nameCss = css`

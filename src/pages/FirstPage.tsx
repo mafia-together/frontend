@@ -10,7 +10,7 @@ export default function FirstPage() {
         display: flex;
         flex-direction: column;
         justify-content: space-evenly;
-        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
 
         @keyframes slowshow {
             0% {
@@ -70,7 +70,7 @@ export default function FirstPage() {
         }
         & > p:nth-of-type(2) {
             animation: slowshow 2s 2.6s backwards ease-out;
-            margin-bottom: 8vh;
+            margin-bottom: calc(var(--vh, 1vh) * 8);
         }
         & > p:nth-of-type(3) {
             animation: slowshow 2s 3.4s backwards ease-out;
