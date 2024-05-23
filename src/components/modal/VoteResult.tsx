@@ -13,8 +13,6 @@ export default function VoteResult() {
         ;(async () => {
             const deadResponse = await getVote()
             setDead(deadResponse.dead)
-            console.log(deadResponse)
-            console.log(dead)
         })()
     }, [])
 

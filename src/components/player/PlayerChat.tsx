@@ -1,8 +1,13 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import JobIcon from '../svg/JobIcon'
+import { Job } from '../../type'
 
-export default function PlayerChat() {
+type PropsType = {
+    job: Job
+}
+
+export default function PlayerChat({ job }: PropsType) {
     const container = css`
         flex-shrink: 0;
         display: flex;
@@ -16,7 +21,7 @@ export default function PlayerChat() {
 
     return (
         <div css={container}>
-            <JobIcon size="small" color="day" />
+            <JobIcon size="small" color="day" job={job} />
         </div>
     )
 }
