@@ -32,13 +32,14 @@ export const Chats = () => {
 
     return (
         <>
-            {chatReduce.map((chats: Chat[], idx: number) =>
-                idx === chats.length - 1 ? (
-                    <ChatGroup ref={chatRef} key={idx} chats={chats} />
-                ) : (
-                    <ChatGroup key={idx} chats={chats} />
-                )
-            )}
+            {chatReduce[0].length > 0 &&
+                chatReduce.map((chats: Chat[], idx: number) =>
+                    idx === chats.length - 1 ? (
+                        <ChatGroup ref={chatRef} key={idx} chats={chats} />
+                    ) : (
+                        <ChatGroup key={idx} chats={chats} />
+                    )
+                )}
         </>
     )
 }
