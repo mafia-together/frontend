@@ -11,7 +11,7 @@ export default function AppContainerCSS({ background, children }: PropsType) {
     const container = css`
         max-width: 390px;
 
-        @media screen and (hover: none) and (pointer: coarse) {
+        @media (hover: none) and (pointer: coarse) {
             max-width: 100vw;
         }
         height: calc(var(--vh, 1vh) * 100);
