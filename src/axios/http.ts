@@ -23,8 +23,8 @@ export const useChatsQuery = () => {
     const { data: chats, ...rest } = useSuspenseQuery({
         queryKey: ['chats', localStorage.getItem('auth')],
         queryFn: () => getChats(),
-        refetchInterval: 100,
-        staleTime: 100,
+        refetchInterval: 500,
+        staleTime: 500,
     })
     return {
         chats,
