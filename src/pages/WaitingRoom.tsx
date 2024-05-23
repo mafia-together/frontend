@@ -18,7 +18,8 @@ export default function WaitingRoom() {
     /* css */
     const middle = css`
         height: calc(
-            100vh - ${VariablesCSS.top} - ${VariablesCSS.bigbutton} - ${VariablesCSS.margin}
+            (var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bigbutton} -
+                ${VariablesCSS.margin}
         );
         overflow: scroll;
         -ms-overflow-style: none;
@@ -62,7 +63,7 @@ export default function WaitingRoom() {
         top: 0;
         left: 0;
         width: 100vw;
-        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
         margin-left: -${VariablesCSS.margin};
         margin-right: -${VariablesCSS.margin};
         background-color: rgba(0, 0, 0, 0.7);

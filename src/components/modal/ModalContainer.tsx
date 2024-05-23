@@ -35,7 +35,7 @@ export default function ModalContainer({ isOpen, openMotion = true, children }: 
         margin-left: -${VariablesCSS.margin};
         margin-right: -${VariablesCSS.margin};
         width: 100%;
-        height: 100vh;
+        height: calc(var(--vh, 1vh) * 100);
         background-color: rgba(0, 0, 0, 0.7);
     `
 

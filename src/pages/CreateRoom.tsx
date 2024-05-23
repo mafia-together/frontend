@@ -13,7 +13,7 @@ import { createRoom } from '../axios/http'
 export function CreateRoom() {
     /* css */
     const middle = css`
-        height: calc(100vh - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
+        height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
         overflow: scroll;
         -ms-overflow-style: none;
         scrollbar-width: none;

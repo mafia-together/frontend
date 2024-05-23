@@ -15,7 +15,7 @@ export default function Result() {
         flex-direction: column;
         justify-content: start;
         align-items: center;
-        height: calc(100vh - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
+        height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
         overflow: scroll;
         -ms-overflow-style: none;
         scrollbar-width: none;

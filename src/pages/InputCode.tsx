@@ -11,7 +11,7 @@ import { Toaster } from 'react-hot-toast'
 export default function ParticipateRoom() {
     const middle = css`
         display: flex;
-        height: calc(100vh - ${VariablesCSS.top});
+        height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top});
         flex-direction: column;
         justify-content: center;
         align-items: center;
