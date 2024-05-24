@@ -14,8 +14,8 @@ function App() {
 
 export default App
 
-function setScreenSize() {    
-    const vh =visualViewport?.height ? visualViewport?.height * 0.01 : window.innerHeight * 0.01
+function setScreenSize() {
+    const vh = visualViewport?.height ? visualViewport?.height * 0.01 : window.innerHeight * 0.01
     document.documentElement.style.setProperty('--vh', `${vh}px`)
 }
 

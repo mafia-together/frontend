@@ -18,6 +18,7 @@ export const BaseCss = `
 
     body {
         background-color: #eeeeee;
+        overflow: hidden;
     }
 
     button,

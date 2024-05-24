@@ -12,6 +12,9 @@ import { DoctorNight } from '../components/job/DoctorNight'
 import { CitizenNight } from '../components/job/CitizenNight'
 import { Loading } from '../components/etc/Loading'
 
+type PropsType = {
+    statusType: Status
+}
 export const middle = css`
     height: calc(100% - ${VariablesCSS.top});
     overflow: scroll;
@@ -21,10 +24,6 @@ export const middle = css`
         display: none;
     }
 `
-
-type PropsType = {
-    statusType: Status
-}
 
 export default function Night({ statusType }: PropsType) {
     const gameMessage = css`
@@ -56,44 +55,28 @@ export default function Night({ statusType }: PropsType) {
     return (
         <AppContainerCSS background="night">
             <Suspense fallback={<Loading />}>
-                <div>
-                    {/* INTRO TIME */}
-                    {statusType === 'NIGHT_INTRO' ? (
-                        <>
-                            <p css={gameMessage}>밤이 찾아왔습니다</p>
-                        </>
-                    ) : (
-                        <>
-                            <TopNight />
-                            <div css={middle}>
-                                {'MAFIA' === myJob && (
-                                    <MafiaNight
-                                        players={roomInfo.players}
-                                        isAlive={roomInfo.isAlive}
-                                    />
-                                )}
-                                {'CITIZEN' === myJob && (
-                                    <CitizenNight
-                                        players={roomInfo.players}
-                                        isAlive={roomInfo.isAlive}
-                                    />
-                                )}
-                                {'POLICE' === myJob && (
-                                    <PoliceNight
-                                        players={roomInfo.players}
-                                        isAlive={roomInfo.isAlive}
-                                    />
-                                )}
-                                {'DOCTOR' === myJob && (
-                                    <DoctorNight
-                                        players={roomInfo.players}
-                                        isAlive={roomInfo.isAlive}
-                                    />
-                                )}
-                            </div>
-                        </>
-                    )}
-                </div>
+                {/* INTRO TIME */}
+                {statusType === 'NIGHT_INTRO' ? (
+                    <>
+                        <p css={gameMessage}>밤이 찾아왔습니다</p>
+                    </>
+                ) : (
+                    <div>
+                        <TopNight />
+                        {'MAFIA' === myJob && (
+                            <MafiaNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                        )}
+                        {'CITIZEN' === myJob && (
+                            <CitizenNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                        )}
+                        {'POLICE' === myJob && (
+                            <PoliceNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                        )}
+                        {'DOCTOR' === myJob && (
+                            <DoctorNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                        )}
+                    </div>
+                )}
             </Suspense>
         </AppContainerCSS>
     )
