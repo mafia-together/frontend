@@ -63,18 +63,29 @@ export default function Night({ statusType }: PropsType) {
                 ) : (
                     <div>
                         <TopNight />
-                        {'MAFIA' === myJob && (
-                            <MafiaNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
-                        )}
-                        {'CITIZEN' === myJob && (
-                            <CitizenNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
-                        )}
-                        {'POLICE' === myJob && (
-                            <PoliceNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
-                        )}
-                        {'DOCTOR' === myJob && (
-                            <DoctorNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
-                        )}
+                        <>
+                            {'MAFIA' === myJob && (
+                                <MafiaNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
+                            )}
+                            {'CITIZEN' === myJob && (
+                                <CitizenNight
+                                    players={roomInfo.players}
+                                    isAlive={roomInfo.isAlive}
+                                />
+                            )}
+                            {'POLICE' === myJob && (
+                                <PoliceNight
+                                    players={roomInfo.players}
+                                    isAlive={roomInfo.isAlive}
+                                />
+                            )}
+                            {'DOCTOR' === myJob && (
+                                <DoctorNight
+                                    players={roomInfo.players}
+                                    isAlive={roomInfo.isAlive}
+                                />
+                            )}
+                        </>
                     </div>
                 )}
             </Suspense>

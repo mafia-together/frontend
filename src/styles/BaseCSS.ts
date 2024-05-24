@@ -19,6 +19,7 @@ export const BaseCss = `
     body {
         background-color: #eeeeee;
         overflow: hidden;
+        touch-action: none;
     }
 
     button,
