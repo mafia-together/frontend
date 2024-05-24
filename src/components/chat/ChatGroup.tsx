@@ -4,8 +4,6 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerChat from '../player/PlayerChat'
 import ChatMessage from './ChatMessage'
 import { forwardRef } from 'react'
-import { useRecoilValue } from 'recoil'
-import { myJobState, roomInfoState } from '../../recoil/roominfo/atom'
 import { Chat } from '../../type'
 
 interface Props {
