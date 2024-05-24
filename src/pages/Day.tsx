@@ -60,20 +60,7 @@ export default function Day({ statusType }: PropsType) {
     }
 
     /* 투표시간 */
-    const [voteState, setVoteStatus] = useState('')
     useEffect(() => {
-        if (statusType === 'VOTE') {
-            if (Math.trunc((+new Date(roomInfo.endTime) - +new Date()) / 1000) > 2) {
-                //모든 플레이어가 투표를 완료했음
-                setVoteStatus('voteAll')
-            } else {
-                //낮 시간이 끝났음
-                setVoteStatus('timeUp')
-            }
-        } else {
-            setVoteStatus('')
-        }
-
         // 공지 모달이 뜨는 시간엔 사용자가 켠 모달 끄기
         if (statusType !== 'DAY') {
             setOpenModal(false)
@@ -87,7 +74,7 @@ export default function Day({ statusType }: PropsType) {
                 {/* INTRO TIME */}
                 {statusType === 'DAY_INTRO' ? (
                     <>
-                        <p css={gameMessage}>낮이 되었습니다.</p>
+                        <p css={gameMessage}>낮이 되었습니다</p>
                     </>
                 ) : (
                     <div>
@@ -104,6 +91,17 @@ export default function Day({ statusType }: PropsType) {
                         {/* 살아있는 경우에만 input창이 보인다. */}
                         {isAlive && <ChatInput />}
 
+                        {/* 공지 모달 TIME*/}
+                        <ModalContainer isOpen={statusType === 'NOTICE'}>
+                            {gameRoundState === 1 ? (
+                                // 직업공지
+                                <NoticeMyJob name={roomInfo?.myName || ''} />
+                            ) : (
+                                // 전날밤 사망공지
+                                <NoticeDead></NoticeDead>
+                            )}
+                        </ModalContainer>
+
                         <ModalContainer isOpen={openModal}>
                             {isAlive ? (
                                 /* 투표모달 */
@@ -118,30 +116,10 @@ export default function Day({ statusType }: PropsType) {
                             )}
                         </ModalContainer>
 
-                        {/* 공지 모달 TIME*/}
-                        <ModalContainer isOpen={statusType === 'NOTICE'} openMotion={false}>
-                            {gameRoundState === 1 ? (
-                                // 직업공지
-                                <NoticeMyJob name={roomInfo?.myName || ''} />
-                            ) : (
-                                // 전날밤 사망공지
-                                <NoticeDead></NoticeDead>
-                            )}
-                        </ModalContainer>
-
-                        {/* 시간이 다 됨 */}
-                        <ModalContainer isOpen={voteState === 'timeUp' && roomInfo.isAlive}>
+                        {/* 투표시간이 되었을 때 */}
+                        <ModalContainer isOpen={statusType === 'VOTE' && roomInfo.isAlive}>
                             <Vote
-                                timeup={voteState === 'timeUp'}
-                                voteTarget={voteTarget}
-                                setVoteTarget={(number) => setVoteTarget(number)}
-                            />
-                        </ModalContainer>
-
-                        {/* 모두 투표함 */}
-                        <ModalContainer isOpen={voteState === 'voteAll' && roomInfo.isAlive}>
-                            <Vote
-                                voteAll={voteState === 'voteAll'}
+                                timeup={statusType === 'VOTE'}
                                 voteTarget={voteTarget}
                                 setVoteTarget={(number) => setVoteTarget(number)}
                             />
