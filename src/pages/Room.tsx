@@ -40,8 +40,9 @@ export default function Room() {
                 roomsStatus.statusType === 'VOTE_RESULT') && (
                 <Day statusType={roomsStatus.statusType} />
             )}
-            {roomsStatus.statusType === 'NIGHT_INTRO' ||
-                (roomsStatus.statusType === 'NIGHT' && <Night />)}
+            {(roomsStatus.statusType === 'NIGHT_INTRO' || roomsStatus.statusType === 'NIGHT') && (
+                <Night statusType={roomsStatus.statusType} />
+            )}
             {roomsStatus.statusType === 'END' && <Result />}
         </>
     )
