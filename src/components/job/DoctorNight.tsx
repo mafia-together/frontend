@@ -1,7 +1,6 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { Player } from '../../type'
-import AppContainerCSS from '../layout/AppContainerCSS'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerGrid from '../player/PlayerGrid'
 import PlayerNight from '../player/PlayerNight'
@@ -23,7 +22,7 @@ export const DoctorNight = ({ players, isAlive }: Props) => {
     `
     const [check, setCheck] = useState<number>(-1)
     useEffect(() => {
-        (async () => {
+        ;(async () => {
             if (check === -1) {
                 return
             }
@@ -35,24 +34,22 @@ export const DoctorNight = ({ players, isAlive }: Props) => {
         })()
     }, [check, players])
     return (
-        <AppContainerCSS background="night">
-            <div css={middle}>
-                <div css={description}>
-                    {isAlive ? '오늘밤 살릴 사람을 지목해주세요.' : '밤이 지나가고 있습니다..'}
-                </div>
-                <PlayerGrid>
-                    {players.map((player, i) => (
-                        <PlayerNight
-                            player={player}
-                            key={i + 1}
-                            index={i + 1}
-                            myJob={'DOCTOR'}
-                            {...(isAlive && { nowVoteResult: check })}
-                            {...(isAlive && { setCheck: setCheck })}
-                        />
-                    ))}
-                </PlayerGrid>
+        <div css={middle}>
+            <div css={description}>
+                {isAlive ? '오늘밤 살릴 사람을 지목해주세요.' : '밤이 지나가고 있습니다..'}
             </div>
-        </AppContainerCSS>
+            <PlayerGrid>
+                {players.map((player, i) => (
+                    <PlayerNight
+                        player={player}
+                        key={i + 1}
+                        index={i + 1}
+                        myJob={'DOCTOR'}
+                        {...(isAlive && { nowVoteResult: check })}
+                        {...(isAlive && { setCheck: setCheck })}
+                    />
+                ))}
+            </PlayerGrid>
+        </div>
     )
 }
