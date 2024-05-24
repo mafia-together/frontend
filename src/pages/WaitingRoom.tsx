@@ -168,9 +168,7 @@ export default function WaitingRoom() {
     const [openModal, setOpenModal] = useState(false)
     const onModal = () => {
         setOpenAnimation(true)
-        setTimeout(() => {
-            setOpenModal(true)
-        }, 450)
+        setOpenModal(true)
     }
 
     const onClose = () => {
