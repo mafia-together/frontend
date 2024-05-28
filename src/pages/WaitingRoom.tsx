@@ -193,7 +193,7 @@ export default function WaitingRoom() {
 
     const onShareLink = async () => {
         // 링크 공유
-        const inviteLink = 'https://mafia-together.com' + '/participate?code=' + code
+        const inviteLink = 'https://mafia-together.com' + '/#/participate?code=' + code
         const shareData = {
             title: '마피아투게더',
             text: '마피아투게더 방에 당신을 초대했습니다!',
