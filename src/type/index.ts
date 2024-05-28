@@ -74,7 +74,7 @@ export interface Player {
 }
 
 export interface RoomCodeExistsResponse {
-    exists: boolean
+    exist: boolean
 }
 
 export interface SkillRequest {
