@@ -5,10 +5,21 @@ import AppContainerCSS from '../components/layout/AppContainerCSS'
 import TopResult from '../components/top/TopResult'
 import PlayerResult from '../components/player/PlayerResult'
 import BottomButton from '../components/button/BottomButton'
+import { useEffect, useState } from 'react'
+import { getRoomsResults } from '../axios/http'
+import { RoomsResults } from '../type'
 
 export default function Result() {
-    // const [victory, setVictory] = useState<'mafia' | 'citizen'>('mafia')
-    const victory = 'mafia'
+    const [roomsResults, setRoomsResults] = useState<RoomsResults>()
+    useEffect(() => {
+        ;(async () => {
+            const roomsResults = await getRoomsResults()
+            setRoomsResults(roomsResults)
+        })()
+    })
+    if (!roomsResults) {
+        return <></>
+    }
 
     const middle = css`
         display: flex;
@@ -34,7 +45,7 @@ export default function Result() {
         width: 92%;
         margin-top: 30px;
         padding: 30px;
-        ${victory === 'mafia'
+        ${roomsResults.winnerJob === 'MAFIA'
             ? `background-color: rgba(217, 217, 217, 0.2);`
             : ` background-color: rgba(255, 255, 255, 0.3);`}
 
@@ -46,7 +57,9 @@ export default function Result() {
         justify-content: center;
         align-items: center;
         gap: 10px;
-        ${victory === 'mafia' ? `color: ${VariablesCSS.light};` : `color: ${VariablesCSS.day};`}
+        ${roomsResults.winnerJob === 'MAFIA'
+            ? `color: ${VariablesCSS.light};`
+            : `color: ${VariablesCSS.day};`}
 
         font-family: "Cafe24Ssurround", sans-serif;
         font-size: ${VariablesCSS.default};
@@ -72,14 +85,14 @@ export default function Result() {
     `
 
     return (
-        <AppContainerCSS background={victory === 'mafia' ? 'night' : 'day'}>
+        <AppContainerCSS background={roomsResults.winnerJob === 'MAFIA' ? 'night' : 'day'}>
             <div>
-                <TopResult daynight={victory === 'mafia' ? 'night' : 'day'} />
+                <TopResult daynight={roomsResults.winnerJob === 'MAFIA' ? 'night' : 'day'} />
 
                 <div css={middle}>
                     <div css={winner}>
                         <div css={description}>
-                            {victory === 'mafia' ? (
+                            {roomsResults.winnerJob === 'MAFIA' ? (
                                 <svg
                                     width="41"
                                     height="41"
@@ -138,44 +151,28 @@ export default function Result() {
                                 </svg>
                             )}
 
-                            <p>{victory === 'mafia' ? '마피아' : '시민'} 승리</p>
+                            <p>{roomsResults.winnerJob === 'MAFIA' ? '마피아' : '시민'} 승리</p>
                         </div>
                         <div css={winnerGroup}>
-                            <PlayerResult
-                                victory={victory}
-                                player={{ name: '일이', isAlive: true }}
-                            />
-                            <PlayerResult
-                                victory={victory}
-                                player={{ name: '일이', isAlive: true }}
-                            />
-                            <PlayerResult
-                                victory={victory}
-                                player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
-                            />
+                            {roomsResults.winner.map((winnerPlayer) => (
+                                <PlayerResult
+                                    victory={roomsResults.winnerJob}
+                                    player={winnerPlayer}
+                                />
+                            ))}
                         </div>
                     </div>
                     <div css={loserGroup}>
-                        <PlayerResult
-                            victory={victory}
-                            player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
-                        />
-                        <PlayerResult
-                            victory={victory}
-                            player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
-                        />
-                        <PlayerResult
-                            victory={victory}
-                            player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
-                        />
-                        <PlayerResult
-                            victory={victory}
-                            player={{ name: '일이삼아오육칠팔오십', isAlive: true }}
-                        />
+                        {roomsResults.loser.map((loserPlayer) => (
+                            <PlayerResult victory={roomsResults.winnerJob} player={loserPlayer} />
+                        ))}
                     </div>
                 </div>
                 <div>
-                    <BottomButton use="exit" daynight={victory === 'mafia' ? 'night' : 'day'} />
+                    <BottomButton
+                        use="exit"
+                        daynight={roomsResults.winnerJob === 'MAFIA' ? 'night' : 'day'}
+                    />
                 </div>
             </div>
         </AppContainerCSS>

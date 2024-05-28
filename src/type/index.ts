@@ -12,6 +12,7 @@ export type Status =
     | 'END'
 export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
 export type Dead = string | null
+export type ExcludeSpecialJob = 'MAFIA' | 'CITIZEN'
 
 export interface RoomsStatus {
     statusType: Status
@@ -96,4 +97,11 @@ export interface VoteRequest {
 
 export interface DeadResult {
     dead: Dead
+}
+
+export interface RoomsResults {
+    winnerJob: ExcludeSpecialJob
+    endTime: Date
+    winner: Player[]
+    loser: Player[]
 }
