@@ -37,8 +37,8 @@ export const useRoomsStatusQuery = () => {
     const { data: roomsStatus, ...rest } = useSuspenseQuery({
         queryKey: ['rooms', 'status', localStorage.getItem('auth')],
         queryFn: () => getRoomsStatus(),
-        refetchInterval: 400,
-        staleTime: 400,
+        refetchInterval: 500,
+        staleTime: 500,
     })
 
     return {
@@ -117,8 +117,8 @@ export const useMafiaVoteResultQuery = () => {
     const { data: mafiaVoteResult, ...rest } = useSuspenseQuery({
         queryKey: ['players', 'skill', localStorage.getItem('auth')],
         queryFn: () => getMafiaVoteResult(),
-        refetchInterval: 100,
-        staleTime: 100,
+        refetchInterval: 500,
+        staleTime: 500,
     })
     return {
         mafiaVoteResult,
