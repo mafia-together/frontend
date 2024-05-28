@@ -6,9 +6,10 @@ import { Job } from '../../type'
 
 type PropsType = {
     job: Job
+    name: string
 }
 
-export default function PlayerInvest({ job }: PropsType) {
+export default function PlayerInvest({ job, name }: PropsType) {
     return (
         <div
             css={css`
@@ -30,7 +31,7 @@ export default function PlayerInvest({ job }: PropsType) {
             `}
         >
             <JobIcon job={job} size="big" color="night" />
-            <p>일이삼사오육칠팔구십</p>
+            <p>{name}</p>
         </div>
     )
 }

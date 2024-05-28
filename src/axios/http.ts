@@ -17,6 +17,7 @@ import {
     SkillResponse,
     VoteRequest,
     DeadResult,
+    RoomsResults,
 } from '../type'
 
 export const useChatsQuery = () => {
@@ -139,4 +140,8 @@ export const getVote = async () => {
 
 export const getRoomNightResultDead = async () => {
     return http.get<DeadResult>('/rooms/night/result')
+}
+
+export const getRoomsResults = () => {
+    return http.get<RoomsResults>('/rooms/results')
 }

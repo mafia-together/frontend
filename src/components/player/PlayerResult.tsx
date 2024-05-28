@@ -1,10 +1,11 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
+import { Job } from '../../type'
 
 type PropsType = {
-    victory: 'mafia' | 'citizen'
-    player: { name: string; isAlive: boolean; job?: string }
+    victory: 'MAFIA' | 'CITIZEN'
+    player: { name: string; isAlive: boolean; job: Job }
 }
 
 export default function PlayerResult({ victory, player }: PropsType) {
@@ -29,7 +30,7 @@ export default function PlayerResult({ victory, player }: PropsType) {
             flex: 1;
         }
 
-        ${victory === 'mafia'
+        ${victory === 'MAFIA'
             ? `color: ${VariablesCSS.light};
     background-color: rgba(255, 255, 255, 0.12);`
             : ` color: ${VariablesCSS.day};
