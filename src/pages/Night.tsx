@@ -1,16 +1,17 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../styles/VariablesCSS'
-import { Suspense, useEffect, useState } from 'react'
+import { Suspense } from 'react'
 import AppContainerCSS from '../components/layout/AppContainerCSS'
 import TopNight from '../components/top/TopNight'
-import { getMyJob, getRoomsInfo } from '../axios/http'
 import { MafiaNight } from '../components/job/MafiaNight'
-import { Job, RoomInfo, Status } from '../type'
+import { Status } from '../type'
 import { PoliceNight } from '../components/job/PoliceNight'
 import { DoctorNight } from '../components/job/DoctorNight'
 import { CitizenNight } from '../components/job/CitizenNight'
 import { Loading } from '../components/etc/Loading'
+import { useRecoilState } from 'recoil'
+import { myJobState, roomInfoState } from '../recoil/roominfo/atom'
 
 type PropsType = {
     statusType: Status
@@ -37,16 +38,8 @@ export default function Night({ statusType }: PropsType) {
         animation: smoothshow 0.8s;
     `
 
-    const [roomInfo, setRoomInfo] = useState<RoomInfo>()
-    const [myJob, setMyJob] = useState<Job | null>(null)
-    useEffect(() => {
-        ;(async () => {
-            const jobResponse = await getMyJob()
-            const roomInfoResponse = await getRoomsInfo()
-            setMyJob(jobResponse.job)
-            setRoomInfo(roomInfoResponse)
-        })()
-    }, [myJob, roomInfo])
+    const [roomInfo] = useRecoilState(roomInfoState)
+    const [myJob] = useRecoilState(myJobState)
 
     if (!roomInfo) {
         return <></>
