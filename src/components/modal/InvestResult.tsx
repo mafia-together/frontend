@@ -38,7 +38,7 @@ export default function InvestResult({ target }: Props) {
 
     return (
         <div css={container}>
-            <PlayerInvest job={jobResult} />
+            <PlayerInvest job={jobResult} name={target} />
             <p css={description}>
                 {jobResult === 'MAFIA' ? '마피아가 맞습니다' : '마피아가 아닙니다'}
             </p>
