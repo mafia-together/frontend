@@ -33,7 +33,7 @@ export default function TopNight() {
     return (
         <div css={container}>
             <div css={left}>
-                <img src="/img/icon/moon.svg" alt="" />
+                <img src="/assets/img/icon/moon.svg" alt="" />
                 <p>밤</p>
             </div>
             <p css={timeText}>
