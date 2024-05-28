@@ -143,5 +143,5 @@ export const getRoomNightResultDead = async () => {
 }
 
 export const getRoomsResults = () => {
-    return http.get<RoomsResults>('/rooms/results')
+    return http.get<RoomsResults>('/rooms/result')
 }
