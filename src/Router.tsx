@@ -4,7 +4,7 @@ import NotFound from './pages/NotFound'
 import { CreateRoom } from './pages/CreateRoom'
 import InputCode from './pages/InputCode'
 import InputName from './pages/InputName'
-import { createBrowserRouter } from 'react-router-dom'
+import { createHashRouter } from 'react-router-dom'
 import Room from './pages/Room'
 
 interface RouteElement {
@@ -41,6 +41,7 @@ const routes: RouteElement[] = [
     },
 ]
 
-const router = createBrowserRouter(routes)
+// const router = createBrowserRouter(routes)
+const router = createHashRouter(routes)
 
 export default router
