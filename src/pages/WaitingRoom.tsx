@@ -188,7 +188,7 @@ export default function WaitingRoom() {
     }, [code])
     const onCopyCode = async () => {
         await navigator.clipboard.writeText(code)
-        notifyUseToast('초대코드가 복사되었습니다.')
+        notifyUseToast('초대코드가 복사되었습니다.', 'INVITE')
     }
 
     const onShareLink = async () => {
@@ -204,7 +204,7 @@ export default function WaitingRoom() {
             return
         }
         await navigator.clipboard.writeText(inviteLink)
-        notifyUseToast('초대링크가 복사되었습니다.')
+        notifyUseToast('초대링크가 복사되었습니다.', 'INVITE')
     }
 
     /* 게임시작 */

@@ -24,7 +24,7 @@ export default function PlayerVote({
     const inputCss = css`
         display: none;
 
-        & p {
+        & + label {
             color: ${player.isAlive ? VariablesCSS.day : VariablesCSS.dead};
         }
 
