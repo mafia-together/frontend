@@ -14,17 +14,16 @@ export const notifyUseToast = (message: string, whereUse: 'ENTER' | 'INVITE') =>
                 fontFamily: 'KCC-Hanbit',
             },
         })
-    } else if (whereUse === 'INVITE') {
-        return toast(message, {
-            duration: 3000,
-            position: 'bottom-center',
-            style: {
-                color: VariablesCSS.night,
-                background: 'linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%)',
-                border: '3px solid #ffffff',
-                borderRadius: '15px',
-                fontFamily: 'KCC-Hanbit',
-            },
-        })
     }
+    return toast(message, {
+        duration: 3000,
+        position: 'bottom-center',
+        style: {
+            color: VariablesCSS.night,
+            background: 'linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%)',
+            border: '3px solid #ffffff',
+            borderRadius: '15px',
+            fontFamily: 'KCC-Hanbit',
+        },
+    })
 }
