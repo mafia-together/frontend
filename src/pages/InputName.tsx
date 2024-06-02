@@ -63,7 +63,9 @@ export default function InputName() {
                 localStorage.setItem('auth', auth.auth)
                 navigate('/room')
             } catch (error: Error | any) {
-                notifyUseToast(error.message)
+                console.log(error)
+
+                notifyUseToast(error.response.data.message, 'ENTER')
             }
         }
     }
@@ -90,7 +92,7 @@ export default function InputName() {
                         <BottomButton use="complete" ready={canParticipateRoom()} />
                     </button>
                 </form>
-                <Toaster />
+                <Toaster containerStyle={{ bottom: `calc(${VariablesCSS.bottombutton} + 4px)` }} />
             </div>
         </AppContainerCSS>
     )
