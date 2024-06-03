@@ -2,8 +2,12 @@ import { BaseCss } from './styles/BaseCSS'
 import { Global } from '@emotion/react'
 import router from './Router'
 import { RouterProvider } from 'react-router-dom'
+import { useEffect } from 'react'
 
 function App() {
+    useEffect(() => {
+        setScreenSize()
+    }, [])
     return (
         <>
             <Global styles={BaseCss} />
@@ -24,5 +28,4 @@ function setScreenReSize() {
     document.documentElement.style.setProperty('--vh', `${vh}px`)
 }
 
-setScreenSize()
 window.addEventListener('resize', setScreenReSize)

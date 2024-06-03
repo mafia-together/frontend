@@ -18,7 +18,6 @@ export default function AppContainerCSS({ background, children }: PropsType) {
         height: calc(var(--vh, 1vh) * 100);
         margin: 0 auto;
         padding: 0;
-        overflow: hidden;
 
         & > *:first-of-type {
             position: relative;
