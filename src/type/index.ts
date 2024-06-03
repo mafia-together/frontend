@@ -10,7 +10,7 @@ export type Status =
     | 'NIGHT_INTRO'
     | 'NIGHT'
     | 'END'
-export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'dead'
+export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'deadDay' | 'deadNight'
 export type Dead = string | null
 export type ExcludeSpecialJob = 'MAFIA' | 'CITIZEN'
 
