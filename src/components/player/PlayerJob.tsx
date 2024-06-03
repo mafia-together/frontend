@@ -33,7 +33,7 @@ export default function PlayerJob({ player }: PropsType) {
         }
 
         ${!player.isAlive &&
-        `color: ${VariablesCSS.deadNight};
+        `color: ${VariablesCSS.deadDay};
         background: none;`}
     `
 

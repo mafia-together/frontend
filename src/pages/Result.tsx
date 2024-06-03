@@ -168,12 +168,6 @@ export default function Result() {
                         ))}
                     </div>
                 </div>
-                <div>
-                    <BottomButton
-                        use="exit"
-                        daynight={roomsResults.winnerJob === 'MAFIA' ? 'night' : 'day'}
-                    />
-                </div>
             </div>
         </AppContainerCSS>
     )
