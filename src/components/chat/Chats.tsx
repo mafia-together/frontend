@@ -7,10 +7,11 @@ import { Chat } from '../../type'
 export const Chats = () => {
     particpateRoom()
     const chatRef = useRef<HTMLDivElement | null>(null)
+
     const { chats } = useChatsQuery()
     useEffect(() => {
         if (!chatRef.current) return
-        chatRef.current.scrollIntoView()
+        chatRef.current.scrollIntoView({ block: 'end' })
     }, [chatRef, chats])
 
     const chatReduce = chats.reduce(
