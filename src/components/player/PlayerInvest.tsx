@@ -30,7 +30,7 @@ export default function PlayerInvest({ job, name }: PropsType) {
                 text-align: center;
             `}
         >
-            <JobIcon job={job} size="big" color="night" />
+            <JobIcon job={job} size="big" />
             <p>{name}</p>
         </div>
     )

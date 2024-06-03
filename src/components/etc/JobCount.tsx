@@ -33,6 +33,7 @@ export default function JobCount({ job, count, onCountJob }: PropsType) {
     const jobGroup = css`
         display: flex;
         gap: 16px;
+        color: ${VariablesCSS.light};
     `
 
     const jobText = css`
@@ -43,7 +44,7 @@ export default function JobCount({ job, count, onCountJob }: PropsType) {
     return (
         <div css={jobCountContainer}>
             <div css={jobGroup}>
-                <JobIcon job={job} size="default" color="light" />
+                <JobIcon job={job} size="default" />
                 <p css={jobText}>{jobName[job]}</p>
             </div>
             {job === 'MAFIA' ? (

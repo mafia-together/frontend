@@ -32,7 +32,7 @@ export default function PlayerBig({ color, job, name }: PropsType) {
                 word-break: break-all;
             `}
         >
-            <JobIcon job={job} size="big" color={color} />
+            <JobIcon job={job} size="big" />
             <p>{name}</p>
         </div>
     )

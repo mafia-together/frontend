@@ -23,7 +23,8 @@ export const VariablesCSS = {
     night: '#35063d',
     kill: 'rgba(158, 76, 78, 0.8)',
 
-    dead: 'rgba(157, 134, 134, 0.8)',
+    deadDay: 'rgba(157, 134, 134, 0.8)',
+    deadNight: 'rgba(158, 137, 178, 0.5)',
     safe: 'rgba(78, 102, 164, 0.8)',
 
     /* fonts */

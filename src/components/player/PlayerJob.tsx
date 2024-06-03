@@ -33,13 +33,13 @@ export default function PlayerJob({ player }: PropsType) {
         }
 
         ${!player.isAlive &&
-        `color: ${VariablesCSS.dead};
+        `color: ${VariablesCSS.deadNight};
         background: none;`}
     `
 
     return (
         <div css={container}>
-            <JobIcon job={player.job} size="default" color={player.isAlive ? 'day' : 'dead'} />
+            <JobIcon job={player.job} size="default" />
             <p>{player.name}</p>
         </div>
     )
