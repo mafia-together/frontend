@@ -3,30 +3,17 @@ import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import { Player } from '../../type'
 import JobIcon from '../svg/JobIcon'
-import { myJobState } from '../../recoil/roominfo/atom'
-import { useRecoilState } from 'recoil'
 
 type PropsType = {
-    isOwner: boolean
     player: Player
     index: number
     voteTarget: number
     setVoteTarget: (number: number, name: string) => void
 }
 
-export default function PlayerVote({
-    isOwner,
-    player,
-    index,
-    voteTarget,
-    setVoteTarget,
-}: PropsType) {
+export default function PlayerVote({ player, index, voteTarget, setVoteTarget }: PropsType) {
     const inputCss = css`
         display: none;
-
-        & + label {
-            color: ${player.isAlive ? VariablesCSS.day : VariablesCSS.dead};
-        }
 
         &:checked + label {
             background-color: ${VariablesCSS.kill};
@@ -77,7 +64,7 @@ export default function PlayerVote({
         }
 
         ${player.isAlive ||
-        `color: rgba(158,137,178, 0.5);
+        `color: ${VariablesCSS.deadDay};
                     background: none;
                     box-shadow: none;
                     cursor: auto;
@@ -88,8 +75,6 @@ export default function PlayerVote({
                 }
                 `}
     `
-
-    const [myJob] = useRecoilState(myJobState)
 
     return (
         <>
@@ -104,11 +89,7 @@ export default function PlayerVote({
             />
             <label htmlFor={'' + index} css={label}>
                 <div>
-                    <JobIcon
-                        job={isOwner ? myJob : player.job}
-                        size="default"
-                        color={player.isAlive ? (voteTarget === index ? 'light' : 'day') : 'dead'}
-                    />
+                    <JobIcon job={player.job} size="default" />
                     <p>{player.name}</p>
                 </div>
             </label>

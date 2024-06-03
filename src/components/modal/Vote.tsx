@@ -143,7 +143,6 @@ export default function Vote({
                     <PlayerGrid>
                         {roominfo.players.map((player, i) => (
                             <PlayerVote
-                                isOwner={player.name == roominfo.myName}
                                 player={player}
                                 key={`${player.name}_${i}`}
                                 index={i + 1}
