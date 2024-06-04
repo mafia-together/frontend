@@ -15,7 +15,7 @@ export default function Result() {
             const roomsResults = await getRoomsResults()
             setRoomsResults(roomsResults)
         })()
-    })
+    }, [roomsResults])
     if (!roomsResults) {
         return <></>
     }
