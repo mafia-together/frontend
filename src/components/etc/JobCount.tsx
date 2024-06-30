@@ -2,7 +2,7 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import JobIcon from '../svg/JobIcon'
-import CountButton from '../button/CountButton'
+import CountGroup from './CountGroup'
 import CheckButton from '../button/CheckButton'
 import { SpecialJob } from '../../type'
 
@@ -48,7 +48,7 @@ export default function JobCount({ job, count, onCountJob }: PropsType) {
                 <p css={jobText}>{jobName[job]}</p>
             </div>
             {job === 'MAFIA' ? (
-                <CountButton job={job} count={count} onCountJob={onCountJob} />
+                <CountGroup job={job} count={count} onCountJob={onCountJob} />
             ) : (
                 <CheckButton job={job} count={count} onCountJob={onCountJob} />
             )}

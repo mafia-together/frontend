@@ -3,7 +3,7 @@ import { css } from '@emotion/react'
 import AppContainerCSS from '../components/layout/AppContainerCSS'
 import TopEnter from '../components/top/TopEnter'
 import { VariablesCSS } from '../styles/VariablesCSS'
-import CountButton from '../components/button/CountButton'
+import CountGroup from '../components/etc/CountGroup'
 import { useState } from 'react'
 import JobCount from '../components/etc/JobCount'
 import { useNavigate } from 'react-router-dom'
@@ -108,7 +108,7 @@ export function CreateRoom() {
                             </svg>
                             <p>총인원</p>
                         </div>
-                        <CountButton job="total" count={jobCount.total} onCountJob={onCountjob} />
+                        <CountGroup job="total" count={jobCount.total} onCountJob={onCountjob} />
                     </div>
                     <JobCount job="MAFIA" count={jobCount.mafia} onCountJob={onCountjob} />
                     <JobCount job="DOCTOR" count={jobCount.doctor} onCountJob={onCountjob} />

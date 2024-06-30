@@ -57,7 +57,7 @@ export default function CheckButton({ job, count, onCountJob }: PropsType) {
     }
 
     return (
-        <div css={countGroup}>
+        <button css={countGroup}>
             <input
                 css={checkinput}
                 type="checkbox"
@@ -67,6 +67,6 @@ export default function CheckButton({ job, count, onCountJob }: PropsType) {
                 onChange={(e) => onChecked(e)}
             />
             <label htmlFor={job}></label>
-        </div>
+        </button>
     )
 }
