@@ -1,35 +1,12 @@
 /** @jsxImportSource @emotion/react */
-import { css } from "@emotion/react";
-import { VariablesCSS } from "../../styles/VariablesCSS";
+import { css } from '@emotion/react'
+import { VariablesCSS } from '../../styles/VariablesCSS'
 
 type PropsType = {
-    name: string;
-};
-export default function PlayerWaiting({ name }: PropsType) {
-    const container = css`
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-        align-items: center;
-        gap: 8px;
-        width: 102px;
-        height: 102px;
-        padding: 11px 14px;
-        color: ${VariablesCSS.light};
-        font-family: "Cafe24Ssurround", sans-serif;
-        font-size: 14px;
-        text-align: center;
-        background-color: ${VariablesCSS.light15};
-        border-radius: 15px;
-    `;
-
-    const p = css`
-        display: flex;
-        align-items: center;
-        flex: 1;
-        word-break: break-all;
-    `;
+    name: string
+}
+export default function PlayerWaiting(props: PropsType) {
+    const { name } = props
 
     return (
         <div css={container}>
@@ -53,5 +30,30 @@ export default function PlayerWaiting({ name }: PropsType) {
                 <div></div>
             )}
         </div>
-    );
+    )
 }
+
+const container = () => css`
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    gap: 8px;
+    width: 102px;
+    height: 102px;
+    padding: 11px 14px;
+    color: ${VariablesCSS.light};
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 14px;
+    text-align: center;
+    background-color: ${VariablesCSS.light15};
+    border-radius: 15px;
+`
+
+const p = css`
+    display: flex;
+    align-items: center;
+    flex: 1;
+    word-break: break-all;
+`

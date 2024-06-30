@@ -9,10 +9,6 @@ export const Time = () => {
         const lastMinutes = `${Math.trunc(lastTime / 60)}`
         const lastSecond = `${Math.trunc(lastTime % 60)}`.padStart(2, '0')
 
-        // if (+lastMinutes <= 0) {
-        //     lastMinutes = '0'
-        // }
-
         return [lastMinutes, lastSecond]
     }
 

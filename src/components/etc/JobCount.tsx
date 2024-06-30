@@ -12,34 +12,14 @@ type PropsType = {
     onCountJob: (job: string, number: number) => void
 }
 
-export default function JobCount({ job, count, onCountJob }: PropsType) {
-    const jobName = {
-        MAFIA: '마피아',
-        DOCTOR: '의사',
-        POLICE: '경찰',
-    }
+const jobName = {
+    MAFIA: '마피아',
+    DOCTOR: '의사',
+    POLICE: '경찰',
+}
 
-    const jobCountContainer = css`
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: 60px;
-        margin-bottom: 16px;
-        color: ${VariablesCSS.light};
-        font-size: 28px;
-        font-family: 'Cafe24Ssurround';
-    `
-
-    const jobGroup = css`
-        display: flex;
-        gap: 16px;
-        color: ${VariablesCSS.light};
-    `
-
-    const jobText = css`
-        display: block;
-        padding-top: 5px;
-    `
+export default function JobCount(props: PropsType) {
+    const { job, count, onCountJob } = props
 
     return (
         <div css={jobCountContainer}>
@@ -55,3 +35,25 @@ export default function JobCount({ job, count, onCountJob }: PropsType) {
         </div>
     )
 }
+
+const jobCountContainer = css`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 60px;
+    margin-bottom: 16px;
+    color: ${VariablesCSS.light};
+    font-size: 28px;
+    font-family: 'Cafe24Ssurround';
+`
+
+const jobGroup = css`
+    display: flex;
+    gap: 16px;
+    color: ${VariablesCSS.light};
+`
+
+const jobText = css`
+    display: block;
+    padding-top: 5px;
+`

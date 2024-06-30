@@ -20,77 +20,14 @@ export default function Result() {
         return <></>
     }
 
-    const middle = css`
-        display: flex;
-        flex-direction: column;
-        justify-content: start;
-        align-items: center;
-        height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    `
-
-    const winner = css`
-        box-sizing: border-box;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 26px;
-        width: 92%;
-        margin-top: 30px;
-        padding: 30px;
-        ${roomsResults.winnerJob === 'MAFIA'
-            ? `background-color: rgba(217, 217, 217, 0.2);`
-            : ` background-color: rgba(255, 255, 255, 0.3);`}
-
-        border-radius: 15px;
-    `
-
-    const description = css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        ${roomsResults.winnerJob === 'MAFIA'
-            ? `color: ${VariablesCSS.light};`
-            : `color: ${VariablesCSS.day};`}
-
-        font-family: "Cafe24Ssurround", sans-serif;
-        font-size: ${VariablesCSS.default};
-        word-break: keep-all;
-    `
-
-    const winnerGroup = css`
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-    `
-
-    const loserGroup = css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 50px;
-        margin-bottom: 50px;
-    `
-
     return (
         <AppContainerCSS background={roomsResults.winnerJob === 'MAFIA' ? 'night' : 'day'}>
             <div>
                 <TopResult daynight={roomsResults.winnerJob === 'MAFIA' ? 'night' : 'day'} />
 
                 <div css={middle}>
-                    <div css={winner}>
-                        <div css={description}>
+                    <div css={winner(roomsResults)}>
+                        <div css={description(roomsResults)}>
                             {roomsResults.winnerJob === 'MAFIA' ? (
                                 <svg
                                     width="41"
@@ -171,3 +108,66 @@ export default function Result() {
         </AppContainerCSS>
     )
 }
+
+const middle = () => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
+    height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`
+
+const winner = (roomsResults: RoomsResults) => css`
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 26px;
+    width: 92%;
+    margin-top: 30px;
+    padding: 30px;
+    ${roomsResults.winnerJob === 'MAFIA'
+        ? `background-color: rgba(217, 217, 217, 0.2);`
+        : ` background-color: rgba(255, 255, 255, 0.3);`}
+
+    border-radius: 15px;
+`
+
+const description = (roomsResults: RoomsResults) => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    ${roomsResults.winnerJob === 'MAFIA'
+        ? `color: ${VariablesCSS.light};`
+        : `color: ${VariablesCSS.day};`}
+
+    font-family: "Cafe24Ssurround", sans-serif;
+    font-size: ${VariablesCSS.default};
+    word-break: keep-all;
+`
+
+const winnerGroup = () => css`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+`
+
+const loserGroup = () => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 50px;
+    margin-bottom: 50px;
+`

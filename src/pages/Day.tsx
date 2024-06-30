@@ -22,27 +22,6 @@ type PropsType = {
 }
 
 export default function Day({ statusType }: PropsType) {
-    const gameMessage = css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: calc(100% - ${VariablesCSS.top});
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 24px;
-        color: ${VariablesCSS.day};
-        animation: smoothshow 0.8s;
-    `
-
-    const middle = css`
-        height: calc(100% - ${VariablesCSS.top} - 55px - 20px);
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    `
-
     // 라운드 (몇일차)
     const [gameRoundState] = useRecoilState(gameRound)
 
@@ -112,7 +91,7 @@ export default function Day({ statusType }: PropsType) {
                                 />
                             ) : (
                                 /* 직업보기모달 */
-                                <ViewJob onOpenModal={onToggleModal} />
+                                <ViewJob onOpenModal={onToggleModal} voteTime={false} />
                             )}
                         </ModalContainer>
 
@@ -140,3 +119,24 @@ export default function Day({ statusType }: PropsType) {
         </AppContainerCSS>
     )
 }
+
+const gameMessage = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - ${VariablesCSS.top});
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 24px;
+    color: ${VariablesCSS.day};
+    animation: smoothshow 0.8s;
+`
+
+const middle = css`
+    height: calc(100% - ${VariablesCSS.top} - 55px - 20px);
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`

@@ -9,18 +9,13 @@ import { useEffect, useState } from 'react'
 import { postSkill, useMafiaVoteResultQuery } from '../../axios/http'
 import { middle } from '../../pages/Night'
 
-interface Props {
+interface PropsType {
     isAlive: boolean
     players: Player[]
 }
-export const MafiaNight = ({ players, isAlive }: Props) => {
-    const description = css`
-        margin: 36px auto;
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 18px;
-        text-align: center;
-        color: ${VariablesCSS.light};
-    `
+export const MafiaNight = (props: PropsType) => {
+    const { players, isAlive } = props
+
     const { mafiaVoteResult } = useMafiaVoteResultQuery()
     let nowVoteResult = mafiaVoteResult.target === '' ? 0 : -1
     players.forEach((player, i) => {
@@ -70,26 +65,35 @@ export const MafiaNight = ({ players, isAlive }: Props) => {
                 type="radio"
                 name="vote"
                 id="0"
-                css={css`
-                    display: none;
-                    &:checked + label > div {
-                        color: ${VariablesCSS.light};
-                        background-color: ${VariablesCSS.kill};
-                    }
-                `}
+                css={notkill}
                 checked={nowVoteResult === 0}
                 onChange={() => isAlive && setCheck(0)}
             />
-            <label
-                htmlFor="0"
-                css={css`
-                    margin: 60px auto 16px;
-                    display: flex;
-                    justify-content: center;
-                `}
-            >
+            <label htmlFor="0" css={notkillLable}>
                 <SmallButton text="안죽이기" color="night" />
             </label>
         </div>
     )
 }
+
+const description = css`
+    margin: 36px auto;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    color: ${VariablesCSS.light};
+`
+
+const notkill = () => css`
+    display: none;
+    &:checked + label > div {
+        color: ${VariablesCSS.light};
+        background-color: ${VariablesCSS.kill};
+    }
+`
+
+const notkillLable = () => css`
+    margin: 60px auto 16px;
+    display: flex;
+    justify-content: center;
+`

@@ -11,42 +11,6 @@ import { notifyUseToast } from '../components/toast/NotifyToast'
 import { getValidRoomCode } from '../axios/http'
 
 export default function ParticipateRoom() {
-    const middle = css`
-        display: flex;
-        height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top});
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        gap: 10%;
-    `
-
-    const codeinput = css`
-        box-sizing: border-box;
-        width: 270px;
-        height: 75px;
-        padding: 22px 42px;
-        border-radius: 15px;
-        border: 3px solid ${VariablesCSS.light};
-        background-color: ${VariablesCSS.light20};
-        color: ${VariablesCSS.light};
-        font-size: ${VariablesCSS.default};
-        font-family: 'Cafe24Ssurround', sans-serif;
-        text-align: center;
-
-        &::-webkit-outer-spin-button,
-        &::-webkit-inner-spin-button {
-            -webkit-appearance: none;
-            margin: 0;
-        }
-        input[type='number'] {
-            -moz-appearance: textfield;
-        }
-
-        &:focus {
-            outline: 3px solid ${VariablesCSS.light};
-        }
-    `
-
     /* 코드 자동입력 */
     const [searchParams] = useSearchParams()
     const codeParams = !searchParams.get('code') ? '' : searchParams.get('code')
@@ -93,13 +57,7 @@ export default function ParticipateRoom() {
                         autoFocus
                         autoComplete="off"
                     />
-                    <button
-                        type="submit"
-                        css={css`
-                            display: block;
-                            width: 100%;
-                        `}
-                    >
+                    <button type="submit" css={buttonContainer}>
                         <BigButton vatiety="soft" use="participate" ready={isValidCode()} />
                     </button>
                 </form>
@@ -108,3 +66,44 @@ export default function ParticipateRoom() {
         </AppContainerCSS>
     )
 }
+
+const middle = css`
+    display: flex;
+    height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top});
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 10%;
+`
+
+const codeinput = css`
+    box-sizing: border-box;
+    width: 270px;
+    height: 75px;
+    padding: 22px 42px;
+    border-radius: 15px;
+    border: 3px solid ${VariablesCSS.light};
+    background-color: ${VariablesCSS.light20};
+    color: ${VariablesCSS.light};
+    font-size: ${VariablesCSS.default};
+    font-family: 'Cafe24Ssurround', sans-serif;
+    text-align: center;
+
+    &::-webkit-outer-spin-button,
+    &::-webkit-inner-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+    input[type='number'] {
+        -moz-appearance: textfield;
+    }
+
+    &:focus {
+        outline: 3px solid ${VariablesCSS.light};
+    }
+`
+
+const buttonContainer = css`
+    display: block;
+    width: 100%;
+`

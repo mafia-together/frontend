@@ -9,18 +9,13 @@ import { useEffect, useState } from 'react'
 import InvestResult from '../modal/InvestResult'
 import { middle } from '../../pages/Night'
 
-interface Props {
+interface PropsType {
     isAlive: boolean
     players: Player[]
 }
-export const PoliceNight = ({ players, isAlive }: Props) => {
-    const description = css`
-        margin: 36px auto;
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 18px;
-        text-align: center;
-        color: ${VariablesCSS.light};
-    `
+export const PoliceNight = (props: PropsType) => {
+    const { players, isAlive } = props
+
     const [check, setCheck] = useState<number>(-1)
     const [openModal, setOpenModal] = useState<boolean>(false)
     useEffect(() => {
@@ -58,3 +53,11 @@ export const PoliceNight = ({ players, isAlive }: Props) => {
         </>
     )
 }
+
+const description = () => css`
+    margin: 36px auto;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    color: ${VariablesCSS.light};
+`

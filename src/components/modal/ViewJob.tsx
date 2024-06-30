@@ -9,55 +9,11 @@ import { TimeOnlySeconds } from '../time/TimeOnlySeconds'
 
 type PropsType = {
     onOpenModal?: () => void
-    voteTime?: boolean
+    voteTime: boolean
 }
 
-export default function ViewJob({ onOpenModal, voteTime }: PropsType) {
-    const top = css`
-        position: absolute;
-        top: 0;
-        width: 100%;
-        margin-top: 12px;
-    `
-
-    const title = css`
-        text-align: center;
-        font-size: ${VariablesCSS.title};
-        font-family: 'Cafe24Ssurround', sans-serif;
-        color: ${VariablesCSS.day};
-    `
-
-    const close = css`
-        position: absolute;
-        top: -6px;
-        right: 4px;
-        cursor: pointer;
-    `
-
-    const content = css`
-        height: calc(100% - 70px - ${VariablesCSS.margin});
-        margin-top: 70px;
-        margin-bottom: ${VariablesCSS.margin};
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    `
-
-    const description = css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 14px;
-        margin-bottom: 10px;
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 16px;
-        color: ${VariablesCSS.day};
-        text-align: center;
-        opacity: 0.8;
-    `
+export default function ViewJob(props: PropsType) {
+    const { onOpenModal, voteTime } = props
 
     // 방정보 - 참가목록 받아오기
     const [roominfo] = useRecoilState(roomInfoState)
@@ -101,3 +57,49 @@ export default function ViewJob({ onOpenModal, voteTime }: PropsType) {
         </>
     )
 }
+
+const top = css`
+    position: absolute;
+    top: 0;
+    width: 100%;
+    margin-top: 12px;
+`
+
+const title = css`
+    text-align: center;
+    font-size: ${VariablesCSS.title};
+    font-family: 'Cafe24Ssurround', sans-serif;
+    color: ${VariablesCSS.day};
+`
+
+const close = css`
+    position: absolute;
+    top: -6px;
+    right: 4px;
+    cursor: pointer;
+`
+
+const content = css`
+    height: calc(100% - 70px - ${VariablesCSS.margin});
+    margin-top: 70px;
+    margin-bottom: ${VariablesCSS.margin};
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`
+
+const description = css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px;
+    margin-bottom: 10px;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 16px;
+    color: ${VariablesCSS.day};
+    text-align: center;
+    opacity: 0.8;
+`

@@ -8,47 +8,21 @@ type PropsType = {
     onModal?: () => void
 }
 
-export default function TopEnter({ use, onModal }: PropsType) {
-    const title = {
-        createRoom: '방만들기',
-        participateRoom: '초대코드 입력',
-        inputName: '이름입력',
-        waitingRoom: '대기방',
-    }
+const title = {
+    createRoom: '방만들기',
+    participateRoom: '초대코드 입력',
+    inputName: '이름입력',
+    waitingRoom: '대기방',
+}
 
-    const topEnter = css`
-        position: relative;
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        height: ${VariablesCSS.top};
-        border-bottom: 1px solid ${VariablesCSS.light50};
-        color: ${VariablesCSS.light};
-        font-family: 'WAGURITTF', sans-serif;
-        font-size: ${VariablesCSS.title};
-    `
-
-    const invite = css`
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-
-        border: none;
-        background: none;
-        color: ${VariablesCSS.light};
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 14px;
-        cursor: pointer;
-    `
+export default function TopEnter(props: PropsType) {
+    const { use, onModal } = props
 
     /* 뒤로가기 */
     const navigate = useNavigate()
     const onBack = () => {
         navigate(-1)
     }
-
-    /* 초대하기 모달 */
 
     return (
         <div css={topEnter}>
@@ -74,3 +48,29 @@ export default function TopEnter({ use, onModal }: PropsType) {
         </div>
     )
 }
+
+const topEnter = () => css`
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: ${VariablesCSS.top};
+    border-bottom: 1px solid ${VariablesCSS.light50};
+    color: ${VariablesCSS.light};
+    font-family: 'WAGURITTF', sans-serif;
+    font-size: ${VariablesCSS.title};
+`
+
+const invite = () => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    border: none;
+    background: none;
+    color: ${VariablesCSS.light};
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 14px;
+    cursor: pointer;
+`

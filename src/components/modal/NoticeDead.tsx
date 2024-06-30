@@ -2,9 +2,11 @@
 import { css } from '@emotion/react'
 import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerBig from '../player/PlayerBig'
-import { Dead } from '../../type'
+import { Color, Dead } from '../../type'
 import { useEffect, useState } from 'react'
 import { getRoomNightResultDead } from '../../axios/http'
+
+const color = (dead: Dead) => (dead ? 'kill' : 'safe')
 
 export default function NoticeDead() {
     // 전날밤
@@ -16,30 +18,12 @@ export default function NoticeDead() {
         })()
     }, [])
 
-    const color = dead ? 'kill' : 'safe'
-    const container = css`
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: ${VariablesCSS[color]};
-        gap: 50px;
-        height: 100%;
-    `
-
-    const description = css`
-        font-family: 'DNFForgedBlade', sans-serif;
-        font-weight: bold;
-        font-size: 26px;
-        text-align: center;
-    `
-
     return (
-        <div css={container}>
+        <div css={container(color(dead))}>
             {dead ? (
                 // 누눈가가 죽었음
                 <>
-                    <PlayerBig color={color} job="CITIZEN" name={dead} />
+                    <PlayerBig color={color(dead)} job="CITIZEN" name={dead} />
                     <p css={description}>
                         어젯밤 <br />
                         사망했습니다.
@@ -70,3 +54,20 @@ export default function NoticeDead() {
         </div>
     )
 }
+
+const container = (color: Color) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: ${VariablesCSS[color]};
+    gap: 50px;
+    height: 100%;
+`
+
+const description = css`
+    font-family: 'DNFForgedBlade', sans-serif;
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+`

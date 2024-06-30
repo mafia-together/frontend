@@ -8,18 +8,8 @@ type PropsType = {
     job: Job
 }
 
-export default function PlayerChat({ job }: PropsType) {
-    const container = css`
-        flex-shrink: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        width: 40px;
-        height: 40px;
-        background-color: rgba(255, 255, 255, 0.7);
-        border-radius: 100%;
-        color: ${VariablesCSS.day};
-    `
+export default function PlayerChat(props: PropsType) {
+    const { job } = props
 
     return (
         <div css={container}>
@@ -27,3 +17,15 @@ export default function PlayerChat({ job }: PropsType) {
         </div>
     )
 }
+
+const container = css`
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 40px;
+    height: 40px;
+    background-color: rgba(255, 255, 255, 0.7);
+    border-radius: 100%;
+    color: ${VariablesCSS.day};
+`

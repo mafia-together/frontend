@@ -6,18 +6,13 @@ import PlayerGrid from '../player/PlayerGrid'
 import PlayerNight from '../player/PlayerNight'
 import { middle } from '../../pages/Night'
 
-interface Props {
+interface PropsType {
     isAlive: boolean
     players: Player[]
 }
-export const CitizenNight = ({ players, isAlive }: Props) => {
-    const description = css`
-        margin: 36px auto;
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 18px;
-        text-align: center;
-        color: ${VariablesCSS.light};
-    `
+export const CitizenNight = (props: PropsType) => {
+    const { players, isAlive } = props
+
     return (
         <div css={middle}>
             <div css={description}>
@@ -31,3 +26,11 @@ export const CitizenNight = ({ players, isAlive }: Props) => {
         </div>
     )
 }
+
+const description = css`
+    margin: 36px auto;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    color: ${VariablesCSS.light};
+`

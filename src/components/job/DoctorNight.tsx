@@ -8,18 +8,13 @@ import { useEffect, useState } from 'react'
 import { postSkill } from '../../axios/http'
 import { middle } from '../../pages/Night'
 
-interface Props {
+interface PropsType {
     isAlive: boolean
     players: Player[]
 }
-export const DoctorNight = ({ players, isAlive }: Props) => {
-    const description = css`
-        margin: 36px auto;
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 18px;
-        text-align: center;
-        color: ${VariablesCSS.light};
-    `
+export const DoctorNight = (props: PropsType) => {
+    const { players, isAlive } = props
+
     const [check, setCheck] = useState<number>(-1)
     useEffect(() => {
         ;(async () => {
@@ -53,3 +48,11 @@ export const DoctorNight = ({ players, isAlive }: Props) => {
         </div>
     )
 }
+
+const description = css`
+    margin: 36px auto;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 18px;
+    text-align: center;
+    color: ${VariablesCSS.light};
+`
