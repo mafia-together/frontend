@@ -5,12 +5,14 @@ type PropsType = {
     size: 'small' | 'default' | 'big'
 }
 
-export default function JobIcon({ job, size }: PropsType) {
-    const sizeNumber = {
-        small: '20',
-        default: '40',
-        big: '80',
-    }
+const sizeNumber = {
+    small: '20',
+    default: '40',
+    big: '80',
+}
+
+export default function JobIcon(props: PropsType) {
+    const { job, size } = props
 
     switch (job) {
         case 'MAFIA':

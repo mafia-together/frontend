@@ -12,32 +12,17 @@ type PropsType = {
     name: string
 }
 
-export default function NoticeMyJob({ name }: PropsType) {
-    const container = css`
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: ${VariablesCSS.day};
-        gap: 50px;
-        height: 100%;
-    `
-    const description = css`
-        font-family: 'DNFForgedBlade', sans-serif;
-        font-weight: bold;
-        font-size: 26px;
-        text-align: center;
-    `
+const text = {
+    CITIZEN: '시민',
+    MAFIA: '마피아',
+    DOCTOR: '의사',
+    POLICE: '경찰',
+}
 
-    const text = {
-        CITIZEN: '시민',
-        MAFIA: '마피아',
-        DOCTOR: '의사',
-        POLICE: '경찰',
-    }
+export default function NoticeMyJob(props: PropsType) {
+    const { name } = props
 
     // 내 직업공지
-
     const [myJob, setMyJob] = useState<Job>('CITIZEN')
     const setMyJobRecoilState = useSetRecoilState(myJobState) // 방 정보
     useEffect(() => {
@@ -58,3 +43,19 @@ export default function NoticeMyJob({ name }: PropsType) {
         </div>
     )
 }
+
+const container = css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: ${VariablesCSS.day};
+    gap: 50px;
+    height: 100%;
+`
+const description = css`
+    font-family: 'DNFForgedBlade', sans-serif;
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+`

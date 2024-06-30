@@ -4,7 +4,9 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 import PlayerBig from '../player/PlayerBig'
 import { getVote } from '../../axios/http'
 import { useEffect, useState } from 'react'
-import { Dead } from '../../type'
+import { Color, Dead } from '../../type'
+
+const color = (dead: Dead) => (dead ? 'kill' : 'safe')
 
 export default function VoteResult() {
     const [dead, setDead] = useState<Dead>(null)
@@ -16,30 +18,12 @@ export default function VoteResult() {
         })()
     }, [])
 
-    const color = dead ? 'kill' : 'safe'
-
-    const container = css`
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        color: ${VariablesCSS[color]};
-        gap: 50px;
-        height: 100%;
-    `
-
-    const description = css`
-        font-family: 'DNFForgedBlade', sans-serif;
-        font-weight: bold;
-        font-size: 26px;
-        text-align: center;
-    `
     return (
-        <div css={container}>
+        <div css={container(color(dead))}>
             {dead ? (
                 // 누눈가가 죽었음
                 <>
-                    <PlayerBig color={color} job="CITIZEN" name={dead} />
+                    <PlayerBig color={color(dead)} job="CITIZEN" name={dead} />
                     <p css={description}>
                         플레이어가
                         <br />
@@ -59,3 +43,20 @@ export default function VoteResult() {
         </div>
     )
 }
+
+const container = (color: Color) => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: ${VariablesCSS[color]};
+    gap: 50px;
+    height: 100%;
+`
+
+const description = () => css`
+    font-family: 'DNFForgedBlade', sans-serif;
+    font-weight: bold;
+    font-size: 26px;
+    text-align: center;
+`

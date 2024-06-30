@@ -17,70 +17,8 @@ type PropsType = {
     setVoteTarget: (number: number) => void
 }
 
-export default function Vote({
-    onOpenModal,
-    timeup,
-    voteAll,
-    voteTarget,
-    setVoteTarget,
-}: PropsType) {
-    const top = css`
-        position: absolute;
-        top: 0;
-        width: 100%;
-        margin-top: 12px;
-    `
-
-    const timeText = css`
-        text-align: center;
-        font-size: ${VariablesCSS.title};
-        font-family: 'Cafe24Ssurround', sans-serif;
-        color: ${VariablesCSS.day};
-    `
-
-    const close = css`
-        position: absolute;
-        top: -6px;
-        right: 4px;
-        cursor: pointer;
-    `
-
-    const content = css`
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        height: calc(100% - 70px - ${VariablesCSS.margin});
-        margin-top: 70px;
-        margin-bottom: ${VariablesCSS.margin};
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    `
-
-    const description = css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        padding: 14px;
-        margin-bottom: 10px;
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 16px;
-        color: ${VariablesCSS.day};
-        text-align: center;
-        opacity: 0.8;
-    `
-
-    const message = css`
-        margin-bottom: 30px;
-        font-family: 'DNFForgedBlade', sans-serif;
-        font-weight: 400;
-        font-size: 12px;
-        text-align: center;
-        color: ${VariablesCSS.day50};
-    `
+export default function Vote(props: PropsType) {
+    const { onOpenModal, timeup, voteAll, voteTarget, setVoteTarget } = props
 
     /* 방 정보 - 참가목록 받아오기 */
     const [roominfo] = useRecoilState(roomInfoState)
@@ -160,23 +98,10 @@ export default function Vote({
                         name="vote"
                         id="0"
                         checked={voteTarget === ABSTAIN_NUMBER}
-                        css={css`
-                            display: none;
-                            &:checked + label > div {
-                                color: ${VariablesCSS.light};
-                                background-color: ${VariablesCSS.kill};
-                            }
-                        `}
+                        css={abstention}
                         onChange={() => setVote(ABSTAIN_NUMBER, ABSTAIN_STRING)}
                     />
-                    <label
-                        htmlFor="0"
-                        css={css`
-                            margin: 30px auto 16px;
-                            display: flex;
-                            justify-content: center;
-                        `}
-                    >
+                    <label htmlFor="0" css={abstentionLabel}>
                         <SmallButton text="기권" color="day" />
                     </label>
                     {timeup || voteAll || (
@@ -187,3 +112,75 @@ export default function Vote({
         </>
     )
 }
+
+const top = () => css`
+    position: absolute;
+    top: 0;
+    width: 100%;
+    margin-top: 12px;
+`
+
+const timeText = () => css`
+    text-align: center;
+    font-size: ${VariablesCSS.title};
+    font-family: 'Cafe24Ssurround', sans-serif;
+    color: ${VariablesCSS.day};
+`
+
+const close = () => css`
+    position: absolute;
+    top: -6px;
+    right: 4px;
+    cursor: pointer;
+`
+
+const content = () => css`
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: calc(100% - 70px - ${VariablesCSS.margin});
+    margin-top: 70px;
+    margin-bottom: ${VariablesCSS.margin};
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`
+
+const description = () => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 14px;
+    margin-bottom: 10px;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 16px;
+    color: ${VariablesCSS.day};
+    text-align: center;
+    opacity: 0.8;
+`
+
+const message = () => css`
+    margin-bottom: 30px;
+    font-family: 'DNFForgedBlade', sans-serif;
+    font-weight: 400;
+    font-size: 12px;
+    text-align: center;
+    color: ${VariablesCSS.day50};
+`
+
+const abstention = () => css`
+    display: none;
+    &:checked + label > div {
+        color: ${VariablesCSS.light};
+        background-color: ${VariablesCSS.kill};
+    }
+`
+
+const abstentionLabel = () => css`
+    margin: 30px auto 16px;
+    display: flex;
+    justify-content: center;
+`
