@@ -9,7 +9,7 @@ type PropsType = {
     onCountJob: (job: string, number: number) => void
 }
 
-export default function CountButton({ job, count, onCountJob }: PropsType) {
+export default function CountGroup({ job, count, onCountJob }: PropsType) {
     const countGroup = css`
         display: flex;
         justify-content: space-between;

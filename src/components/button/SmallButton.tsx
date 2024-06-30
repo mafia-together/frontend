@@ -31,8 +31,8 @@ export default function SmallButton({ text, color }: PropsType) {
     `
 
     return (
-        <div role="button" css={container}>
+        <button css={container}>
             <p>{text}</p>
-        </div>
+        </button>
     )
 }

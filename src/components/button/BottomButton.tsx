@@ -48,7 +48,7 @@ export default function BottomButton({ use, daynight, ready = true }: PropsType)
     `
 
     return (
-        <div css={container}>
+        <button css={container}>
             {use === 'complete' && (
                 <svg
                     width="24"
@@ -65,6 +65,6 @@ export default function BottomButton({ use, daynight, ready = true }: PropsType)
             )}
 
             <p>{text[use]}</p>
-        </div>
+        </button>
     )
 }
