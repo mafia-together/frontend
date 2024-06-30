@@ -11,33 +11,6 @@ import { Toaster } from 'react-hot-toast'
 import { notifyUseToast } from '../components/toast/NotifyToast'
 
 export default function InputName() {
-    const middle = css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
-    `
-
-    const nameCss = css`
-        box-sizing: border-box;
-        width: 90%;
-        max-width: 316px;
-        height: 75px;
-        padding: 22px 10px;
-        border-radius: 15px;
-        border: 3px solid ${VariablesCSS.light};
-        background-color: ${VariablesCSS.light20};
-        color: ${VariablesCSS.light};
-        font-size: ${VariablesCSS.default};
-        font-family: 'Cafe24Ssurround', sans-serif;
-        text-align: center;
-        word-break: break-all;
-
-        &:focus {
-            outline: 3px solid ${VariablesCSS.light};
-        }
-    `
-
     const [name, setName] = useState('')
     const onName = (e: React.ChangeEvent<HTMLInputElement>) => {
         if (e.target.value.length <= 10) {
@@ -89,7 +62,11 @@ export default function InputName() {
                         />
                     </div>
                     <button type="submit">
-                        <BottomButton use="complete" ready={canParticipateRoom()} />
+                        <BottomButton
+                            use="complete"
+                            daynight="night"
+                            ready={canParticipateRoom()}
+                        />
                     </button>
                 </form>
                 <Toaster containerStyle={{ bottom: `calc(${VariablesCSS.bottombutton} + 4px)` }} />
@@ -97,3 +74,30 @@ export default function InputName() {
         </AppContainerCSS>
     )
 }
+
+const middle = () => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
+`
+
+const nameCss = () => css`
+    box-sizing: border-box;
+    width: 90%;
+    max-width: 316px;
+    height: 75px;
+    padding: 22px 10px;
+    border-radius: 15px;
+    border: 3px solid ${VariablesCSS.light};
+    background-color: ${VariablesCSS.light20};
+    color: ${VariablesCSS.light};
+    font-size: ${VariablesCSS.default};
+    font-family: 'Cafe24Ssurround', sans-serif;
+    text-align: center;
+    word-break: break-all;
+
+    &:focus {
+        outline: 3px solid ${VariablesCSS.light};
+    }
+`

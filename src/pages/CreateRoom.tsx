@@ -11,38 +11,6 @@ import BottomButton from '../components/button/BottomButton'
 import { createRoom } from '../axios/http'
 
 export function CreateRoom() {
-    /* css */
-    const middle = css`
-        height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    `
-
-    const totalCount = css`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 16px;
-        width: 100%;
-        margin-top: 34px;
-        margin-bottom: 64px;
-        font-family: 'Cafe24Ssurround';
-        color: ${VariablesCSS.light};
-    `
-
-    const iconGroup = css`
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 4px;
-        margin: 0 auto;
-        font-size: 28px;
-    `
-
     /* data */
     const [jobCount, setjobCount] = useState({
         total: 0,
@@ -115,9 +83,40 @@ export function CreateRoom() {
                     <JobCount job="POLICE" count={jobCount.police} onCountJob={onCountjob} />
                 </div>
                 <div onClick={onCreateRoom}>
-                    <BottomButton use="complete" ready={canCreateRoom()} />
+                    <BottomButton use="complete" daynight="night" ready={canCreateRoom()} />
                 </div>
             </div>
         </AppContainerCSS>
     )
 }
+
+const middle = () => css`
+    height: calc((var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bottombutton});
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`
+
+const totalCount = () => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: 100%;
+    margin-top: 34px;
+    margin-bottom: 64px;
+    font-family: 'Cafe24Ssurround';
+    color: ${VariablesCSS.light};
+`
+
+const iconGroup = () => css`
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin: 0 auto;
+    font-size: 28px;
+`

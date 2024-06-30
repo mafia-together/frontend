@@ -4,51 +4,20 @@ import { VariablesCSS } from '../../styles/VariablesCSS'
 
 type PropsType = {
     use: 'complete' | 'exit'
-    daynight?: 'day' | 'night'
-    ready?: boolean
+    daynight: 'day' | 'night'
+    ready: boolean
 }
 
-export default function BottomButton({ use, daynight, ready = true }: PropsType) {
-    const text = {
-        complete: '완료',
-        exit: '대비방으로 나가기',
-    }
+const text = {
+    complete: '완료',
+    exit: '대비방으로 나가기',
+}
 
-    const container = css`
-        position: absolute;
-        bottom: 0;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        gap: 10px;
-        width: 100%;
-        height: ${VariablesCSS.bottombutton};
-        border-top: 1px solid ${VariablesCSS.light50};
-        color: ${VariablesCSS.light};
-        font-family: 'Cafe24Ssurround';
-        font-size: ${VariablesCSS.default};
-        box-sizing: border-box;
-        cursor: pointer;
-        ${ready
-            ? `
-            opacity: 1;
-            &:active * {
-            transform: translate(0.5px, 0.5px);
-        }`
-            : 'opacity: 0.2'};
-
-        & * {
-            transition: transform 0.1s;
-        }
-
-        ${daynight === 'day'
-            ? `border-top: 1px solid ${VariablesCSS.day50};
-        color: ${VariablesCSS.day};`
-            : ``}
-    `
+export default function BottomButton(props: PropsType) {
+    const { use } = props
 
     return (
-        <button css={container}>
+        <button css={container(props)}>
             {use === 'complete' && (
                 <svg
                     width="24"
@@ -64,7 +33,40 @@ export default function BottomButton({ use, daynight, ready = true }: PropsType)
                 </svg>
             )}
 
-            <p>{text[use]}</p>
+            <p>{text[props.use]}</p>
         </button>
     )
 }
+
+const container = (props: PropsType) => css`
+    position: absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+    height: ${VariablesCSS.bottombutton};
+    border-top: 1px solid ${VariablesCSS.light50};
+    color: ${VariablesCSS.light};
+    font-family: 'Cafe24Ssurround';
+    font-size: ${VariablesCSS.default};
+    box-sizing: border-box;
+    cursor: pointer;
+    ${props.ready
+        ? `
+            opacity: 1;
+            &:active * {
+            transform: translate(0.5px, 0.5px);
+        }`
+        : 'opacity: 0.2'};
+
+    & * {
+        transition: transform 0.1s;
+    }
+
+    ${props.daynight === 'day'
+        ? `border-top: 1px solid ${VariablesCSS.day50};
+        color: ${VariablesCSS.day};`
+        : ``}
+`

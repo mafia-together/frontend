@@ -9,44 +9,8 @@ type PropsType = {
     onCountJob: (job: string, number: number) => void
 }
 
-export default function CountGroup({ job, count, onCountJob }: PropsType) {
-    const countGroup = css`
-        display: flex;
-        justify-content: space-between;
-        gap: 8px;
-        font-size: 40px;
-        font-variant-numeric: tabular-nums;
-        font-family: 'Cafe24Ssurround';
-        color: ${VariablesCSS.light};
-    `
-
-    const countLetterContainer = css`
-        display: flex;
-    `
-
-    const countletter = css`
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        width: 30px;
-    `
-
-    const button = css`
-        width: 50px;
-        height: 50px;
-        background-color: ${VariablesCSS.light20};
-        border: 0;
-        border-radius: 15px;
-        box-shadow: inset -3px -2px 4px rgba(0, 0, 0, 0.25);
-        transition-property: box-shadow transform;
-        transition-duration: 0.1s;
-        cursor: pointer;
-
-        &:active {
-            transform: translate(0.5px, 1px);
-            box-shadow: inset -1.5px -1px 2px rgba(0, 0, 0, 0.25);
-        }
-    `
+export default function CountGroup(props: PropsType) {
+    const { job, count, onCountJob } = props
 
     const makeTwoWord = (number: number) => {
         if (number < 10) {
@@ -84,3 +48,41 @@ export default function CountGroup({ job, count, onCountJob }: PropsType) {
         </div>
     )
 }
+
+const countGroup = css`
+    display: flex;
+    justify-content: space-between;
+    gap: 8px;
+    font-size: 40px;
+    font-variant-numeric: tabular-nums;
+    font-family: 'Cafe24Ssurround';
+    color: ${VariablesCSS.light};
+`
+
+const countLetterContainer = css`
+    display: flex;
+`
+
+const countletter = css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+`
+
+const button = css`
+    width: 50px;
+    height: 50px;
+    background-color: ${VariablesCSS.light20};
+    border: 0;
+    border-radius: 15px;
+    box-shadow: inset -3px -2px 4px rgba(0, 0, 0, 0.25);
+    transition-property: box-shadow transform;
+    transition-duration: 0.1s;
+    cursor: pointer;
+
+    &:active {
+        transform: translate(0.5px, 1px);
+        box-shadow: inset -1.5px -1px 2px rgba(0, 0, 0, 0.25);
+    }
+`

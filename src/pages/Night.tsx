@@ -16,28 +16,8 @@ import { myJobState, roomInfoState } from '../recoil/roominfo/atom'
 type PropsType = {
     statusType: Status
 }
-export const middle = css`
-    height: calc(100% - ${VariablesCSS.top});
-    overflow: scroll;
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-    &::-webkit-scrollbar {
-        display: none;
-    }
-`
 
 export default function Night({ statusType }: PropsType) {
-    const gameMessage = css`
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        height: calc(100% - ${VariablesCSS.top});
-        font-family: 'Cafe24Ssurround', sans-serif;
-        font-size: 24px;
-        color: ${VariablesCSS.light};
-        animation: smoothshow 0.8s;
-    `
-
     const [roomInfo] = useRecoilState(roomInfoState)
     const [myJob] = useRecoilState(myJobState)
 
@@ -85,3 +65,24 @@ export default function Night({ statusType }: PropsType) {
         </AppContainerCSS>
     )
 }
+
+export const middle = () => css`
+    height: calc(100% - ${VariablesCSS.top});
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`
+
+const gameMessage = () => css`
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: calc(100% - ${VariablesCSS.top});
+    font-family: 'Cafe24Ssurround', sans-serif;
+    font-size: 24px;
+    color: ${VariablesCSS.light};
+    animation: smoothshow 0.8s;
+`

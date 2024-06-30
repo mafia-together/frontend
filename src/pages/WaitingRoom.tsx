@@ -15,135 +15,7 @@ import { Player } from '../type'
 import { Loading } from '../components/etc/Loading'
 
 export default function WaitingRoom() {
-    /* css */
-    const middle = css`
-        height: calc(
-            (var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bigbutton} -
-                ${VariablesCSS.margin}
-        );
-        overflow: scroll;
-        -ms-overflow-style: none;
-        scrollbar-width: none;
-        &::-webkit-scrollbar {
-            display: none;
-        }
-    `
-    const textGroup = css`
-        margin-top: 16px;
-        margin-bottom: 32px;
-        font-family: 'Cafe24Ssurround', sans-serif;
-        color: ${VariablesCSS.light};
-        text-align: center;
-    `
-
-    const subTitle = css`
-        font-size: 24px;
-    `
-
-    const number = css`
-        font-size: 20px;
-    `
-
-    const bottom = css`
-        position: absolute;
-        bottom: 0;
-        width: 100%;
-        margin-bottom: ${VariablesCSS.margin};
-    `
-
     const [openAnimation, setOpenAnimation] = useState(false)
-
-    const inviteModalContainer = css`
-        ${openAnimation && 'animation: smoothshow 0.5s backwards;'}
-        ${openAnimation || 'animation: smoothhide 0.5s backwards;'}
-    `
-
-    const dimmed = css`
-        position: absolute;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: calc(var(--vh, 1vh) * 100);
-        margin-left: -${VariablesCSS.margin};
-        margin-right: -${VariablesCSS.margin};
-        background-color: rgba(0, 0, 0, 0.7);
-    `
-
-    const modalInner = css`
-        position: absolute;
-        top: 50%;
-        left: 50%;
-        box-sizing: border-box;
-        width: 95%;
-        height: 240px;
-        background: linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%);
-        border: 5px solid #ffffff;
-        border-radius: 15px;
-        transform: translate(-50%, -50%);
-        ${openAnimation && 'animation: smoothupNomargin 0.5s backwards;'}
-        ${openAnimation || 'animation: smoothdownNomargin 0.5s backwards;'}
-    `
-
-    const modalTitle = css`
-        display: flex;
-        justify-content: center;
-        margin-top: 16px;
-
-        font-family: 'WAGURITTF', serif;
-        font-size: ${VariablesCSS.title};
-        color: ${VariablesCSS.night};
-    `
-
-    const close = css`
-        position: absolute;
-        top: 7px;
-        right: 10px;
-        cursor: pointer;
-    `
-
-    const inviteShareLinkCss = css`
-        display: flex;
-        gap: 10px;
-        margin: 35px auto 26px;
-        padding: 17px 30px;
-        font-family: 'Cafe24Ssurround', serif;
-        font-size: 18px;
-        color: ${VariablesCSS.night};
-        border-radius: 15px;
-        background-color: rgba(240, 238, 243, 0.5);
-        box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.25);
-        transition-property: box-shadow transform;
-        transition-duration: 0.1s;
-        cursor: pointer;
-
-        &:active {
-            box-shadow: inset -1px -1px 1px rgba(0, 0, 0, 0.25);
-            transform: translate(0.5px, 1px);
-        }
-    `
-
-    const inviteCodeContainer = css`
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 32px;
-        font-family: 'Cafe24Ssurround', serif;
-        cursor: pointer;
-
-        &:active {
-            transform: translate(0.5px, 1px);
-        }
-    `
-
-    const inviteCodeDescription = css`
-        color: rgba(77, 61, 77, 0.8);
-        font-size: 18px;
-    `
-
-    const inviteCodeCss = css`
-        color: ${VariablesCSS.night};
-        font-size: 20px;
-    `
 
     /* 참가목록 받아오기 */
     const [players, setPlayers] = useState<Player[]>([])
@@ -242,9 +114,9 @@ export default function WaitingRoom() {
                     </div>
 
                     {openModal ? (
-                        <div css={inviteModalContainer}>
+                        <div css={inviteModalContainer(openAnimation)}>
                             <div css={dimmed}></div>
-                            <div css={modalInner}>
+                            <div css={modalInner(openAnimation)}>
                                 <div css={modalTitle}>
                                     <p>초대하기</p>
                                     <button css={close} onClick={onClose}>
@@ -294,3 +166,131 @@ export default function WaitingRoom() {
         </AppContainerCSS>
     )
 }
+
+/* css */
+const middle = css`
+    height: calc(
+        (var(--vh, 1vh) * 100) - ${VariablesCSS.top} - ${VariablesCSS.bigbutton} -
+            ${VariablesCSS.margin}
+    );
+    overflow: scroll;
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+    &::-webkit-scrollbar {
+        display: none;
+    }
+`
+const textGroup = css`
+    margin-top: 16px;
+    margin-bottom: 32px;
+    font-family: 'Cafe24Ssurround', sans-serif;
+    color: ${VariablesCSS.light};
+    text-align: center;
+`
+
+const subTitle = css`
+    font-size: 24px;
+`
+
+const number = css`
+    font-size: 20px;
+`
+
+const bottom = css`
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    margin-bottom: ${VariablesCSS.margin};
+`
+
+const inviteModalContainer = (openAnimation: boolean) => css`
+    ${openAnimation && 'animation: smoothshow 0.5s backwards;'}
+    ${openAnimation || 'animation: smoothhide 0.5s backwards;'}
+`
+
+const dimmed = css`
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: calc(var(--vh, 1vh) * 100);
+    margin-left: -${VariablesCSS.margin};
+    margin-right: -${VariablesCSS.margin};
+    background-color: rgba(0, 0, 0, 0.7);
+`
+
+const modalInner = (openAnimation: boolean) => css`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    box-sizing: border-box;
+    width: 95%;
+    height: 240px;
+    background: linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%);
+    border: 5px solid #ffffff;
+    border-radius: 15px;
+    transform: translate(-50%, -50%);
+    ${openAnimation && 'animation: smoothupNomargin 0.5s backwards;'}
+    ${openAnimation || 'animation: smoothdownNomargin 0.5s backwards;'}
+`
+
+const modalTitle = css`
+    display: flex;
+    justify-content: center;
+    margin-top: 16px;
+
+    font-family: 'WAGURITTF', serif;
+    font-size: ${VariablesCSS.title};
+    color: ${VariablesCSS.night};
+`
+
+const close = css`
+    position: absolute;
+    top: 7px;
+    right: 10px;
+    cursor: pointer;
+`
+
+const inviteShareLinkCss = css`
+    display: flex;
+    gap: 10px;
+    margin: 35px auto 26px;
+    padding: 17px 30px;
+    font-family: 'Cafe24Ssurround', serif;
+    font-size: 18px;
+    color: ${VariablesCSS.night};
+    border-radius: 15px;
+    background-color: rgba(240, 238, 243, 0.5);
+    box-shadow: inset -2px -2px 4px rgba(0, 0, 0, 0.25);
+    transition-property: box-shadow transform;
+    transition-duration: 0.1s;
+    cursor: pointer;
+
+    &:active {
+        box-shadow: inset -1px -1px 1px rgba(0, 0, 0, 0.25);
+        transform: translate(0.5px, 1px);
+    }
+`
+
+const inviteCodeContainer = css`
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 32px;
+    font-family: 'Cafe24Ssurround', serif;
+    cursor: pointer;
+
+    &:active {
+        transform: translate(0.5px, 1px);
+    }
+`
+
+const inviteCodeDescription = css`
+    color: rgba(77, 61, 77, 0.8);
+    font-size: 18px;
+`
+
+const inviteCodeCss = css`
+    color: ${VariablesCSS.night};
+    font-size: 20px;
+`
