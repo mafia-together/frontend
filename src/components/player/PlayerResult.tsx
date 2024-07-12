@@ -1,49 +1,50 @@
 /** @jsxImportSource @emotion/react */
-import { css } from '@emotion/react'
-import { VariablesCSS } from '../../styles/VariablesCSS'
-import { Job } from '../../type'
-import JobIcon from '../svg/JobIcon'
+import { css } from '@emotion/react';
+
+import { VariablesCSS } from '../../styles/VariablesCSS';
+import { Job } from '../../type';
+import JobIcon from '../svg/JobIcon';
 
 type PropsType = {
-    victory: 'MAFIA' | 'CITIZEN'
-    player: { name: string; isAlive: boolean; job: Job }
-}
+  victory: 'MAFIA' | 'CITIZEN';
+  player: { name: string; isAlive: boolean; job: Job };
+};
 
 export default function PlayerResult(props: PropsType) {
-    const { player } = props
+  const { player } = props;
 
-    return (
-        <div css={container(props)}>
-            <JobIcon job={player.job} size="default" />
-            <p>{player.name}</p>
-        </div>
-    )
+  return (
+    <div css={container(props)}>
+      <JobIcon job={player.job} size="default" />
+      <p>{player.name}</p>
+    </div>
+  );
 }
 
 const container = (props: PropsType) => css`
-    box-sizing: border-box;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  gap: 8px;
+  width: 102px;
+  height: 102px;
+  padding: 11px 14px;
+  font-family: 'Cafe24Ssurround', sans-serif;
+  font-size: 14px;
+  text-align: center;
+  border-radius: 15px;
+
+  & p {
     display: flex;
-    flex-direction: column;
-    justify-content: start;
     align-items: center;
-    gap: 8px;
-    width: 102px;
-    height: 102px;
-    padding: 11px 14px;
-    font-family: 'Cafe24Ssurround', sans-serif;
-    font-size: 14px;
-    text-align: center;
-    border-radius: 15px;
+    flex: 1;
+  }
 
-    & p {
-        display: flex;
-        align-items: center;
-        flex: 1;
-    }
-
-    ${props.victory === 'MAFIA'
-        ? `color: ${VariablesCSS.light};
+  ${props.victory === 'MAFIA'
+    ? `color: ${VariablesCSS.light};
         background-color: rgba(255, 255, 255, 0.12);`
-        : ` color: ${VariablesCSS.day};
+    : ` color: ${VariablesCSS.day};
         background-color: rgba(255, 255, 255, 0.3);`}
-`
+`;

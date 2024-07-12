@@ -1,107 +1,107 @@
-export type SpecialJob = 'MAFIA' | 'DOCTOR' | 'POLICE'
-export type Job = SpecialJob | 'CITIZEN' | null
+export type SpecialJob = 'MAFIA' | 'DOCTOR' | 'POLICE';
+export type Job = SpecialJob | 'CITIZEN' | null;
 export type Status =
-    | 'WAIT'
-    | 'DAY_INTRO'
-    | 'NOTICE'
-    | 'DAY'
-    | 'VOTE'
-    | 'VOTE_RESULT'
-    | 'NIGHT_INTRO'
-    | 'NIGHT'
-    | 'END'
-export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'deadDay' | 'deadNight'
-export type Dead = string | null
-export type ExcludeSpecialJob = 'MAFIA' | 'CITIZEN'
+  | 'WAIT'
+  | 'DAY_INTRO'
+  | 'NOTICE'
+  | 'DAY'
+  | 'VOTE'
+  | 'VOTE_RESULT'
+  | 'NIGHT_INTRO'
+  | 'NIGHT'
+  | 'END';
+export type Color = 'day' | 'night' | 'dark' | 'light' | 'kill' | 'safe' | 'deadDay' | 'deadNight';
+export type Dead = string | null;
+export type ExcludeSpecialJob = 'MAFIA' | 'CITIZEN';
 
 export interface RoomsStatus {
-    statusType: Status
+  statusType: Status;
 }
 
 export interface Chat {
-    name: string
-    contents: string
-    timestamp: Date
-    isOwner: boolean
-    job: Job
+  name: string;
+  contents: string;
+  timestamp: Date;
+  isOwner: boolean;
+  job: Job;
 }
 
 export interface ChatRequest {
-    contents: string
+  contents: string;
 }
 
 export interface RoomResponse {
-    code: string
+  code: string;
 }
 
 export interface RoomRequest {
-    total: number
-    mafia: number
-    doctor: number
-    police: number
+  total: number;
+  mafia: number;
+  doctor: number;
+  police: number;
 }
 
 export interface ParticipateResponse {
-    auth: string
+  auth: string;
 }
 
 export interface ParticipateRequest {
-    code: string
-    name: string
+  code: string;
+  name: string;
 }
 
 export interface RoomStatusRequest {
-    status: Status
+  status: Status;
 }
 
 export interface RoomInfo {
-    startTime: Date
-    endTime: Date
-    isAlive: boolean
-    totalPlayers: number
-    isMaster: boolean
-    myName: string
-    players: Player[]
+  startTime: Date;
+  endTime: Date;
+  isAlive: boolean;
+  totalPlayers: number;
+  isMaster: boolean;
+  myName: string;
+  players: Player[];
 }
 
 export interface MyJobResponse {
-    job: Job
+  job: Job;
 }
 
 export interface Player {
-    name: string
-    isAlive: boolean
-    job: Job | null
+  name: string;
+  isAlive: boolean;
+  job: Job | null;
 }
 
 export interface RoomCodeExistsResponse {
-    exist: boolean
+  exist: boolean;
 }
 
 export interface SkillRequest {
-    target: string | null
+  target: string | null;
 }
 
 export interface SkillResponse {
-    job: Job
-    result: Job
+  job: Job;
+  result: Job;
 }
 
 export interface MafiaVoteResult {
-    target: string
+  target: string;
 }
 
 export interface VoteRequest {
-    target: string
+  target: string;
 }
 
 export interface DeadResult {
-    dead: Dead
+  dead: Dead;
 }
 
 export interface RoomsResults {
-    winnerJob: ExcludeSpecialJob
-    endTime: Date
-    winner: Player[]
-    loser: Player[]
+  winnerJob: ExcludeSpecialJob;
+  endTime: Date;
+  winner: Player[];
+  loser: Player[];
 }
