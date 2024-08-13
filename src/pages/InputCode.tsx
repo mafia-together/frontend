@@ -12,6 +12,8 @@ import TopEnter from '../components/top/TopEnter';
 import { VariablesCSS } from '../styles/VariablesCSS';
 
 export default function ParticipateRoom() {
+  const MAX_LENGTH = 10;
+
   /* 코드 자동입력 */
   const [searchParams] = useSearchParams();
   const codeParams = !searchParams.get('code') ? '' : searchParams.get('code');
@@ -26,7 +28,7 @@ export default function ParticipateRoom() {
 
   /* 이동 */
   const isValidCode = () => {
-    return code?.length === 10;
+    return code?.length === MAX_LENGTH;
   };
   const navigate = useNavigate();
   const goInputName = async (event: FormEvent<HTMLFormElement>) => {

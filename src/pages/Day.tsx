@@ -3,7 +3,7 @@ import { css } from '@emotion/react';
 import { Suspense, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { ChatInput } from '../components/chat/ChatInput';
+import { ChatForm } from '../components/chat/ChatForm';
 import { Chats } from '../components/chat/Chats';
 import { Loading } from '../components/etc/Loading';
 import AppContainerCSS from '../components/layout/AppContainerCSS';
@@ -69,7 +69,7 @@ export default function Day({ statusType }: PropsType) {
             </div>
 
             {/* 살아있는 경우에만 input창이 보인다. */}
-            {isAlive && <ChatInput />}
+            {isAlive && <ChatForm />}
 
             {/* 공지 모달 TIME*/}
             <ModalContainer isOpen={statusType === 'NOTICE'}>
