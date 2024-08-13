@@ -4,6 +4,8 @@ import { useRecoilState } from 'recoil';
 import { roomInfoState } from '../../recoil/roominfo/atom';
 
 export const TimeOnlySeconds = () => {
+  const ONE_SECOND = 1000;
+
   const [roomInfo] = useRecoilState(roomInfoState);
 
   const hanleTimeString = (lastTime: number) => {
@@ -16,7 +18,7 @@ export const TimeOnlySeconds = () => {
 
   useEffect(() => {
     timer.current = setInterval(() => {
-      const tempTime = Math.trunc((+new Date(roomInfo.endTime) - +new Date()) / 1000);
+      const tempTime = Math.trunc((+new Date(roomInfo.endTime) - +new Date()) / ONE_SECOND);
 
       const timeString = hanleTimeString(tempTime);
       setSeconds(timeString);

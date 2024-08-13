@@ -10,36 +10,34 @@ function isInvalidInputChat(inputChat: string) {
   return inputChat.length === 0;
 }
 
-export const ChatInput = () => {
+export const ChatForm = () => {
   const [inputChat, setInputChat] = useState<string>('');
   return (
-    <>
-      <form
-        css={chatForm}
-        onSubmit={event => {
-          event.preventDefault();
-          postChats({ contents: inputChat });
-          setInputChat('');
-        }}
-      >
-        <input
-          css={chatInput}
-          onChange={e => setInputChat(e.target.value)}
-          value={inputChat}
-          type="text"
-          name="chat"
-          id="chat"
-          placeholder="내용을 입력하세요."
-          autoComplete="off"
-        />
-        <input
-          type="submit"
-          value="전송"
-          disabled={isInvalidInputChat(inputChat)}
-          css={chatSubmit(inputChat)}
-        />
-      </form>
-    </>
+    <form
+      css={chatForm}
+      onSubmit={event => {
+        event.preventDefault();
+        postChats({ contents: inputChat });
+        setInputChat('');
+      }}
+    >
+      <input
+        css={chatInput}
+        onChange={e => setInputChat(e.target.value)}
+        value={inputChat}
+        type="text"
+        name="chat"
+        id="chat"
+        placeholder="내용을 입력하세요."
+        autoComplete="off"
+      />
+      <input
+        type="submit"
+        value="전송"
+        disabled={isInvalidInputChat(inputChat)}
+        css={chatSubmit(inputChat)}
+      />
+    </form>
   );
 };
 

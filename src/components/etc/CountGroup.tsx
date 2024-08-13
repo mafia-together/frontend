@@ -11,10 +11,14 @@ type PropsType = {
 };
 
 export default function CountGroup(props: PropsType) {
+  const DOUBLE_DIGITS = 10;
+  const MIN_COUNT = 0;
+  const MAX_COUNT = 99;
+
   const { job, count, onCountJob } = props;
 
   const makeTwoWord = (number: number) => {
-    if (number < 10) {
+    if (number < DOUBLE_DIGITS) {
       return '0' + number;
     }
     return '' + number;
@@ -23,13 +27,13 @@ export default function CountGroup(props: PropsType) {
   const countString = makeTwoWord(Number(count));
 
   const onMinus = () => {
-    if (count > 0) {
+    if (count > MIN_COUNT) {
       onCountJob(job, Number(count) - 1);
     }
   };
 
   const onPlus = () => {
-    if (count < 99) {
+    if (count < MAX_COUNT) {
       onCountJob(job, Number(count) + 1);
     }
   };

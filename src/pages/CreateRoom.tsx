@@ -11,6 +11,9 @@ import AppContainerCSS from '../components/layout/AppContainerCSS';
 import TopEnter from '../components/top/TopEnter';
 import { VariablesCSS } from '../styles/VariablesCSS';
 export function CreateRoom() {
+  const MIN_MAFIA = 1;
+  const MIN_TOTAL = 3;
+
   /* data */
   const [jobCount, setjobCount] = useState({
     total: 0,
@@ -42,8 +45,8 @@ export function CreateRoom() {
   const canCreateRoom = () => {
     return (
       jobCount.total > jobCount.mafia * 2 &&
-      jobCount.total >= 3 &&
-      jobCount.mafia >= 1 &&
+      jobCount.total >= MIN_TOTAL &&
+      jobCount.mafia >= MIN_MAFIA &&
       jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police
     );
   };
