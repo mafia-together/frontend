@@ -43,12 +43,20 @@ export function CreateRoom() {
 
   /* 이동 */
   const canCreateRoom = () => {
-    return (
-      jobCount.total > jobCount.mafia * 2 &&
-      jobCount.total >= MIN_TOTAL &&
-      jobCount.mafia >= MIN_MAFIA &&
-      jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police
-    );
+    // 총 인원이 게임 최소 요건을 충족하는지 확인
+    const isTotalJobCountValid = jobCount.total >= MIN_TOTAL;
+
+    // 마피아 역할 수가 최소 마피아 수 요구 사항을 충족하는지 확인
+    const isMafiaCountValid = jobCount.mafia >= MIN_MAFIA;
+
+    // 총 인원이 마피아 팀의 2배보다 큰지 확인
+    const isMafiaRatioValid = jobCount.total > jobCount.mafia * 2;
+
+    // 총 인원이 직업수(마피아, 의사, 경찰) 역할 수의 합 이상인지 확인
+    const isRolesCountSufficient =
+      jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police;
+
+    return isTotalJobCountValid && isMafiaCountValid && isRolesCountSufficient && isMafiaRatioValid;
   };
   const navigate = useNavigate();
   const onCreateRoom = async () => {
