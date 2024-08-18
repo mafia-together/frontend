@@ -2,8 +2,8 @@ import toast from 'react-hot-toast';
 
 import { VariablesCSS } from '../../styles/VariablesCSS';
 
-export const notifyUseToast = (message: string, whereUse: 'ENTER' | 'INVITE') => {
-  if (whereUse === 'ENTER') {
+export const notifyUseToast = (message: string, whereUse: 'LOBBY' | 'INVITE') => {
+  if (whereUse === 'LOBBY') {
     return toast(message, {
       duration: 3000,
       position: 'bottom-center',

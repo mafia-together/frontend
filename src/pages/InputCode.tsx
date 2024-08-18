@@ -37,7 +37,7 @@ export default function ParticipateRoom() {
     if (isValidCode()) {
       const roomCodeExistsResponse = await getValidRoomCode(code);
       if (!roomCodeExistsResponse.exist) {
-        notifyUseToast('해당하는 방이 존재하지 않습니다.', 'ENTER');
+        notifyUseToast('해당하는 방이 존재하지 않습니다.', 'LOBBY');
         return;
       }
       navigate(`/name?code=${code}`);
