@@ -1,6 +1,7 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { createRoom } from '../axios/http';
@@ -8,9 +9,12 @@ import BottomButton from '../components/button/BottomButton';
 import CountGroup from '../components/etc/CountGroup';
 import JobCount from '../components/etc/JobCount';
 import AppContainerCSS from '../components/layout/AppContainerCSS';
+import { notifyUseToast } from '../components/toast/NotifyToast';
 import TopEnter from '../components/top/TopEnter';
 import { VariablesCSS } from '../styles/VariablesCSS';
 export function CreateRoom() {
+  const navigate = useNavigate();
+
   const MIN_MAFIA = 1;
   const MIN_TOTAL = 3;
 
@@ -41,28 +45,43 @@ export function CreateRoom() {
     }
   };
 
-  /* 이동 */
-  const canCreateRoom = () => {
+  const canCreateRoom = (): { result: boolean; message: string } => {
     // 총 인원이 게임 최소 요건을 충족하는지 확인
     const isTotalJobCountValid = jobCount.total >= MIN_TOTAL;
+    if (!isTotalJobCountValid) {
+      return { result: false, message: `총인원은 ${MIN_TOTAL}명 이상이여야 합니다.` };
+    }
 
     // 마피아 역할 수가 최소 마피아 수 요구 사항을 충족하는지 확인
     const isMafiaCountValid = jobCount.mafia >= MIN_MAFIA;
+    if (!isMafiaCountValid) {
+      return { result: false, message: `마피아가 최소${MIN_MAFIA}명 이상이여야 합니다.` };
+    }
 
-    // 총 인원이 마피아 팀의 2배보다 큰지 확인
+    // 시민팀이 더 많은지 확인 = 총 인원이 마피아 팀의 2배보다 큰지 확인
     const isMafiaRatioValid = jobCount.total > jobCount.mafia * 2;
+    if (!isMafiaRatioValid) {
+      return { result: false, message: `시민팀이 더 많아야 합니다.` };
+    }
 
     // 총 인원이 직업수(마피아, 의사, 경찰) 역할 수의 합 이상인지 확인
     const isRolesCountSufficient =
       jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police;
+    if (!isRolesCountSufficient) {
+      return { result: false, message: `총인원이 직업수 이상이어야 합니다.` };
+    }
 
-    return isTotalJobCountValid && isMafiaCountValid && isRolesCountSufficient && isMafiaRatioValid;
+    // 게임시작가능
+    return { result: true, message: '게임 시작가능합니다.' };
   };
-  const navigate = useNavigate();
+
+  /* 이동 */
   const onCreateRoom = async () => {
-    if (canCreateRoom()) {
+    if (canCreateRoom().result) {
       const roomCode = await createRoom(jobCount);
       navigate(`/name?code=${roomCode.code}`);
+    } else {
+      notifyUseToast(canCreateRoom().message, 'LOBBY');
     }
   };
 
@@ -93,8 +112,9 @@ export function CreateRoom() {
           <JobCount job="DOCTOR" count={jobCount.doctor} onCountJob={onCountjob} />
           <JobCount job="POLICE" count={jobCount.police} onCountJob={onCountjob} />
         </div>
+        <Toaster containerStyle={{ bottom: `calc(${VariablesCSS.bottombutton} + 4px)` }} />
         <div onClick={onCreateRoom}>
-          <BottomButton use="complete" daynight="night" ready={canCreateRoom()} />
+          <BottomButton use="complete" daynight="night" ready={canCreateRoom()?.result} />
         </div>
       </div>
     </AppContainerCSS>

@@ -40,7 +40,7 @@ export default function InputName() {
       } catch (error: any) {
         console.log(error);
 
-        notifyUseToast(error.response.data.message, 'ENTER');
+        notifyUseToast(error.response.data.message, 'LOBBY');
       }
     }
   };
