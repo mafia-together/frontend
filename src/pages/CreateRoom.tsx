@@ -49,13 +49,13 @@ export function CreateRoom() {
     // 총 인원이 게임 최소 요건을 충족하는지 확인
     const isTotalJobCountValid = jobCount.total >= MIN_TOTAL;
     if (!isTotalJobCountValid) {
-      return { result: false, message: `총인원은 ${MIN_TOTAL}명 이상이여야 합니다.` };
+      return { result: false, message: `총인원은 ${MIN_TOTAL}명 이상이어야 합니다.` };
     }
 
     // 마피아 역할 수가 최소 마피아 수 요구 사항을 충족하는지 확인
     const isMafiaCountValid = jobCount.mafia >= MIN_MAFIA;
     if (!isMafiaCountValid) {
-      return { result: false, message: `마피아가 최소${MIN_MAFIA}명 이상이여야 합니다.` };
+      return { result: false, message: `마피아가 최소 ${MIN_MAFIA}명 이상이어야 합니다.` };
     }
 
     // 시민팀이 더 많은지 확인 = 총 인원이 마피아 팀의 2배보다 큰지 확인
@@ -68,7 +68,7 @@ export function CreateRoom() {
     const isRolesCountSufficient =
       jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police;
     if (!isRolesCountSufficient) {
-      return { result: false, message: `총인원이 직업수 이상이어야 합니다.` };
+      return { result: false, message: `총인원이 직업 수 이상이어야 합니다.` };
     }
 
     // 게임시작가능
