@@ -50,11 +50,11 @@ export interface ParticipateRequest {
   name: string;
 }
 
-export interface RoomStatusRequest {
+export interface GameStatusRequest {
   status: Status;
 }
 
-export interface RoomInfo {
+export interface GameInfo {
   startTime: Date;
   endTime: Date;
   isAlive: boolean;
@@ -99,7 +99,7 @@ export interface DeadResult {
   dead: Dead;
 }
 
-export interface RoomsResults {
+export interface GamesResults {
   winnerJob: ExcludeSpecialJob;
   endTime: Date;
   winner: Player[];

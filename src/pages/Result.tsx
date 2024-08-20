@@ -7,10 +7,10 @@ import AppContainerCSS from '../components/layout/AppContainerCSS';
 import PlayerResult from '../components/player/PlayerResult';
 import TopResult from '../components/top/TopResult';
 import { VariablesCSS } from '../styles/VariablesCSS';
-import { RoomsResults } from '../type';
+import { GamesResults } from '../type';
 
 export default function Result() {
-  const [roomsResults, setRoomsResults] = useState<RoomsResults>();
+  const [roomsResults, setRoomsResults] = useState<GamesResults>();
   useEffect(() => {
     (async () => {
       const roomsResults = await getRoomsResults();
@@ -109,7 +109,7 @@ const middle = () => css`
   }
 `;
 
-const winner = (roomsResults: RoomsResults) => css`
+const winner = (roomsResults: GamesResults) => css`
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -126,7 +126,7 @@ const winner = (roomsResults: RoomsResults) => css`
   border-radius: 15px;
 `;
 
-const description = (roomsResults: RoomsResults) => css`
+const description = (roomsResults: GamesResults) => css`
   display: flex;
   justify-content: center;
   align-items: center;

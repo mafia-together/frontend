@@ -4,17 +4,16 @@ import {
   Chat,
   ChatRequest,
   DeadResult,
+  GameInfo,
+  GamesResults,
+  GameStatusRequest,
   MafiaVoteResult,
   MyJobResponse,
   ParticipateRequest,
   ParticipateResponse,
   RoomCodeExistsResponse,
-  RoomInfo,
-  RoomRequest,
   RoomResponse,
-  RoomsResults,
   RoomsStatus,
-  RoomStatusRequest,
   SkillRequest,
   SkillResponse,
   VoteRequest,
@@ -34,55 +33,43 @@ export const useChatsQuery = () => {
   };
 };
 
-export const useRoomsStatusQuery = () => {
-  const { data: roomsStatus, ...rest } = useSuspenseQuery({
-    queryKey: ['rooms', 'status', localStorage.getItem('auth')],
+export const useGamesStatusQuery = () => {
+  const { data: gamesStatus, ...rest } = useSuspenseQuery({
+    queryKey: ['games', 'status', localStorage.getItem('auth')],
     queryFn: () => getRoomsStatus(),
     refetchInterval: 500,
     staleTime: 500,
   });
 
   return {
-    roomsStatus,
+    roomsStatus: gamesStatus,
     ...rest,
   };
 };
 
 export const getRoomsStatus = () => {
-  return http.get<RoomsStatus>('/rooms/status');
+  return http.get<RoomsStatus>('/games/status');
 };
 
-export const useRoomsInfoQuery = () => {
-  const { data: roomInfo, ...rest } = useSuspenseQuery({
-    queryKey: ['rooms', 'info', localStorage.getItem('auth')],
-    queryFn: () => getRoomsInfo(),
+export const useGamesInfoQuery = () => {
+  const { data: gmaeInfo, ...rest } = useSuspenseQuery({
+    queryKey: ['games', 'info', localStorage.getItem('auth')],
+    queryFn: () => getGamesInfo(),
     refetchInterval: 500,
     staleTime: 500,
   });
   return {
-    roomInfo,
+    gmaeInfo,
     ...rest,
   };
 };
 
-export const getRoomsInfo = () => {
-  return http.get<RoomInfo>(`/rooms/info`);
-};
-
-export const getChats = () => {
-  return http.get<Chat[]>(`/chat`);
-};
-
-export const postChats = (payload: ChatRequest) => {
-  return http.post(`/chat`, payload);
-};
-
-export const postRooms = (payload: RoomRequest) => {
-  return http.post<RoomResponse>('/rooms', payload);
+export const getGamesInfo = () => {
+  return http.get<GameInfo>(`/games/info`);
 };
 
 export const participateRooms = (payload: ParticipateRequest) => {
-  return http.get<ParticipateResponse>(`/rooms?code=${payload.code}&name=${payload.name}`);
+  return http.get<ParticipateResponse>(`/lobbies?code=${payload.code}&name=${payload.name}`);
 };
 
 export const createRoom = (payload: {
@@ -91,32 +78,47 @@ export const createRoom = (payload: {
   doctor: number;
   police: number;
 }) => {
-  return http.post<RoomResponse>('/rooms', payload);
+  return http.post<RoomResponse>('/lobbies', payload);
 };
 
 export const getRoomsCode = () => {
-  return http.get<RoomResponse>(`/rooms/code`);
-};
-
-export const patchRoomStatus = async (payload: RoomStatusRequest) => {
-  http.patch(`/rooms/status`, payload);
-};
-
-export const getMyJob = () => {
-  return http.get<MyJobResponse>('/players/my/job');
+  return http.get<RoomResponse>(`/lobbies/code`);
 };
 
 export const getValidRoomCode = async (code: string | null) => {
-  return http.get<RoomCodeExistsResponse>(`/rooms/code/exist?code=${code}`);
+  return http.get<RoomCodeExistsResponse>(`/lobbies/code/exist?code=${code}`);
+};
+
+export const startGame = async (payload: GameStatusRequest) => {
+  http.patch(`/games/status`, payload);
+};
+
+export const getRoomsResults = () => {
+  return http.get<GamesResults>('/games/result');
+};
+export const getChats = () => {
+  return http.get<Chat[]>(`/chat`);
+};
+
+export const postChats = (payload: ChatRequest) => {
+  return http.post(`/chat`, payload);
+};
+
+export const getMyJob = () => {
+  return http.get<MyJobResponse>('/jobs/my');
 };
 
 export const postSkill = async (payload: SkillRequest) => {
-  return http.post<SkillResponse>(`players/skill`, payload);
+  return http.post<SkillResponse>(`/jobs/skill`, payload);
+};
+
+export const getMafiaVoteResult = async () => {
+  return http.get<MafiaVoteResult>(`jobs/skill`);
 };
 
 export const useMafiaVoteResultQuery = () => {
   const { data: mafiaVoteResult, ...rest } = useSuspenseQuery({
-    queryKey: ['players', 'skill', localStorage.getItem('auth')],
+    queryKey: ['jobs', 'skill', localStorage.getItem('auth')],
     queryFn: () => getMafiaVoteResult(),
     refetchInterval: 500,
     staleTime: 500,
@@ -127,22 +129,14 @@ export const useMafiaVoteResultQuery = () => {
   };
 };
 
-export const getMafiaVoteResult = async () => {
-  return http.get<MafiaVoteResult>(`players/skill`);
+export const getRoomNightResultDead = async () => {
+  return http.get<DeadResult>('/jobs/skill/result');
 };
 
 export const postVote = async (payload: VoteRequest) => {
-  return http.post('/vote', payload);
+  return http.post('/votes', payload);
 };
 
 export const getVote = async () => {
-  return http.get<DeadResult>('/vote');
-};
-
-export const getRoomNightResultDead = async () => {
-  return http.get<DeadResult>('/rooms/night/result');
-};
-
-export const getRoomsResults = () => {
-  return http.get<RoomsResults>('/rooms/result');
+  return http.get<DeadResult>('/votes');
 };

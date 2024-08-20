@@ -3,10 +3,10 @@ import { createHashRouter } from 'react-router-dom';
 
 import { CreateRoom } from './pages/CreateRoom';
 import FirstPage from './pages/FirstPage';
+import Game from './pages/Game';
 import InputCode from './pages/InputCode';
 import InputName from './pages/InputName';
 import NotFound from './pages/NotFound';
-import Room from './pages/Room';
 
 interface RouteElement {
   path: string;
@@ -33,8 +33,8 @@ const routes: RouteElement[] = [
     element: <InputName />,
   },
   {
-    path: '/room',
-    element: <Room />,
+    path: '/game',
+    element: <Game />,
   },
   {
     path: '*',

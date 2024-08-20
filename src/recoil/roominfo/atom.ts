@@ -1,13 +1,13 @@
 import { atom } from 'recoil';
 
-import { Job, RoomInfo } from '../../type';
+import { Job, GameInfo } from '../../type';
 
 export const gameRound = atom({
   key: 'gameRound',
   default: 0,
 });
 
-export const roomInfoState = atom<RoomInfo>({
+export const roomInfoState = atom<GameInfo>({
   key: 'roomInfoState',
   default: {
     startTime: new Date(),
