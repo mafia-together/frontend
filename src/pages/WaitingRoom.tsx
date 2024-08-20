@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-import { getRoomsCode, patchRoomStatus, useRoomsInfoQuery } from '../axios/http';
+import { getRoomsCode, startGame, useGamesInfoQuery } from '../axios/http';
 import BigButton from '../components/button/BigButton';
 import { Loading } from '../components/etc/Loading';
 import AppContainerCSS from '../components/layout/AppContainerCSS';
@@ -20,7 +20,7 @@ export default function WaitingRoom() {
 
   /* 참가목록 받아오기 */
   const [players, setPlayers] = useState<Player[]>([]);
-  const { roomInfo } = useRoomsInfoQuery();
+  const { roomInfo } = useGamesInfoQuery();
 
   const getVirtualPlayers = () => {
     const virtualPlayersLength = roomInfo.totalPlayers - roomInfo.players.length;
@@ -86,7 +86,7 @@ export default function WaitingRoom() {
   const navigate = useNavigate();
   const onGameStart = async () => {
     if (canStartGame()) {
-      await patchRoomStatus({ status: 'DAY' });
+      await startGame({ status: 'DAY' });
       navigate('/room');
     }
   };

@@ -1,25 +1,25 @@
 import { useEffect } from 'react';
-import { useRecoilState, useSetRecoilState } from 'recoil';
+import { useSetRecoilState } from 'recoil';
 
-import { getRoomsInfo, useRoomsStatusQuery } from '../axios/http';
+import { getGamesInfo, useGamesStatusQuery } from '../axios/http';
 import { gameRound, roomInfoState } from '../recoil/roominfo/atom';
 import Day from './Day';
 import Night from './Night';
 import Result from './Result';
 import WaitingRoom from './WaitingRoom';
 
-export default function Room() {
+export default function Game() {
   // 방 상태 불러오기
-  const { roomsStatus } = useRoomsStatusQuery();
+  const { roomsStatus } = useGamesStatusQuery();
 
   // 방 정보 저장 (방 상태가 바뀔때만 작동?)
   const setRoomsInfoState = useSetRecoilState(roomInfoState); // 방 정보
 
-  const [, setGameRoundState] = useRecoilState(gameRound);
+  const setGameRoundState = useSetRecoilState(gameRound);
   useEffect(() => {
     // 방 정보 불러오기
     (async () => {
-      const roomInfoResponse = await getRoomsInfo();
+      const roomInfoResponse = await getGamesInfo();
       setRoomsInfoState(roomInfoResponse);
     })();
 
@@ -29,7 +29,7 @@ export default function Room() {
     } else if (roomsStatus.statusType === 'WAIT') {
       setGameRoundState(0);
     }
-  }, [roomsStatus.statusType]);
+  }, [roomsStatus.statusType, setGameRoundState, setRoomsInfoState]);
 
   return (
     <>
