@@ -20,6 +20,27 @@ import {
 } from '../type';
 import { http } from './instances';
 
+export const participateRooms = (payload: ParticipateRequest) => {
+  return http.get<ParticipateResponse>(`/lobbies?code=${payload.code}&name=${payload.name}`);
+};
+
+export const createRoom = (payload: {
+  total: number;
+  mafia: number;
+  doctor: number;
+  police: number;
+}) => {
+  return http.post<RoomResponse>('/lobbies', payload);
+};
+
+export const getRoomsCode = () => {
+  return http.get<RoomResponse>(`/lobbies/code`);
+};
+
+export const getValidRoomCode = async (code: string | null) => {
+  return http.get<RoomCodeExistsResponse>(`/lobbies/code/exist?code=${code}`);
+};
+
 export const useChatsQuery = () => {
   const { data: chats, ...rest } = useSuspenseQuery({
     queryKey: ['chats', localStorage.getItem('auth')],
@@ -66,27 +87,6 @@ export const useGamesInfoQuery = () => {
 
 export const getGamesInfo = () => {
   return http.get<GameInfo>(`/games/info`);
-};
-
-export const participateRooms = (payload: ParticipateRequest) => {
-  return http.get<ParticipateResponse>(`/lobbies?code=${payload.code}&name=${payload.name}`);
-};
-
-export const createRoom = (payload: {
-  total: number;
-  mafia: number;
-  doctor: number;
-  police: number;
-}) => {
-  return http.post<RoomResponse>('/lobbies', payload);
-};
-
-export const getRoomsCode = () => {
-  return http.get<RoomResponse>(`/lobbies/code`);
-};
-
-export const getValidRoomCode = async (code: string | null) => {
-  return http.get<RoomCodeExistsResponse>(`/lobbies/code/exist?code=${code}`);
 };
 
 export const startGame = async (payload: GameStatusRequest) => {
