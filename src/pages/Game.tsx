@@ -24,25 +24,25 @@ export default function Game() {
     })();
 
     // DAY로 바뀔때 마다 라운드 +1
-    if (roomsStatus.statusType === 'NOTICE') {
+    if (roomsStatus.status === 'NOTICE') {
       setGameRoundState(gameRoundState => gameRoundState + 1);
-    } else if (roomsStatus.statusType === 'WAIT') {
+    } else if (roomsStatus.status === 'WAIT') {
       setGameRoundState(0);
     }
-  }, [roomsStatus.statusType, setGameRoundState, setRoomsInfoState]);
+  }, [roomsStatus.status, setGameRoundState, setRoomsInfoState]);
 
   return (
     <>
-      {roomsStatus.statusType === 'WAIT' && <WaitingRoom />}
-      {(roomsStatus.statusType === 'DAY_INTRO' ||
-        roomsStatus.statusType === 'NOTICE' ||
-        roomsStatus.statusType === 'DAY' ||
-        roomsStatus.statusType === 'VOTE' ||
-        roomsStatus.statusType === 'VOTE_RESULT') && <Day statusType={roomsStatus.statusType} />}
-      {(roomsStatus.statusType === 'NIGHT_INTRO' || roomsStatus.statusType === 'NIGHT') && (
-        <Night statusType={roomsStatus.statusType} />
+      {roomsStatus.status === 'WAIT' && <WaitingRoom />}
+      {(roomsStatus.status === 'DAY_INTRO' ||
+        roomsStatus.status === 'NOTICE' ||
+        roomsStatus.status === 'DAY' ||
+        roomsStatus.status === 'VOTE' ||
+        roomsStatus.status === 'VOTE_RESULT') && <Day statusType={roomsStatus.status} />}
+      {(roomsStatus.status === 'NIGHT_INTRO' || roomsStatus.status === 'NIGHT') && (
+        <Night statusType={roomsStatus.status} />
       )}
-      {roomsStatus.statusType === 'END' && <Result />}
+      {roomsStatus.status === 'END' && <Result />}
     </>
   );
 }
