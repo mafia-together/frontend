@@ -87,7 +87,7 @@ export default function WaitingRoom() {
   const onGameStart = async () => {
     if (canStartGame()) {
       await startGame();
-      navigate('/room');
+      navigate('/game');
     }
   };
 

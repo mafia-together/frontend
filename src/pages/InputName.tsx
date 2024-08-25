@@ -35,7 +35,7 @@ export default function InputName() {
       try {
         const auth = await participateRooms({ code: code, name: name });
         localStorage.setItem('auth', auth.auth);
-        navigate('/room');
+        navigate('/game');
         // eslint-disable-next-line
       } catch (error: any) {
         console.log(error);
