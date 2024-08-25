@@ -6,7 +6,6 @@ import {
   DeadResult,
   GameInfo,
   GamesResults,
-  GameStatusRequest,
   MafiaVoteResult,
   MyJobResponse,
   ParticipateRequest,
@@ -73,16 +72,13 @@ export const getRoomsStatus = () => {
 };
 
 export const useGamesInfoQuery = () => {
-  const { data: gmaeInfo, ...rest } = useSuspenseQuery({
+  const { data: gameInfo, ...rest } = useSuspenseQuery({
     queryKey: ['games', 'info', localStorage.getItem('auth')],
     queryFn: () => getGamesInfo(),
     refetchInterval: 500,
     staleTime: 500,
   });
-  return {
-    gmaeInfo,
-    ...rest,
-  };
+  return { gameInfo, ...rest };
 };
 
 export const getGamesInfo = () => {

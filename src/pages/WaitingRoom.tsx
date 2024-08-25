@@ -20,10 +20,10 @@ export default function WaitingRoom() {
 
   /* 참가목록 받아오기 */
   const [players, setPlayers] = useState<Player[]>([]);
-  const { roomInfo } = useGamesInfoQuery();
+  const { gameInfo } = useGamesInfoQuery();
 
   const getVirtualPlayers = () => {
-    const virtualPlayersLength = roomInfo.totalPlayers - roomInfo.players.length;
+    const virtualPlayersLength = gameInfo.totalPlayers - gameInfo.players.length;
     const virtualPlayer = {
       name: '',
       isAlive: true,
@@ -33,8 +33,8 @@ export default function WaitingRoom() {
   };
 
   useEffect(() => {
-    setPlayers(roomInfo.players);
-  }, [roomInfo.players]);
+    setPlayers(gameInfo.players);
+  }, [gameInfo.players]);
 
   /* 초대하기 모달 */
   // 띄우고 끄기
@@ -81,7 +81,7 @@ export default function WaitingRoom() {
 
   /* 게임시작 */
   const canStartGame = () => {
-    return roomInfo.isMaster && players.length === roomInfo.totalPlayers;
+    return gameInfo.isMaster && players.length === gameInfo.totalPlayers;
   };
   const navigate = useNavigate();
   const onGameStart = async () => {
@@ -100,7 +100,7 @@ export default function WaitingRoom() {
             <div css={textGroup}>
               <p css={subTitle}>참가목록</p>
               <p css={number}>
-                {players.length}/{roomInfo.totalPlayers}
+                {players.length}/{gameInfo.totalPlayers}
               </p>
             </div>
             <PlayerGrid>
@@ -110,7 +110,7 @@ export default function WaitingRoom() {
             </PlayerGrid>
           </div>
           <div css={bottom} onClick={onGameStart}>
-            {roomInfo.isMaster && (
+            {gameInfo.isMaster && (
               <BigButton vatiety="emphasis" use="gameStart" ready={canStartGame()} />
             )}
           </div>

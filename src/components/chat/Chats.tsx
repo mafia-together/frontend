@@ -2,11 +2,9 @@ import { useEffect, useRef } from 'react';
 
 import { useChatsQuery } from '../../axios/http';
 import { Chat } from '../../type';
-import { particpateRoom } from '../test/ParticipateRoom';
 import ChatGroup from './ChatGroup';
 
 export const Chats = () => {
-  particpateRoom();
   const chatRef = useRef<HTMLDivElement | null>(null);
 
   const { chats } = useChatsQuery();
