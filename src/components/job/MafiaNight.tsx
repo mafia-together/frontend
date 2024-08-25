@@ -6,7 +6,7 @@ import { postSkill, useMafiaVoteResultQuery } from '../../axios/http';
 import { middle } from '../../pages/Night';
 import { VariablesCSS } from '../../styles/VariablesCSS';
 import { Player } from '../../type';
-import SmallButton from '../button/SmallButton';
+import Votelabel from '../etc/VoteLabel';
 import PlayerGrid from '../player/PlayerGrid';
 import PlayerNight from '../player/PlayerNight';
 
@@ -68,9 +68,7 @@ export const MafiaNight = (props: PropsType) => {
         checked={nowVoteResult === 0}
         onChange={() => isAlive && setCheck(0)}
       />
-      <label htmlFor="0" css={notkillLable}>
-        <SmallButton text="안죽이기" color="night" />
-      </label>
+      <Votelabel text="안죽이기" color="night" htmlFor="0" />
     </div>
   );
 };
@@ -89,10 +87,4 @@ const notkill = () => css`
     color: ${VariablesCSS.light};
     background-color: ${VariablesCSS.kill};
   }
-`;
-
-const notkillLable = () => css`
-  margin: 60px auto 16px;
-  display: flex;
-  justify-content: center;
 `;
