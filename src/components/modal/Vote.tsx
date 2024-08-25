@@ -5,7 +5,7 @@ import { useRecoilState } from 'recoil';
 import { postVote } from '../../axios/http';
 import { roomInfoState } from '../../recoil/roominfo/atom';
 import { VariablesCSS } from '../../styles/VariablesCSS';
-import SmallButton from '../button/SmallButton';
+import Votelabel from '../etc/VoteLabel';
 import PlayerGrid from '../player/PlayerGrid';
 import PlayerVote from '../player/PlayerVote';
 import { TimeOnlySeconds } from '../time/TimeOnlySeconds';
@@ -93,14 +93,12 @@ export default function Vote(props: PropsType) {
           <input
             type="radio"
             name="vote"
-            id="0"
+            id={ABSTAIN_NUMBER.toString()}
             checked={voteTarget === ABSTAIN_NUMBER}
             css={abstention}
             onChange={() => setVote(ABSTAIN_NUMBER, ABSTAIN_STRING)}
           />
-          <label htmlFor="0" css={abstentionLabel}>
-            <SmallButton text="기권" color="day" />
-          </label>
+          <Votelabel text="기권" color="day" htmlFor="0" />
           {timeup || voteAll || (
             <p css={message}>모든 플레이어가 투표할 시 대화 시간이 종료됩니다.</p>
           )}
@@ -174,10 +172,4 @@ const abstention = () => css`
     color: ${VariablesCSS.light};
     background-color: ${VariablesCSS.kill};
   }
-`;
-
-const abstentionLabel = () => css`
-  margin: 30px auto 16px;
-  display: flex;
-  justify-content: center;
 `;

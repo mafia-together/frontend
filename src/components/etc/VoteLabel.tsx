@@ -6,17 +6,26 @@ import { VariablesCSS } from '../../styles/VariablesCSS';
 type PropsType = {
   text: string;
   color: 'day' | 'night';
+  htmlFor: string;
 };
 
-export default function SmallButton(props: PropsType) {
+export default function Votelabel(props: PropsType) {
   const { text } = props;
 
   return (
-    <button css={container(props)}>
-      <p>{text}</p>
-    </button>
+    <label css={abstentionLabel} htmlFor={props.htmlFor}>
+      <div css={container(props)}>
+        <p>{text}</p>
+      </div>
+    </label>
   );
 }
+
+const abstentionLabel = css`
+  margin: 30px auto 16px;
+  display: flex;
+  justify-content: center;
+`;
 
 const container = (props: PropsType) => css`
   padding: 16px 30px;
