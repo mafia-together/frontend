@@ -15,7 +15,7 @@ export type Dead = string | null;
 export type ExcludeSpecialJob = 'MAFIA' | 'CITIZEN';
 
 export interface RoomsStatus {
-  status: Status;
+  statusType: Status;
 }
 
 export interface Chat {

@@ -61,10 +61,7 @@ export const useGamesStatusQuery = () => {
     staleTime: 500,
   });
 
-  return {
-    roomsStatus: gamesStatus,
-    ...rest,
-  };
+  return { gamesStatus, ...rest };
 };
 
 export const getRoomsStatus = () => {
