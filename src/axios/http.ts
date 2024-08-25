@@ -83,7 +83,7 @@ export const getGamesInfo = () => {
 };
 
 export const startGame = async () => {
-  http.post(`/games/status`);
+  http.post(`/games/start`);
 };
 
 export const getRoomsResults = () => {
