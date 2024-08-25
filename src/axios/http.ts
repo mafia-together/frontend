@@ -89,8 +89,8 @@ export const getGamesInfo = () => {
   return http.get<GameInfo>(`/games/info`);
 };
 
-export const startGame = async (payload: GameStatusRequest) => {
-  http.patch(`/games/status`, payload);
+export const startGame = async () => {
+  http.post(`/games/status`);
 };
 
 export const getRoomsResults = () => {
