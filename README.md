@@ -3,6 +3,7 @@
 #### https://mafia-together.com/
 
 ![image](https://github.com/user-attachments/assets/6d5373f8-4d02-40ca-b9eb-f23d97f753b5)
-![image](https://github.com/user-attachments/assets/1d6ce42f-37e4-41d0-b280-1e85f7723476)
-![image](https://github.com/user-attachments/assets/de0195ed-ba2c-449a-88cd-e6ac45fd0f96)
-![image](https://github.com/user-attachments/assets/8a18298a-2825-4483-865b-3d3d4d9d8fff)
+![image](https://github.com/user-attachments/assets/b028ed43-50f9-4657-b307-82f3ec4828fd)
+![image](https://github.com/user-attachments/assets/7cfe8ea9-1306-47d0-b95d-505307dd12a8)
+![image](https://github.com/user-attachments/assets/07ee8bf8-0aee-4d03-a0be-29804b23262a)
+
