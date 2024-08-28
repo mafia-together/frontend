@@ -64,16 +64,16 @@ export function CreateRoom() {
     const isRolesCountSufficient =
       jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police;
 
-    switch (true) {
-      case !isTotalJobCountValid:
-        return { result: false, message: `총인원은 ${MIN_TOTAL}명 이상이어야 합니다.` };
-      case !isMafiaCountValid:
-        return { result: false, message: `마피아가 최소 ${MIN_MAFIA}명 이상이어야 합니다.` };
-      case !isMafiaRatioValid:
-        return { result: false, message: `시민팀이 더 많아야 합니다.` };
-      case !isRolesCountSufficient:
-        return { result: false, message: `총인원이 직업 수 이상이어야 합니다.` };
-    }
+    // switch (true) {
+    //   case !isTotalJobCountValid:
+    //     return { result: false, message: `총인원은 ${MIN_TOTAL}명 이상이어야 합니다.` };
+    //   case !isMafiaCountValid:
+    //     return { result: false, message: `마피아가 최소 ${MIN_MAFIA}명 이상이어야 합니다.` };
+    //   case !isMafiaRatioValid:
+    //     return { result: false, message: `시민팀이 더 많아야 합니다.` };
+    //   case !isRolesCountSufficient:
+    //     return { result: false, message: `총인원이 직업 수 이상이어야 합니다.` };
+    // }
 
     // 게임시작가능
     return { result: true, message: '게임 시작가능합니다.' };
