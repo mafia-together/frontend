@@ -69,7 +69,7 @@ const checkinput = () => css`
     background-position: center;
   }
 
-  /* &:active + label {
+  &:active + label {
     transform: translate(0.5px, 1px);
-  } */
+  }
 `;

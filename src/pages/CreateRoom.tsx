@@ -15,8 +15,8 @@ import { VariablesCSS } from '../styles/VariablesCSS';
 export function CreateRoom() {
   const navigate = useNavigate();
 
-  const MIN_MAFIA = 1;
-  const MIN_TOTAL = 3;
+  // const MIN_MAFIA = 1;
+  // const MIN_TOTAL = 3;
 
   /* data */
   const [jobCount, setjobCount] = useState({
@@ -51,29 +51,29 @@ export function CreateRoom() {
   }
 
   const canCreateRoom = (): RoomCreationResult => {
-    // 총 인원이 게임 최소 요건을 충족하는지 확인
-    const isTotalJobCountValid = jobCount.total >= MIN_TOTAL;
+    // // 총 인원이 게임 최소 요건을 충족하는지 확인
+    // const isTotalJobCountValid = jobCount.total >= MIN_TOTAL;
 
-    // 마피아 역할 수가 최소 마피아 수 요구 사항을 충족하는지 확인
-    const isMafiaCountValid = jobCount.mafia >= MIN_MAFIA;
+    // // 마피아 역할 수가 최소 마피아 수 요구 사항을 충족하는지 확인
+    // const isMafiaCountValid = jobCount.mafia >= MIN_MAFIA;
 
-    // 시민팀이 더 많은지 확인 = 총 인원이 마피아 팀의 2배보다 큰지 확인
-    const isMafiaRatioValid = jobCount.total > jobCount.mafia * 2;
+    // // 시민팀이 더 많은지 확인 = 총 인원이 마피아 팀의 2배보다 큰지 확인
+    // const isMafiaRatioValid = jobCount.total > jobCount.mafia * 2;
 
-    // 총 인원이 직업수(마피아, 의사, 경찰) 역할 수의 합 이상인지 확인
-    const isRolesCountSufficient =
-      jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police;
+    // // 총 인원이 직업수(마피아, 의사, 경찰) 역할 수의 합 이상인지 확인
+    // const isRolesCountSufficient =
+    //   jobCount.total >= jobCount.mafia + jobCount.doctor + jobCount.police;
 
-    switch (true) {
-      case !isTotalJobCountValid:
-        return { result: false, message: `총인원은 ${MIN_TOTAL}명 이상이어야 합니다.` };
-      case !isMafiaCountValid:
-        return { result: false, message: `마피아가 최소 ${MIN_MAFIA}명 이상이어야 합니다.` };
-      case !isMafiaRatioValid:
-        return { result: false, message: `시민팀이 더 많아야 합니다.` };
-      case !isRolesCountSufficient:
-        return { result: false, message: `총인원이 직업 수 이상이어야 합니다.` };
-    }
+    // switch (true) {
+    //   case !isTotalJobCountValid:
+    //     return { result: false, message: `총인원은 ${MIN_TOTAL}명 이상이어야 합니다.` };
+    //   case !isMafiaCountValid:
+    //     return { result: false, message: `마피아가 최소 ${MIN_MAFIA}명 이상이어야 합니다.` };
+    //   case !isMafiaRatioValid:
+    //     return { result: false, message: `시민팀이 더 많아야 합니다.` };
+    //   case !isRolesCountSufficient:
+    //     return { result: false, message: `총인원이 직업 수 이상이어야 합니다.` };
+    // }
 
     // 게임시작가능
     return { result: true, message: '게임 시작가능합니다.' };
