@@ -108,7 +108,7 @@ export function CreateRoom() {
                   fill="#F8F8F8"
                 />
               </svg>
-              <p>총 인원</p>
+              <p>총인원</p>
             </div>
             <CountGroup job="total" count={jobCount.total} onCountJob={onCountjob} />
           </div>
