@@ -2,7 +2,7 @@ import toast from 'react-hot-toast';
 
 import { VariablesCSS } from '../../styles/VariablesCSS';
 
-export const notifyUseToast = (message: string, whereUse: 'LOBBY' | 'INVITE') => {
+export const notifyUseToast = (message: string, whereUse: 'LOBBY' | 'INVITE' | 'WARNING') => {
   if (whereUse === 'LOBBY') {
     return toast(message, {
       duration: 3000,
@@ -16,6 +16,22 @@ export const notifyUseToast = (message: string, whereUse: 'LOBBY' | 'INVITE') =>
       },
     });
   }
+  if (whereUse === 'WARNING') {
+    return toast(message, {
+      duration: 8000,
+      position: 'bottom-center',
+      style: {
+        marginBottom: '50%',
+        textAlign: 'center',
+        color: VariablesCSS.night,
+        background: 'linear-gradient(118.95deg, #dfcfeb 0%, #c9abca 100%)',
+        border: '3px solid #ffffff',
+        borderRadius: '15px',
+        fontFamily: 'KCC-Hanbit',
+      },
+    });
+  }
+
   return toast(message, {
     duration: 3000,
     position: 'bottom-center',
