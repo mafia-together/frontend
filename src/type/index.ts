@@ -105,3 +105,7 @@ export interface GamesResults {
   winner: Player[];
   loser: Player[];
 }
+
+export interface GameExist {
+  exist: boolean;
+}

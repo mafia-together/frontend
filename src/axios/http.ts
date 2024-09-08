@@ -4,6 +4,7 @@ import {
   Chat,
   ChatRequest,
   DeadResult,
+  GameExist,
   GameInfo,
   GamesResults,
   MafiaVoteResult,
@@ -89,6 +90,11 @@ export const startGame = async () => {
 export const getRoomsResults = () => {
   return http.get<GamesResults>('/games/result');
 };
+
+export const existGame = () => {
+  return http.get<GameExist>('/games/exist');
+};
+
 export const getChats = () => {
   return http.get<Chat[]>(`/chat`);
 };

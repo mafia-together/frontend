@@ -12,6 +12,7 @@ import TopEnter from '../components/top/TopEnter';
 import { VariablesCSS } from '../styles/VariablesCSS';
 
 export default function InputName() {
+  const navigate = useNavigate();
   const [name, setName] = useState('');
   const onName = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.value.length <= 10) {
@@ -27,7 +28,6 @@ export default function InputName() {
   const [searchParams] = useSearchParams();
   const code = searchParams.get('code') as string;
 
-  const navigate = useNavigate();
   const goWaitingRoom = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
