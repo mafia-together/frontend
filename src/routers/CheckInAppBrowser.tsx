@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { Toaster } from 'react-hot-toast';
 
 import { notifyUseToast } from '../components/toast/NotifyToast';
 
@@ -17,10 +16,5 @@ export default function CheckInAppBrowser({ children }: propsType) {
     }
   }, []);
 
-  return (
-    <>
-      <Toaster />
-      {children}
-    </>
-  );
+  return <>{children}</>;
 }
