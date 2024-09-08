@@ -92,7 +92,7 @@ export const getRoomsResults = () => {
 };
 
 export const existGame = () => {
-  return http.get<GameExist>('/games/exist');
+  return http.get<GameExist>('/games/valid');
 };
 
 export const getChats = () => {

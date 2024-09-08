@@ -107,5 +107,5 @@ export interface GamesResults {
 }
 
 export interface GameExist {
-  exist: boolean;
+  valid: boolean;
 }
