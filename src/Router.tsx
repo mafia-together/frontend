@@ -7,6 +7,7 @@ import Game from './pages/Game';
 import InputCode from './pages/InputCode';
 import InputName from './pages/InputName';
 import NotFound from './pages/NotFound';
+import CheckAuth from './routers/CheckAuth';
 import CheckInAppBrowser from './routers/CheckInAppBrowser';
 
 interface RouteElement {
@@ -19,27 +20,39 @@ interface RouteElement {
 const routes: RouteElement[] = [
   {
     path: '/',
-    element: <FirstPage />,
+    element: (
+      <CheckAuth>
+        <FirstPage />
+      </CheckAuth>
+    ),
   },
   {
     path: 'create',
     element: (
-      <CheckInAppBrowser>
-        <CreateRoom />
-      </CheckInAppBrowser>
+      <CheckAuth>
+        <CheckInAppBrowser>
+          <CreateRoom />
+        </CheckInAppBrowser>
+      </CheckAuth>
     ),
   },
   {
     path: '/participate',
     element: (
-      <CheckInAppBrowser>
-        <InputCode />
-      </CheckInAppBrowser>
+      <CheckAuth>
+        <CheckInAppBrowser>
+          <InputCode />
+        </CheckInAppBrowser>
+      </CheckAuth>
     ),
   },
   {
     path: '/name',
-    element: <InputName />,
+    element: (
+      <CheckAuth>
+        <InputName />
+      </CheckAuth>
+    ),
   },
   {
     path: '/game',
