@@ -7,13 +7,13 @@ import {
   GameExist,
   GameInfo,
   GamesResults,
+  GameStatus,
   MafiaVoteResult,
   MyJobResponse,
   ParticipateRequest,
   ParticipateResponse,
   RoomCodeExistsResponse,
   RoomResponse,
-  RoomsStatus,
   SkillRequest,
   SkillResponse,
   VoteRequest,
@@ -54,19 +54,8 @@ export const useChatsQuery = () => {
   };
 };
 
-export const useGamesStatusQuery = () => {
-  const { data: gamesStatus, ...rest } = useSuspenseQuery({
-    queryKey: ['games', 'status', localStorage.getItem('auth')],
-    queryFn: () => getRoomsStatus(),
-    refetchInterval: 500,
-    staleTime: 500,
-  });
-
-  return { gamesStatus, ...rest };
-};
-
 export const getRoomsStatus = () => {
-  return http.get<RoomsStatus>('/games/status');
+  return http.get<GameStatus>('/games/status');
 };
 
 export const useGamesInfoQuery = () => {
