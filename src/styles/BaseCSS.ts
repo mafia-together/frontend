@@ -74,6 +74,13 @@ export const BaseCss = `
         font-style: normal;
     }
 
+    @font-face{
+        font-family: 'Baloo-Bhaina';
+        src: url('/assets/fonts/BalooBhaina-Regular.ttf') format('woff2');
+        font-weight: normal;
+        font-style: normal;
+    }
+
 
 
     // 애니메이션
