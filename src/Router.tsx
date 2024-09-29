@@ -8,7 +8,6 @@ import InputCode from './pages/InputCode';
 import InputName from './pages/InputName';
 import NotFound from './pages/NotFound';
 import CheckAuth from './routers/CheckAuth';
-import CheckInAppBrowser from './routers/CheckInAppBrowser';
 
 interface RouteElement {
   path: string;
@@ -30,9 +29,7 @@ const routes: RouteElement[] = [
     path: 'create',
     element: (
       <CheckAuth>
-        <CheckInAppBrowser>
-          <CreateRoom />
-        </CheckInAppBrowser>
+        <CreateRoom />
       </CheckAuth>
     ),
   },
@@ -40,9 +37,7 @@ const routes: RouteElement[] = [
     path: '/participate',
     element: (
       <CheckAuth>
-        <CheckInAppBrowser>
-          <InputCode />
-        </CheckInAppBrowser>
+        <InputCode />
       </CheckAuth>
     ),
   },
