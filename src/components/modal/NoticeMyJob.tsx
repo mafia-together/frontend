@@ -8,6 +8,8 @@ import { myJobState } from '../../recoil/roominfo/atom';
 import { VariablesCSS } from '../../styles/VariablesCSS';
 import { Job } from '../../type';
 import PlayerBig from '../player/PlayerBig';
+import NoticeCitizen from './NoticeJobs/NoticeCitizen';
+import NoticeMafia from './NoticeJobs/NoticeMafia';
 
 type PropsType = {
   name: string;
@@ -35,13 +37,19 @@ export default function NoticeMyJob(props: PropsType) {
   }, []);
 
   return (
-    <div css={container}>
-      <PlayerBig color="day" job={myJob} name={name} />
-      <p css={description}>
-        당신은 <br />
-        {myJob && text[myJob]}입니다.
-      </p>
-    </div>
+    <>
+      {myJob == 'MAFIA' && <NoticeMafia />}
+      {myJob == 'CITIZEN' && <NoticeCitizen />}
+      {(myJob == 'DOCTOR' || myJob == 'POLICE') && (
+        <div css={container}>
+          <PlayerBig color="day" job={myJob} name={name} />
+          <p css={description}>
+            당신은 <br />
+            {myJob && text[myJob]}입니다.
+          </p>
+        </div>
+      )}
+    </>
   );
 }
 
