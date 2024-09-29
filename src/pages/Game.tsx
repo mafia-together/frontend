@@ -1,7 +1,9 @@
-import { useEffect } from 'react';
+import { EventListener, EventSourcePolyfill } from 'event-source-polyfill';
+import { useEffect, useRef, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 
-import { getGamesInfo, useGamesStatusQuery } from '../axios/http';
+import { getGamesInfo } from '../axios/http';
+import { BASE_URL } from '../axios/instances';
 import { gameRound, roomInfoState } from '../recoil/roominfo/atom';
 import Day from './Day';
 import Night from './Night';
@@ -10,7 +12,30 @@ import WaitingRoom from './WaitingRoom';
 
 export default function Game() {
   // 방 상태 불러오기
-  const { gamesStatus } = useGamesStatusQuery();
+  const [gamesStatus, setGameStatus] = useState({ statusType: 'WAIT' });
+
+  // SSE
+  const eventSource = useRef<EventSourcePolyfill | null>(null);
+
+  useEffect(() => {
+    const auth = localStorage.getItem('auth');
+
+    const EventSource = EventSourcePolyfill;
+
+    eventSource.current = new EventSource(`${BASE_URL}/games/subscribe`, {
+      headers: { Authorization: `Basic ${auth}` },
+      heartbeatTimeout: 1000 * 60 * 60 * 12,
+      withCredentials: true,
+    });
+
+    eventSource.current.addEventListener('gameStatus', ((response: MessageEvent) => {
+      setGameStatus(JSON.parse(response.data));
+    }) as EventListener);
+
+    return () => {
+      eventSource.current?.close();
+    };
+  }, []);
 
   // 방 정보 저장 (방 상태가 바뀔때만 작동?)
   const setRoomsInfoState = useSetRecoilState(roomInfoState); // 방 정보
