@@ -1,6 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-export const BASE_URL = 'https://mafia-together.com/api';
+export const BASE_URL = 'https://dev.mafia-together.com/api';
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,

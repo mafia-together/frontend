@@ -65,8 +65,8 @@ export default function WaitingRoom() {
   };
 
   const onShareLink = async () => {
-    // 링크 공유
-    const inviteLink = 'https://mafia-together.com' + '/#/participate?code=' + code;
+    // 링크 공유s
+    const inviteLink = 'https://dev.mafia-together.com/api' + '/#/participate?code=' + code;
     const shareData = {
       url: inviteLink,
     };
