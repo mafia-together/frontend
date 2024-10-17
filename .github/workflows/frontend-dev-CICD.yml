@@ -1,13 +1,19 @@
-name: Build Test
+name: Dev CI/CD
 
 on:
   push:
-    branches:
-      - dev
+    branches: [ dev ]
+
+permissions:
+  contents: read
 
 jobs:
   build:
-    runs-on: dev
+    runs-on:
+      group: Default
+      labels: [ self-hosted, dev ]
+    permissions:
+      pull-requests: write
 
     steps:
       - name: Checkout code
@@ -16,7 +22,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '20'
 
       - name: Install dependencies
         run: npm install
@@ -24,5 +30,5 @@ jobs:
       - name: Run build
         run: npm run build
 
-      - name: 빌드 파일 deploy 파일로 이동
-        run: cp -f /dist /home/ubuntu/dist
+      - name: 빌드 파일
+        run: cp -rf ./dist ~/
