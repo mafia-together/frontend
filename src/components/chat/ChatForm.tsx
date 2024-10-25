@@ -2,7 +2,6 @@
 import { css } from '@emotion/react';
 import { useState } from 'react';
 
-import { postChats } from '../../axios/http';
 import { VariablesCSS } from '../../styles/VariablesCSS';
 
 function isInvalidInputChat(inputChat: string) {
@@ -10,14 +9,19 @@ function isInvalidInputChat(inputChat: string) {
   return inputChat.length === 0;
 }
 
-export const ChatForm = () => {
+type PropsType = {
+  publishChat: (content: string) => void;
+};
+
+export const ChatForm = ({ publishChat }: PropsType) => {
   const [inputChat, setInputChat] = useState<string>('');
   return (
     <form
       css={chatForm}
       onSubmit={event => {
         event.preventDefault();
-        postChats({ contents: inputChat });
+        publishChat(inputChat);
+        // postChats({ content: inputChat });
         setInputChat('');
       }}
     >

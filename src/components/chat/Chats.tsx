@@ -1,13 +1,16 @@
 import { useEffect, useRef } from 'react';
 
-import { useChatsQuery } from '../../axios/http';
-import { Chat } from '../../type';
+import { Chat, ChatArray } from '../../type';
 import ChatGroup from './ChatGroup';
 
-export const Chats = () => {
+type PropsType = {
+  chats: ChatArray;
+  setChats: React.Dispatch<React.SetStateAction<ChatArray>>;
+};
+
+export const Chats = ({ chats }: PropsType) => {
   const chatRef = useRef<HTMLDivElement | null>(null);
 
-  const { chats } = useChatsQuery();
   useEffect(() => {
     if (!chatRef.current) return;
     chatRef.current.scrollIntoView({ block: 'end' });

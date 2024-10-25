@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-import { Job, GameInfo } from '../../type';
+import { GameInfo, Job } from '../../type';
 
 export const gameRound = atom({
   key: 'gameRound',
