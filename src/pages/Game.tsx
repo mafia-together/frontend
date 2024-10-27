@@ -1,18 +1,27 @@
+import * as StompJs from '@stomp/stompjs';
 import { EventListener, EventSourcePolyfill } from 'event-source-polyfill';
 import { useEffect, useRef, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { getGamesInfo } from '../axios/http';
+import { getChats, getGamesInfo } from '../axios/http';
 import { BASE_URL } from '../axios/instances';
 import { gameRound, roomInfoState } from '../recoil/roominfo/atom';
+import { ChatArray, ChatResponse, GameStatus } from '../type';
 import Day from './Day';
 import Night from './Night';
 import Result from './Result';
 import WaitingRoom from './WaitingRoom';
 
 export default function Game() {
+  const auth = localStorage.getItem('auth');
+  const [chats, setChats] = useState<ChatArray>([]);
+  const socketClientState = useRef<StompJs.Client | null>(null);
+  const [chatSubscribeId, setChatSubscribeId] = useState<StompJs.StompSubscription | null>(null);
+  const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState); // 방 정보
+  const setGameRoundState = useSetRecoilState(gameRound);
+
   // 방 상태 불러오기
-  const [gamesStatus, setGameStatus] = useState({ statusType: 'WAIT' });
+  const [gamesStatus, setGameStatus] = useState<GameStatus>({ statusType: 'WAIT' });
 
   // SSE
   const eventSource = useRef<EventSourcePolyfill | null>(null);
@@ -37,10 +46,77 @@ export default function Game() {
     };
   }, []);
 
-  // 방 정보 저장 (방 상태가 바뀔때만 작동?)
-  const setRoomsInfoState = useSetRecoilState(roomInfoState); // 방 정보
+  // WebSocket
+  const connect = () => {
+    const socket = new StompJs.Client({
+      brokerURL: `wss://dev.mafia-together.com/api/stomp`,
+      reconnectDelay: 10000,
+    });
 
-  const setGameRoundState = useSetRecoilState(gameRound);
+    if (!socket.active) {
+      socket.activate();
+    }
+
+    socketClientState.current = socket;
+  };
+
+  // 채팅구독
+  const subscribeChat = () => {
+    if (!socketClientState.current?.connected) return;
+
+    const chatSubscribeId = socketClientState.current.subscribe(`/sub/chat/${auth}`, response => {
+      const msg: ChatResponse = JSON.parse(response.body);
+
+      const isOwner = msg.name == roomsInfoState.myName;
+      setChats(chats => [...chats, { ...msg, isOwner: isOwner }]);
+    });
+
+    setChatSubscribeId(chatSubscribeId);
+  };
+
+  // 채팅구독끊기
+  const unsubscribeChat = () => {
+    if (!socketClientState.current?.connected) return;
+    chatSubscribeId?.unsubscribe();
+  };
+
+  // 채팅보내기
+  const publishChat = (content: string) => {
+    if (!socketClientState.current?.connected) return;
+
+    socketClientState.current.publish({
+      destination: `/pub/chat/${auth}`,
+      body: JSON.stringify({ content: content }),
+    });
+  };
+
+  const disConnect = () => {
+    socketClientState.current?.deactivate();
+  };
+
+  // 웹소켓 연결
+  useEffect(() => {
+    connect();
+    return () => disConnect();
+  }, []);
+
+  // 채팅구독
+  useEffect(() => {
+    if (gamesStatus.statusType === 'DAY') {
+      subscribeChat();
+    }
+    return () => unsubscribeChat();
+  }, [gamesStatus.statusType]);
+
+  // 본래 채팅불러오기
+  useEffect(() => {
+    (async () => {
+      const response = await getChats();
+      setChats(response);
+    })();
+  }, []);
+
+  // 방 정보 저장 (방 상태가 바뀔때만 작동?)
   useEffect(() => {
     // 방 정보 불러오기
     (async () => {
@@ -63,7 +139,14 @@ export default function Game() {
         gamesStatus.statusType === 'NOTICE' ||
         gamesStatus.statusType === 'DAY' ||
         gamesStatus.statusType === 'VOTE' ||
-        gamesStatus.statusType === 'VOTE_RESULT') && <Day statusType={gamesStatus.statusType} />}
+        gamesStatus.statusType === 'VOTE_RESULT') && (
+        <Day
+          statusType={gamesStatus.statusType}
+          publishChat={publishChat}
+          chats={chats}
+          setChats={setChats}
+        />
+      )}
       {(gamesStatus.statusType === 'NIGHT_INTRO' || gamesStatus.statusType === 'NIGHT') && (
         <Night statusType={gamesStatus.statusType} />
       )}

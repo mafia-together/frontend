@@ -20,8 +20,12 @@ export default forwardRef(function ChatGroup(props: PropsType, ref: any) {
       <PlayerChat job={chats[0].job} />
       <div css={right(props)}>
         <p css={nameText}>{chats[0].name}</p>
-        {chats.map(chat => (
-          <ChatMessage contents={chat.contents} isOwner={chat.isOwner} key={`${chat.timestamp}`} />
+        {chats.map((chat, idx) => (
+          <ChatMessage
+            contents={chat.content}
+            isOwner={chat.isOwner}
+            key={`${chat.timeStamp} ${idx}`}
+          />
         ))}
       </div>
     </div>

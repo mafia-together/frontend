@@ -18,16 +18,25 @@ export interface GameStatus {
   statusType: Status;
 }
 
+export type ChatArray = Chat[];
+
 export interface Chat {
   name: string;
-  contents: string;
-  timestamp: Date;
+  content: string;
+  timeStamp: Date;
   isOwner: boolean;
   job: Job;
 }
 
+export interface ChatResponse {
+  name: string;
+  content: string;
+  timeStamp: Date;
+  job: Job;
+}
+
 export interface ChatRequest {
-  contents: string;
+  content: string;
 }
 
 export interface RoomResponse {

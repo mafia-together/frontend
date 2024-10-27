@@ -1,7 +1,7 @@
 import { useSuspenseQuery } from '@tanstack/react-query';
 
 import {
-  Chat,
+  ChatArray,
   ChatRequest,
   DeadResult,
   GameExist,
@@ -45,8 +45,8 @@ export const useChatsQuery = () => {
   const { data: chats, ...rest } = useSuspenseQuery({
     queryKey: ['chats', localStorage.getItem('auth')],
     queryFn: () => getChats(),
-    refetchInterval: 500,
-    staleTime: 500,
+    // refetchInterval: 500,
+    // staleTime: 500,
   });
   return {
     chats,
@@ -85,7 +85,7 @@ export const existGame = () => {
 };
 
 export const getChats = () => {
-  return http.get<Chat[]>(`/chat`);
+  return http.get<ChatArray>(`/v2/chat`);
 };
 
 export const postChats = (payload: ChatRequest) => {
