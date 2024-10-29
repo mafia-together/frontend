@@ -16,8 +16,10 @@ export default function Game() {
   const auth = localStorage.getItem('auth');
   const [chats, setChats] = useState<ChatArray>([]);
   const socketClientState = useRef<StompJs.Client | null>(null);
+
   const [chatSubscribeId, setChatSubscribeId] = useState<StompJs.StompSubscription | null>(null);
   const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState); // 방 정보
+  const [finishSocketConneted, setFinishSocketConnetd] = useState(false); // 웹 소켓 연결이 끝난다는 트리거(채팅 구독이 연결 전에 실행될 때를 대비해 다시 실행하기 위함)
 
   const setGameRoundState = useSetRecoilState(gameRound);
 
@@ -59,13 +61,16 @@ export default function Game() {
       socket.activate();
     }
 
+    socket.onConnect = () => {
+      setFinishSocketConnetd(true);
+    };
+
     socketClientState.current = socket;
   };
 
   // 채팅구독
   const subscribeChat = () => {
     if (!socketClientState.current?.connected) return;
-
     const chatSubscribeId = socketClientState.current.subscribe(`/sub/chat/${auth}`, response => {
       const msg: ChatResponse = JSON.parse(response.body);
 
@@ -96,15 +101,9 @@ export default function Game() {
     socketClientState.current?.deactivate();
   };
 
-  // 웹소켓 연결
-  useEffect(() => {
-    connect();
-    return () => disConnect();
-  }, []);
-
   // 채팅구독
   useEffect(() => {
-    if (!(gamesStatus.statusType === 'DAY')) return;
+    if (gamesStatus.statusType !== 'DAY') return;
 
     // 본래 채팅불러오기
     (async () => {
@@ -114,7 +113,15 @@ export default function Game() {
 
     subscribeChat();
     return () => unsubscribeChat();
-  }, [gamesStatus.statusType]);
+  }, [gamesStatus.statusType, finishSocketConneted]);
+
+  useEffect(() => {});
+
+  // 웹소켓 연결
+  useEffect(() => {
+    connect();
+    return () => disConnect();
+  }, []);
 
   // 방 정보 저장 (방 상태가 바뀔때만 작동?)
   useEffect(() => {
