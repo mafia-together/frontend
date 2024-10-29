@@ -29,5 +29,5 @@ export const roomInfoState = atom<GameInfo>({
 
 export const myJobState = atom<Job>({
   key: 'myJobState',
-  default: 'CITIZEN',
+  default: null,
 });

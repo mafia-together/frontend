@@ -30,7 +30,6 @@ export default function Day({ statusType, publishChat, chats, setChats }: PropsT
 
   /* 방 정보 */
   const [roomInfo] = useRecoilState(roomInfoState);
-
   // 내가 살아있는지
   const isAlive = roomInfo?.isAlive;
 
