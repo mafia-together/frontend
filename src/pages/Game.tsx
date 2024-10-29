@@ -3,9 +3,9 @@ import { EventListener, EventSourcePolyfill } from 'event-source-polyfill';
 import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
-import { getChats, getGamesInfo } from '../axios/http';
+import { getChats, getGamesInfo, getMyJob } from '../axios/http';
 import { BASE_URL } from '../axios/instances';
-import { gameRound, roomInfoState } from '../recoil/roominfo/atom';
+import { gameRound, myJobState, roomInfoState } from '../recoil/roominfo/atom';
 import { ChatArray, ChatResponse, GameStatus } from '../type';
 import Day from './Day';
 import Night from './Night';
@@ -18,10 +18,12 @@ export default function Game() {
   const socketClientState = useRef<StompJs.Client | null>(null);
   const [chatSubscribeId, setChatSubscribeId] = useState<StompJs.StompSubscription | null>(null);
   const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState); // 방 정보
+
   const setGameRoundState = useSetRecoilState(gameRound);
 
   // 방 상태 불러오기
   const [gamesStatus, setGameStatus] = useState<GameStatus>({ statusType: 'WAIT' });
+  const [myJobRecoilState, setMyJobRecoilState] = useRecoilState(myJobState);
 
   // SSE
   const eventSource = useRef<EventSourcePolyfill | null>(null);
@@ -102,26 +104,30 @@ export default function Game() {
 
   // 채팅구독
   useEffect(() => {
-    if (gamesStatus.statusType === 'DAY') {
-      subscribeChat();
-    }
-    return () => unsubscribeChat();
-  }, [gamesStatus.statusType]);
+    if (!(gamesStatus.statusType === 'DAY')) return;
 
-  // 본래 채팅불러오기
-  useEffect(() => {
+    // 본래 채팅불러오기
     (async () => {
       const response = await getChats();
       setChats(response);
     })();
-  }, []);
+
+    subscribeChat();
+    return () => unsubscribeChat();
+  }, [gamesStatus.statusType]);
 
   // 방 정보 저장 (방 상태가 바뀔때만 작동?)
   useEffect(() => {
-    // 방 정보 불러오기
     (async () => {
+      // 방 정보 불러오기
       const roomInfoResponse = await getGamesInfo();
       setRoomsInfoState(roomInfoResponse);
+
+      // 내 직업
+      if (gamesStatus.statusType !== 'WAIT' && !myJobRecoilState) {
+        const myJobResponse = await getMyJob();
+        setMyJobRecoilState(myJobResponse.job);
+      }
     })();
 
     // DAY로 바뀔때 마다 라운드 +1
@@ -130,7 +136,7 @@ export default function Game() {
     } else if (gamesStatus.statusType === 'WAIT') {
       setGameRoundState(0);
     }
-  }, [gamesStatus.statusType, setGameRoundState, setRoomsInfoState]);
+  }, [gamesStatus.statusType, setGameRoundState, setMyJobRecoilState, setRoomsInfoState]);
 
   return (
     <>
