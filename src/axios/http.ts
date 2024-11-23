@@ -41,31 +41,8 @@ export const getValidRoomCode = async (code: string | null) => {
   return http.get<RoomCodeExistsResponse>(`/lobbies/code/exist?code=${code}`);
 };
 
-export const useChatsQuery = () => {
-  const { data: chats, ...rest } = useSuspenseQuery({
-    queryKey: ['chats', localStorage.getItem('auth')],
-    queryFn: () => getChats(),
-    // refetchInterval: 500,
-    // staleTime: 500,
-  });
-  return {
-    chats,
-    ...rest,
-  };
-};
-
 export const getRoomsStatus = () => {
   return http.get<GameStatus>('/games/status');
-};
-
-export const useGamesInfoQuery = () => {
-  const { data: gameInfo, ...rest } = useSuspenseQuery({
-    queryKey: ['games', 'info', localStorage.getItem('auth')],
-    queryFn: () => getGamesInfo(),
-    refetchInterval: 500,
-    staleTime: 500,
-  });
-  return { gameInfo, ...rest };
 };
 
 export const getGamesInfo = () => {

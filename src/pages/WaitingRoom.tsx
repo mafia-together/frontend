@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-import { getRoomsCode, startGame, useGamesInfoQuery } from '../axios/http';
+import { getRoomsCode, startGame } from '../axios/http';
 import { DOMAIN } from '../axios/instances';
 import BigButton from '../components/button/BigButton';
 import { Loading } from '../components/etc/Loading';
@@ -14,17 +14,21 @@ import PlayerWaiting from '../components/player/PlayerWaiting';
 import { notifyUseToast } from '../components/toast/NotifyToast';
 import TopEnter from '../components/top/TopEnter';
 import { VariablesCSS } from '../styles/VariablesCSS';
-import { Player } from '../type';
+import { lobbyPlayer, WaitingRoomInfo } from '../type';
 
-export default function WaitingRoom() {
+type PropsType = {
+  waitingRoomInfoState: WaitingRoomInfo;
+};
+
+export default function WaitingRoom({ waitingRoomInfoState }: PropsType) {
   const [openAnimation, setOpenAnimation] = useState(false);
 
   /* 참가목록 받아오기 */
-  const [players, setPlayers] = useState<Player[]>([]);
-  const { gameInfo } = useGamesInfoQuery();
+  const [players, setPlayers] = useState<lobbyPlayer[]>([]);
 
   const getVirtualPlayers = () => {
-    const virtualPlayersLength = gameInfo.totalPlayers - gameInfo.players.length;
+    const virtualPlayersLength =
+      waitingRoomInfoState.totalPlayers - waitingRoomInfoState.lobbyPlayerResponses.length;
     const virtualPlayer = {
       name: '',
       isAlive: true,
@@ -34,8 +38,8 @@ export default function WaitingRoom() {
   };
 
   useEffect(() => {
-    setPlayers(gameInfo.players);
-  }, [gameInfo.players]);
+    setPlayers(waitingRoomInfoState.lobbyPlayerResponses);
+  }, [waitingRoomInfoState]);
 
   /* 초대하기 모달 */
   // 띄우고 끄기
@@ -82,7 +86,7 @@ export default function WaitingRoom() {
 
   /* 게임시작 */
   const canStartGame = () => {
-    return gameInfo.isMaster && players.length === gameInfo.totalPlayers;
+    return waitingRoomInfoState.isMaster && players.length === waitingRoomInfoState.totalPlayers;
   };
   const navigate = useNavigate();
   const onGameStart = async () => {
@@ -101,7 +105,7 @@ export default function WaitingRoom() {
             <div css={textGroup}>
               <p css={subTitle}>참가목록</p>
               <p css={number}>
-                {players.length}/{gameInfo.totalPlayers}
+                {players.length}/{waitingRoomInfoState.totalPlayers}
               </p>
             </div>
             <PlayerGrid>
@@ -111,7 +115,7 @@ export default function WaitingRoom() {
             </PlayerGrid>
           </div>
           <div css={bottom} onClick={onGameStart}>
-            {gameInfo.isMaster && (
+            {waitingRoomInfoState.isMaster && (
               <BigButton vatiety="emphasis" use="gameStart" ready={canStartGame()} />
             )}
           </div>

@@ -73,6 +73,17 @@ export interface GameInfo {
   players: Player[];
 }
 
+export interface WaitingRoomInfo {
+  totalPlayers: number;
+  isMaster: boolean;
+  myName: string;
+  lobbyPlayerResponses: lobbyPlayer[];
+}
+
+export interface lobbyPlayer {
+  name: string;
+}
+
 export interface MyJobResponse {
   job: Job;
 }
