@@ -6,7 +6,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { getChats, getGamesInfo, getMyJob } from '../axios/http';
 import { BASE_URL } from '../axios/instances';
 import { gameRound, myJobState, roomInfoState } from '../recoil/roominfo/atom';
-import { ChatArray, ChatResponse, GameStatus } from '../type';
+import { ChatArray, ChatResponse, GameStatus, WaitingRoomInfo } from '../type';
 import Day from './Day';
 import Night from './Night';
 import Result from './Result';
@@ -19,6 +19,16 @@ export default function Game() {
 
   const [chatSubscribeId, setChatSubscribeId] = useState<StompJs.StompSubscription | null>(null);
   const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState); // 방 정보
+  const [waitingRoomInfoState, setWaitingRoomInfoState] = useState<WaitingRoomInfo>({
+    totalPlayers: 1,
+    isMaster: true,
+    myName: '내이름',
+    lobbyPlayerResponses: [
+      {
+        name: '이름',
+      },
+    ],
+  });
   const [finishSocketConneted, setFinishSocketConnetd] = useState(false); // 웹 소켓 연결이 끝난다는 트리거(채팅 구독이 연결 전에 실행될 때를 대비해 다시 실행하기 위함)
 
   const setGameRoundState = useSetRecoilState(gameRound);
@@ -43,6 +53,10 @@ export default function Game() {
 
     eventSource.current.addEventListener('gameStatus', ((response: MessageEvent) => {
       setGameStatus(JSON.parse(response.data));
+    }) as EventListener);
+
+    eventSource.current.addEventListener('lobbyInfo', ((response: MessageEvent) => {
+      setWaitingRoomInfoState(JSON.parse(response.data));
     }) as EventListener);
 
     return () => {
@@ -115,8 +129,6 @@ export default function Game() {
     return () => unsubscribeChat();
   }, [gamesStatus.statusType, finishSocketConneted]);
 
-  useEffect(() => {});
-
   // 웹소켓 연결
   useEffect(() => {
     connect();
@@ -129,6 +141,17 @@ export default function Game() {
       // 방 정보 불러오기
       const roomInfoResponse = await getGamesInfo();
       setRoomsInfoState(roomInfoResponse);
+
+      // 대기방 SSE이벤트를 받기전에 처음값
+      setWaitingRoomInfoState({
+        ...waitingRoomInfoState,
+        totalPlayers: roomInfoResponse.totalPlayers,
+        isMaster: roomInfoResponse.isMaster,
+        myName: roomInfoResponse.myName,
+        lobbyPlayerResponses: roomInfoResponse.players.map(player => {
+          return { name: player.name };
+        }),
+      });
 
       // 내 직업
       if (gamesStatus.statusType !== 'WAIT' && !myJobRecoilState) {
@@ -147,7 +170,9 @@ export default function Game() {
 
   return (
     <>
-      {gamesStatus.statusType === 'WAIT' && <WaitingRoom />}
+      {gamesStatus.statusType === 'WAIT' && (
+        <WaitingRoom waitingRoomInfoState={waitingRoomInfoState} />
+      )}
       {(gamesStatus.statusType === 'DAY_INTRO' ||
         gamesStatus.statusType === 'NOTICE' ||
         gamesStatus.statusType === 'DAY' ||
