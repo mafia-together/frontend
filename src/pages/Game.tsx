@@ -56,8 +56,6 @@ export default function Game() {
     }) as EventListener);
 
     eventSource.current.addEventListener('lobbyInfo', ((response: MessageEvent) => {
-      console.log(JSON.parse(response.data));
-
       setWaitingRoomInfoState(JSON.parse(response.data));
     }) as EventListener);
 
@@ -130,8 +128,6 @@ export default function Game() {
     subscribeChat();
     return () => unsubscribeChat();
   }, [gamesStatus.statusType, finishSocketConneted]);
-
-  useEffect(() => {});
 
   // 웹소켓 연결
   useEffect(() => {
