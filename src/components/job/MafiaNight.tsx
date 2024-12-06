@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 
-import { postSkill, useMafiaVoteResultQuery } from '../../axios/http';
+// import { postSkill, useMafiaVoteResultQuery } from '../../axios/http';
 import { middle } from '../../pages/Night';
 import { VariablesCSS } from '../../styles/VariablesCSS';
 import { Player } from '../../type';
@@ -13,32 +13,47 @@ import PlayerNight from '../player/PlayerNight';
 interface PropsType {
   isAlive: boolean;
   players: Player[];
+  publishSkill: (name: string) => void;
+  mafiaSkillPlayer: string | null;
 }
-export const MafiaNight = (props: PropsType) => {
-  const { players, isAlive } = props;
+export const MafiaNight = ({ isAlive, players, publishSkill, mafiaSkillPlayer }: PropsType) => {
+  const mafiaVoteResult = mafiaSkillPlayer;
 
-  const { mafiaVoteResult } = useMafiaVoteResultQuery();
-  let nowVoteResult = mafiaVoteResult.target === '' ? 0 : -1;
+  let nowVoteResult = mafiaSkillPlayer === '' ? 0 : -1;
+
+  // 이름 -> index로 변경
   players.forEach((player, i) => {
-    if (player.name === mafiaVoteResult.target) {
+    if (player.name === mafiaVoteResult) {
       nowVoteResult = i + 1;
     }
   });
+
   const [check, setCheck] = useState(-1);
-  useEffect(() => {
-    (async () => {
-      if (check === -1) {
+
+  const findTargetName = (): string => {
+    let targetName = '';
+    players.forEach((player, i) => {
+      if (check === i + 1) {
+        targetName = player.name;
         return;
       }
-      let targetName = '';
-      players.forEach((player, i) => {
-        if (check === i + 1) {
-          targetName = player.name;
-          return;
-        }
-      });
-      await postSkill({ target: targetName });
-    })();
+    });
+    return targetName;
+  };
+
+  const skill = async () => {
+    if (check === -1) {
+      return;
+    }
+    const targetName = findTargetName();
+    publishSkill(targetName);
+  };
+
+  useEffect(() => {
+    // (async () => {
+
+    // })();
+    skill();
   }, [check, players]);
 
   return (

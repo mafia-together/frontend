@@ -39,6 +39,13 @@ export interface ChatRequest {
   content: string;
 }
 
+export interface SkillResponse {
+  name: string;
+  content: string;
+  messageType: string;
+  timeStamp: Date;
+}
+
 export interface RoomResponse {
   code: string;
 }

@@ -6,7 +6,7 @@ import { useRecoilState, useSetRecoilState } from 'recoil';
 import { getChats, getGamesInfo, getMyJob } from '../axios/http';
 import { BASE_URL } from '../axios/instances';
 import { gameRound, myJobState, roomInfoState } from '../recoil/roominfo/atom';
-import { ChatArray, ChatResponse, GameStatus, WaitingRoomInfo } from '../type';
+import { ChatArray, ChatResponse, GameStatus, SkillResponse, WaitingRoomInfo } from '../type';
 import Day from './Day';
 import Night from './Night';
 import Result from './Result';
@@ -18,6 +18,8 @@ export default function Game() {
   const socketClientState = useRef<StompJs.Client | null>(null);
 
   const [chatSubscribeId, setChatSubscribeId] = useState<StompJs.StompSubscription | null>(null);
+  const [skillSubscribeId, setSkillSubscribeId] = useState<StompJs.StompSubscription | null>(null);
+  const [mafiaSkillPlayer, setMafiaSkillPlayer] = useState<string | null>(null);
   const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState); // 방 정보
   const [waitingRoomInfoState, setWaitingRoomInfoState] = useState<WaitingRoomInfo>({
     totalPlayers: 1,
@@ -82,7 +84,17 @@ export default function Game() {
     socketClientState.current = socket;
   };
 
-  // 채팅구독
+  const disConnect = () => {
+    socketClientState.current?.deactivate();
+  };
+
+  // 웹소켓 연결
+  useEffect(() => {
+    connect();
+    return () => disConnect();
+  }, []);
+
+  // 채팅구독함수
   const subscribeChat = () => {
     if (!socketClientState.current?.connected) return;
     const chatSubscribeId = socketClientState.current.subscribe(`/sub/chat/${auth}`, response => {
@@ -111,12 +123,9 @@ export default function Game() {
     });
   };
 
-  const disConnect = () => {
-    socketClientState.current?.deactivate();
-  };
-
-  // 채팅구독
+  // 채팅구독하기
   useEffect(() => {
+    unsubscribeChat();
     if (gamesStatus.statusType !== 'DAY') return;
 
     // 본래 채팅불러오기
@@ -129,11 +138,42 @@ export default function Game() {
     return () => unsubscribeChat();
   }, [gamesStatus.statusType, finishSocketConneted]);
 
-  // 웹소켓 연결
+  // ======
+  // 밤 직업구독 함수
+  const subscribeSkill = async () => {
+    if (!socketClientState.current?.connected) return;
+
+    const mafiaSubscribeId = socketClientState.current.subscribe(`/sub/mafia/${auth}`, response => {
+      const msg: SkillResponse = JSON.parse(response.body);
+      setMafiaSkillPlayer(msg.content);
+    });
+
+    setSkillSubscribeId(mafiaSubscribeId);
+  };
+
+  // 밤 직업 구독끊기
+  const unsubscribeSkill = () => {
+    if (!socketClientState.current?.connected) return;
+    skillSubscribeId?.unsubscribe();
+  };
+
+  // 밤 스킬
+  const publishSkill = (name: string) => {
+    if (!socketClientState.current?.connected) return;
+
+    socketClientState.current.publish({
+      destination: `/pub/skill/${auth}`,
+      body: JSON.stringify({ target: name }),
+    });
+  };
+
   useEffect(() => {
-    connect();
-    return () => disConnect();
-  }, []);
+    unsubscribeSkill();
+    if (gamesStatus.statusType !== 'NIGHT') return;
+
+    subscribeSkill();
+    return () => unsubscribeSkill();
+  }, [gamesStatus.statusType, finishSocketConneted]);
 
   // 방 정보 저장 (방 상태가 바뀔때만 작동?)
   useEffect(() => {
@@ -156,6 +196,8 @@ export default function Game() {
       // 내 직업
       if (gamesStatus.statusType !== 'WAIT' && !myJobRecoilState) {
         const myJobResponse = await getMyJob();
+        console.log(myJobResponse);
+
         setMyJobRecoilState(myJobResponse.job);
       }
     })();
@@ -186,7 +228,11 @@ export default function Game() {
         />
       )}
       {(gamesStatus.statusType === 'NIGHT_INTRO' || gamesStatus.statusType === 'NIGHT') && (
-        <Night statusType={gamesStatus.statusType} />
+        <Night
+          statusType={gamesStatus.statusType}
+          publishSkill={publishSkill}
+          mafiaSkillPlayer={mafiaSkillPlayer}
+        />
       )}
       {gamesStatus.statusType === 'END' && <Result />}
     </>
