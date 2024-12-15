@@ -62,7 +62,7 @@ export const existGame = () => {
 };
 
 export const getChats = () => {
-  return http.get<ChatArray>(`/v2/chat`);
+  return http.get<ChatArray>(`/chat`);
 };
 
 export const postChats = (payload: ChatRequest) => {
