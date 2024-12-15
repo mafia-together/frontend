@@ -39,7 +39,6 @@ export default function Night({ statusType, publishSkill, mafiaSkillPlayer }: Pr
         ) : (
           <div>
             <TopNight />
-            {myJob}
             <>
               {'MAFIA' === myJob && (
                 <MafiaNight
