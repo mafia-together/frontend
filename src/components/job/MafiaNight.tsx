@@ -17,18 +17,22 @@ interface PropsType {
   mafiaSkillPlayer: string | null;
 }
 export const MafiaNight = ({ isAlive, players, publishSkill, mafiaSkillPlayer }: PropsType) => {
-  const mafiaVoteResult = mafiaSkillPlayer;
+  // 지금 투표중인사람
+  const [check, setCheck] = useState(-1);
 
-  let nowVoteResult = mafiaSkillPlayer === '' ? 0 : -1;
+  useEffect(() => {
+    setCheck(mafiaSkillPlayer === '' ? 0 : -1);
+
+    players.forEach((player, i) => {
+      if (player.name === mafiaSkillPlayer) {
+        setCheck(i + 1);
+      }
+    });
+  }, [mafiaSkillPlayer, players]);
+
+  // let nowVoteResult = mafiaSkillPlayer === '' ? 0 : -1;
 
   // 이름 -> index로 변경
-  players.forEach((player, i) => {
-    if (player.name === mafiaVoteResult) {
-      nowVoteResult = i + 1;
-    }
-  });
-
-  const [check, setCheck] = useState(-1);
 
   const findTargetName = (): string => {
     let targetName = '';
@@ -50,9 +54,6 @@ export const MafiaNight = ({ isAlive, players, publishSkill, mafiaSkillPlayer }:
   };
 
   useEffect(() => {
-    // (async () => {
-
-    // })();
     skill();
   }, [check, players]);
 
@@ -68,7 +69,7 @@ export const MafiaNight = ({ isAlive, players, publishSkill, mafiaSkillPlayer }:
             key={i + 1}
             index={i + 1}
             myJob={'MAFIA'}
-            nowVoteResult={nowVoteResult}
+            nowVoteResult={check}
             {...(isAlive && { setCheck: setCheck })}
           />
         ))}
@@ -80,7 +81,7 @@ export const MafiaNight = ({ isAlive, players, publishSkill, mafiaSkillPlayer }:
         name="vote"
         id="0"
         css={notkill}
-        checked={nowVoteResult === 0}
+        checked={check === 0}
         onChange={() => isAlive && setCheck(0)}
       />
       <Votelabel text="안죽이기" color="night" htmlFor="0" />
