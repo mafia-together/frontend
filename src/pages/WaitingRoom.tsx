@@ -5,7 +5,6 @@ import { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
 import { getRoomsCode, startGame } from '../axios/http';
-import { DOMAIN } from '../axios/instances';
 import BigButton from '../components/button/BigButton';
 import { Loading } from '../components/etc/Loading';
 import AppContainerCSS from '../components/layout/AppContainerCSS';
@@ -71,7 +70,7 @@ export default function WaitingRoom({ waitingRoomInfoState }: PropsType) {
 
   const onShareLink = async () => {
     // 링크 공유s
-    const inviteLink = DOMAIN + '/#/participate?code=' + code;
+    const inviteLink = '/#/participate?code=' + code;
     const shareData = {
       url: inviteLink,
     };
