@@ -2,7 +2,7 @@ name: Prod CI/CD
 
 on:
   push:
-    branches: [ prod ]
+    branches: [prod]
 
 permissions:
   contents: read
@@ -11,7 +11,7 @@ jobs:
   build:
     runs-on:
       group: Default
-      labels: [ self-hosted, dev ]
+      labels: [self-hosted, dev]
     permissions:
       pull-requests: write
 
@@ -29,6 +29,8 @@ jobs:
 
       - name: Run build
         run: npm run build
+        env:
+          VITE_DOMAIN: ${{ secrets.VITE_DOMAIN_PROD }}
 
       - name: Copy to Prod Server
         uses: appleboy/scp-action@master
@@ -36,5 +38,5 @@ jobs:
           username: ${{ secrets.PROD_USER_NAME }}
           host: ${{ secrets.PROD_SERVER }}
           key: ${{ secrets.PROD_PEM_KEY }}
-          source: "./dist"
-          target: "~/"
+          source: './dist'
+          target: '~/'
