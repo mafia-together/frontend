@@ -2,7 +2,7 @@
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
 
-// import { postSkill, useMafiaVoteResultQuery } from '../../axios/http';
+import { postSkill, useMafiaVoteResultQuery } from '../../axios/http';
 import { middle } from '../../pages/Night';
 import { VariablesCSS } from '../../styles/VariablesCSS';
 import { Player } from '../../type';
@@ -13,48 +13,32 @@ import PlayerNight from '../player/PlayerNight';
 interface PropsType {
   isAlive: boolean;
   players: Player[];
-  publishSkill: (name: string) => void;
-  mafiaSkillPlayer: string | null;
 }
-export const MafiaNight = ({ isAlive, players, publishSkill, mafiaSkillPlayer }: PropsType) => {
-  // 지금 투표중인사람
+export const MafiaNight = (props: PropsType) => {
+  const { players, isAlive } = props;
+
+  const { mafiaVoteResult } = useMafiaVoteResultQuery();
+  let nowVoteResult = mafiaVoteResult.target === '' ? 0 : -1;
+  players.forEach((player, i) => {
+    if (player.name === mafiaVoteResult.target) {
+      nowVoteResult = i + 1;
+    }
+  });
   const [check, setCheck] = useState(-1);
-
   useEffect(() => {
-    setCheck(mafiaSkillPlayer === '' ? 0 : -1);
-
-    players.forEach((player, i) => {
-      if (player.name === mafiaSkillPlayer) {
-        setCheck(i + 1);
-      }
-    });
-  }, [mafiaSkillPlayer, players]);
-
-  // let nowVoteResult = mafiaSkillPlayer === '' ? 0 : -1;
-
-  // 이름 -> index로 변경
-
-  const findTargetName = (): string => {
-    let targetName = '';
-    players.forEach((player, i) => {
-      if (check === i + 1) {
-        targetName = player.name;
+    (async () => {
+      if (check === -1) {
         return;
       }
-    });
-    return targetName;
-  };
-
-  const skill = async () => {
-    if (check === -1) {
-      return;
-    }
-    const targetName = findTargetName();
-    publishSkill(targetName);
-  };
-
-  useEffect(() => {
-    skill();
+      let targetName = '';
+      players.forEach((player, i) => {
+        if (check === i + 1) {
+          targetName = player.name;
+          return;
+        }
+      });
+      await postSkill({ target: targetName });
+    })();
   }, [check, players]);
 
   return (
@@ -69,7 +53,7 @@ export const MafiaNight = ({ isAlive, players, publishSkill, mafiaSkillPlayer }:
             key={i + 1}
             index={i + 1}
             myJob={'MAFIA'}
-            nowVoteResult={check}
+            nowVoteResult={nowVoteResult}
             {...(isAlive && { setCheck: setCheck })}
           />
         ))}
@@ -81,7 +65,7 @@ export const MafiaNight = ({ isAlive, players, publishSkill, mafiaSkillPlayer }:
         name="vote"
         id="0"
         css={notkill}
-        checked={check === 0}
+        checked={nowVoteResult === 0}
         onChange={() => isAlive && setCheck(0)}
       />
       <Votelabel text="안죽이기" color="night" htmlFor="0" />

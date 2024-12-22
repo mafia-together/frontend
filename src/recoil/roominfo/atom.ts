@@ -1,6 +1,6 @@
 import { atom } from 'recoil';
 
-import { GameInfo, Job } from '../../type';
+import { Job, GameInfo } from '../../type';
 
 export const gameRound = atom({
   key: 'gameRound',
@@ -29,5 +29,5 @@ export const roomInfoState = atom<GameInfo>({
 
 export const myJobState = atom<Job>({
   key: 'myJobState',
-  default: null,
+  default: 'CITIZEN',
 });

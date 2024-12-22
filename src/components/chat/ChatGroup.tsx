@@ -1,12 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { forwardRef } from 'react';
-import { useRecoilState } from 'recoil';
 
-import { roomInfoState } from '../../recoil/roominfo/atom';
 import { VariablesCSS } from '../../styles/VariablesCSS';
 import { Chat } from '../../type';
-import { getPlayerJob } from '../../util/job';
 import PlayerChat from '../player/PlayerChat';
 import ChatMessage from './ChatMessage';
 
@@ -18,19 +15,13 @@ interface PropsType {
 export default forwardRef(function ChatGroup(props: PropsType, ref: any) {
   const { chats } = props;
 
-  const [roomInfo] = useRecoilState(roomInfoState);
-
   return (
     <div ref={ref} css={container(props)}>
-      <PlayerChat job={getPlayerJob(roomInfo.players, chats[0].name)} />
+      <PlayerChat job={chats[0].job} />
       <div css={right(props)}>
         <p css={nameText}>{chats[0].name}</p>
-        {chats.map((chat, idx) => (
-          <ChatMessage
-            contents={chat.content}
-            isOwner={chat.isOwner}
-            key={`${chat.timeStamp} ${idx}`}
-          />
+        {chats.map(chat => (
+          <ChatMessage contents={chat.contents} isOwner={chat.isOwner} key={`${chat.timestamp}`} />
         ))}
       </div>
     </div>
