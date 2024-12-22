@@ -18,16 +18,32 @@ export interface GameStatus {
   statusType: Status;
 }
 
+export type ChatArray = Chat[];
+
 export interface Chat {
   name: string;
-  contents: string;
-  timestamp: Date;
+  content: string;
+  timeStamp: Date;
   isOwner: boolean;
   job: Job;
 }
 
+export interface ChatResponse {
+  name: string;
+  content: string;
+  timeStamp: Date;
+  job: Job;
+}
+
 export interface ChatRequest {
-  contents: string;
+  content: string;
+}
+
+export interface SkillResponse {
+  name: string;
+  content: string;
+  messageType: string;
+  timeStamp: Date;
 }
 
 export interface RoomResponse {
@@ -62,6 +78,17 @@ export interface GameInfo {
   isMaster: boolean;
   myName: string;
   players: Player[];
+}
+
+export interface WaitingRoomInfo {
+  totalPlayers: number;
+  isMaster: boolean;
+  myName: string;
+  lobbyPlayerResponses: lobbyPlayer[];
+}
+
+export interface lobbyPlayer {
+  name: string;
 }
 
 export interface MyJobResponse {
