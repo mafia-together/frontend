@@ -1,7 +1,6 @@
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 
-export const DOMAIN = import.meta.env.VITE_DOMAIN;
-export const BASE_URL = `https://${DOMAIN}/api`;
+export const BASE_URL = 'https://mafia-together.com/api';
 
 export const axiosInstance = axios.create({
   baseURL: BASE_URL,

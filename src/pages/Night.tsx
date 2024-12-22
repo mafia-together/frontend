@@ -16,11 +16,9 @@ import { Status } from '../type';
 
 type PropsType = {
   statusType: Status;
-  publishSkill: (name: string) => void;
-  mafiaSkillPlayer: string | null;
 };
 
-export default function Night({ statusType, publishSkill, mafiaSkillPlayer }: PropsType) {
+export default function Night({ statusType }: PropsType) {
   const [roomInfo] = useRecoilState(roomInfoState);
   const [myJob] = useRecoilState(myJobState);
 
@@ -41,12 +39,7 @@ export default function Night({ statusType, publishSkill, mafiaSkillPlayer }: Pr
             <TopNight />
             <>
               {'MAFIA' === myJob && (
-                <MafiaNight
-                  players={roomInfo.players}
-                  isAlive={roomInfo.isAlive}
-                  publishSkill={publishSkill}
-                  mafiaSkillPlayer={mafiaSkillPlayer}
-                />
+                <MafiaNight players={roomInfo.players} isAlive={roomInfo.isAlive} />
               )}
               {'CITIZEN' === myJob && (
                 <CitizenNight players={roomInfo.players} isAlive={roomInfo.isAlive} />

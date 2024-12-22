@@ -4,7 +4,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { Toaster } from 'react-hot-toast';
 import { useNavigate } from 'react-router-dom';
 
-import { getRoomsCode, startGame } from '../axios/http';
+import { getRoomsCode, startGame, useGamesInfoQuery } from '../axios/http';
 import BigButton from '../components/button/BigButton';
 import { Loading } from '../components/etc/Loading';
 import AppContainerCSS from '../components/layout/AppContainerCSS';
@@ -13,21 +13,17 @@ import PlayerWaiting from '../components/player/PlayerWaiting';
 import { notifyUseToast } from '../components/toast/NotifyToast';
 import TopEnter from '../components/top/TopEnter';
 import { VariablesCSS } from '../styles/VariablesCSS';
-import { lobbyPlayer, WaitingRoomInfo } from '../type';
+import { Player } from '../type';
 
-type PropsType = {
-  waitingRoomInfoState: WaitingRoomInfo;
-};
-
-export default function WaitingRoom({ waitingRoomInfoState }: PropsType) {
+export default function WaitingRoom() {
   const [openAnimation, setOpenAnimation] = useState(false);
 
   /* 참가목록 받아오기 */
-  const [players, setPlayers] = useState<lobbyPlayer[]>([]);
+  const [players, setPlayers] = useState<Player[]>([]);
+  const { gameInfo } = useGamesInfoQuery();
 
   const getVirtualPlayers = () => {
-    const virtualPlayersLength =
-      waitingRoomInfoState.totalPlayers - waitingRoomInfoState.lobbyPlayerResponses.length;
+    const virtualPlayersLength = gameInfo.totalPlayers - gameInfo.players.length;
     const virtualPlayer = {
       name: '',
       isAlive: true,
@@ -37,8 +33,8 @@ export default function WaitingRoom({ waitingRoomInfoState }: PropsType) {
   };
 
   useEffect(() => {
-    setPlayers(waitingRoomInfoState.lobbyPlayerResponses);
-  }, [waitingRoomInfoState]);
+    setPlayers(gameInfo.players);
+  }, [gameInfo.players]);
 
   /* 초대하기 모달 */
   // 띄우고 끄기
@@ -69,8 +65,8 @@ export default function WaitingRoom({ waitingRoomInfoState }: PropsType) {
   };
 
   const onShareLink = async () => {
-    // 링크 공유s
-    const inviteLink = '/#/participate?code=' + code;
+    // 링크 공유
+    const inviteLink = 'https://mafia-together.com' + '/#/participate?code=' + code;
     const shareData = {
       url: inviteLink,
     };
@@ -85,7 +81,7 @@ export default function WaitingRoom({ waitingRoomInfoState }: PropsType) {
 
   /* 게임시작 */
   const canStartGame = () => {
-    return waitingRoomInfoState.isMaster && players.length === waitingRoomInfoState.totalPlayers;
+    return gameInfo.isMaster && players.length === gameInfo.totalPlayers;
   };
   const navigate = useNavigate();
   const onGameStart = async () => {
@@ -104,7 +100,7 @@ export default function WaitingRoom({ waitingRoomInfoState }: PropsType) {
             <div css={textGroup}>
               <p css={subTitle}>참가목록</p>
               <p css={number}>
-                {players.length}/{waitingRoomInfoState.totalPlayers}
+                {players.length}/{gameInfo.totalPlayers}
               </p>
             </div>
             <PlayerGrid>
@@ -114,7 +110,7 @@ export default function WaitingRoom({ waitingRoomInfoState }: PropsType) {
             </PlayerGrid>
           </div>
           <div css={bottom} onClick={onGameStart}>
-            {waitingRoomInfoState.isMaster && (
+            {gameInfo.isMaster && (
               <BigButton vatiety="emphasis" use="gameStart" ready={canStartGame()} />
             )}
           </div>
