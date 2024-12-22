@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { getChats, getGamesInfo, getMyJob } from '../axios/http';
-import { BASE_URL } from '../axios/instances';
+import { BASE_URL, DOMAIN } from '../axios/instances';
 import { gameRound, myJobState, roomInfoState } from '../recoil/roominfo/atom';
 import { ChatArray, ChatResponse, GameStatus, SkillResponse, WaitingRoomInfo } from '../type';
 import Day from './Day';
@@ -69,7 +69,7 @@ export default function Game() {
   // WebSocket
   const connect = () => {
     const socket = new StompJs.Client({
-      brokerURL: `wss://dev.mafia-together.com/api/stomp`,
+      brokerURL: `wss://${DOMAIN}/api/stomp`,
       reconnectDelay: 10000,
     });
 
