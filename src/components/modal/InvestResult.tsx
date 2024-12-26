@@ -1,33 +1,49 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
 import { useEffect, useState } from 'react';
+import { Toaster } from 'react-hot-toast';
 
 import { postSkill } from '../../axios/http';
 import { VariablesCSS } from '../../styles/VariablesCSS';
 import { Job, SkillResponse } from '../../type';
 import PlayerInvest from '../player/PlayerInvest';
+import { notifyUseToast } from '../toast/NotifyToast';
+import ModalContainer from './ModalContainer';
 
 interface PropsType {
   target: string;
+  isOpen: boolean;
 }
-export default function InvestResult(props: PropsType) {
-  const { target } = props;
+export default function InvestResult({ target, isOpen }: PropsType) {
+  const [jobResult, setJobResult] = useState<Job>(null);
 
-  const [jobResult, setJobResult] = useState<Job>('CITIZEN');
   useEffect(() => {
     (async () => {
-      const skillResponse: SkillResponse = await postSkill({ target: target });
-      setJobResult(skillResponse.result);
+      try {
+        const skillResponse: SkillResponse = await postSkill({ target: target });
+        setJobResult(skillResponse.result);
+      } catch (error: any) {
+        console.log(jobResult);
+
+        notifyUseToast(error.response.data.message, 'LOBBY');
+      }
     })();
   }, [target]);
 
   return (
-    <div css={container}>
-      <PlayerInvest job={jobResult} name={target} />
-      <p css={description(jobResult)}>
-        {jobResult === 'MAFIA' ? '마피아가 맞습니다' : '마피아가 아닙니다'}
-      </p>
-    </div>
+    <>
+      {jobResult && (
+        <ModalContainer isOpen={isOpen}>
+          <div css={container}>
+            <PlayerInvest job={jobResult} name={target} />
+            <p css={description(jobResult)}>
+              {jobResult === 'MAFIA' ? '마피아가 맞습니다' : '마피아가 아닙니다'}
+            </p>
+          </div>
+        </ModalContainer>
+      )}
+      <Toaster />
+    </>
   );
 }
 
