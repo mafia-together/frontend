@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { getChats, getGamesInfo, getMyJob } from '../axios/http';
+import { CODE } from '../constant/localStroge';
 import { gameRound, myJobState, roomInfoState } from '../recoil/roominfo/atom';
-import { BORKER_URL, CHAT_PUB, CHAT_SUB, JOB_SKILL_SUB } from '../socket/url';
+import { BORKER_URL, CHAT_PUB, CHAT_SUB, JOB_SKILL_PUB, JOB_SKILL_SUB } from '../socket/url';
 import { EVENTSOURCE_URL } from '../sse/url';
 import { ChatArray, ChatResponse, GameStatus, SkillResponse, WaitingRoomInfo } from '../type';
 import Day from './Day';
@@ -143,12 +144,13 @@ export default function Game() {
   // 밤 직업구독 함수
   const subscribeSkill = async () => {
     if (!socketClientState.current?.connected) return;
+    const code = localStorage.getItem(CODE);
 
     const mafiaSubscribeId = socketClientState.current.subscribe(
-      JOB_SKILL_SUB(auth, myJobRecoilState),
+      JOB_SKILL_SUB(code, myJobRecoilState),
       response => {
         const msg: SkillResponse = JSON.parse(response.body);
-        setMafiaSkillPlayer(msg.content);
+        setMafiaSkillPlayer(msg.result);
       },
     );
 
@@ -166,8 +168,9 @@ export default function Game() {
     if (!socketClientState.current?.connected) return;
 
     socketClientState.current.publish({
-      destination: `/pub/skill/${auth}`,
+      destination: JOB_SKILL_PUB,
       body: JSON.stringify({ target: name }),
+      headers: { Authorization: `Basic ${auth}` },
     });
   };
 
@@ -200,8 +203,6 @@ export default function Game() {
       // 내 직업
       if (gamesStatus.statusType !== 'WAIT' && !myJobRecoilState) {
         const myJobResponse = await getMyJob();
-        console.log(myJobResponse);
-
         setMyJobRecoilState(myJobResponse.job);
       }
     })();

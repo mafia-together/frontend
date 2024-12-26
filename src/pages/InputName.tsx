@@ -9,6 +9,7 @@ import BottomButton from '../components/button/BottomButton';
 import AppContainerCSS from '../components/layout/AppContainerCSS';
 import { notifyUseToast } from '../components/toast/NotifyToast';
 import TopEnter from '../components/top/TopEnter';
+import { CODE } from '../constant/localStroge';
 import { VariablesCSS } from '../styles/VariablesCSS';
 
 export default function InputName() {
@@ -33,8 +34,14 @@ export default function InputName() {
 
     if (canParticipateRoom()) {
       try {
+        // auth저장
         const auth = await participateRooms({ code: code, name: name });
         localStorage.setItem('auth', auth.auth);
+
+        // 코드저장
+        const codeParams = !searchParams.get('code') ? '' : searchParams.get('code');
+        localStorage.setItem(CODE, codeParams?.toString() || '');
+
         navigate('/game');
         // eslint-disable-next-line
       } catch (error: any) {
