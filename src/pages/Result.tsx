@@ -69,9 +69,9 @@ export default function Result() {
                   <path
                     d="M9.14355 24.1042C9.14355 24.1042 11.1436 27.6042 21.1436 27.6042C31.1436 27.6042 32.1436 24.1043 32.1436 24.1043"
                     stroke="#210909"
-                    stroke-opacity="0.8"
-                    stroke-width="3.5"
-                    stroke-linecap="round"
+                    strokeOpacity="0.8"
+                    strokeWidth="3.5"
+                    strokeLinecap="round"
                   />
                 </svg>
               )}

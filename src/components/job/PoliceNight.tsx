@@ -6,7 +6,6 @@ import { middle } from '../../pages/Night';
 import { VariablesCSS } from '../../styles/VariablesCSS';
 import { Player } from '../../type';
 import InvestResult from '../modal/InvestResult';
-import ModalContainer from '../modal/ModalContainer';
 import PlayerGrid from '../player/PlayerGrid';
 import PlayerNight from '../player/PlayerNight';
 
@@ -48,9 +47,7 @@ export const PoliceNight = (props: PropsType) => {
         </PlayerGrid>
       </div>
       {/* 경찰: 조사하기 */}
-      <ModalContainer isOpen={openModal}>
-        <InvestResult target={players[check - 1]?.name} />
-      </ModalContainer>
+      {openModal && <InvestResult target={players[check - 1]?.name} isOpen={openModal} />}
     </>
   );
 };

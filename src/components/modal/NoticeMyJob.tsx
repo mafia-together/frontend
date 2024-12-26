@@ -1,12 +1,9 @@
 /** @jsxImportSource @emotion/react */
 import { css } from '@emotion/react';
-import { useEffect, useState } from 'react';
-import { useSetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 
-import { getMyJob } from '../../axios/http';
 import { myJobState } from '../../recoil/roominfo/atom';
 import { VariablesCSS } from '../../styles/VariablesCSS';
-import { Job } from '../../type';
 import PlayerBig from '../player/PlayerBig';
 import NoticeCitizen from './NoticeJobs/NoticeCitizen';
 import NoticeMafia from './NoticeJobs/NoticeMafia';
@@ -25,16 +22,7 @@ const text = {
 export default function NoticeMyJob(props: PropsType) {
   const { name } = props;
 
-  // 내 직업공지
-  const [myJob, setMyJob] = useState<Job>('CITIZEN');
-  const setMyJobRecoilState = useSetRecoilState(myJobState); // 방 정보
-  useEffect(() => {
-    (async () => {
-      const myJobResponse = await getMyJob();
-      setMyJob(myJobResponse.job);
-      setMyJobRecoilState(myJobResponse.job);
-    })();
-  }, []);
+  const myJob = useRecoilValue(myJobState);
 
   return (
     <>

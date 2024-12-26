@@ -3,8 +3,7 @@ import { css } from '@emotion/react';
 import { Suspense, useEffect, useState } from 'react';
 import { useRecoilState } from 'recoil';
 
-import { ChatForm } from '../components/chat/ChatForm';
-import { Chats } from '../components/chat/Chats';
+import { Chat } from '../components/chat/Chat';
 import { Loading } from '../components/etc/Loading';
 import AppContainerCSS from '../components/layout/AppContainerCSS';
 import ModalContainer from '../components/modal/ModalContainer';
@@ -16,19 +15,21 @@ import VoteResult from '../components/modal/VoteResult';
 import TopDay from '../components/top/TopDay';
 import { gameRound, roomInfoState } from '../recoil/roominfo/atom';
 import { VariablesCSS } from '../styles/VariablesCSS';
-import { Status } from '../type';
+import { ChatArray, Status } from '../type';
 
 type PropsType = {
   statusType: Status;
+  publishChat: (content: string) => void;
+  chats: ChatArray;
+  setChats: React.Dispatch<React.SetStateAction<ChatArray>>;
 };
 
-export default function Day({ statusType }: PropsType) {
+export default function Day({ statusType, publishChat, chats, setChats }: PropsType) {
   // 라운드 (몇일차)
   const [gameRoundState] = useRecoilState(gameRound);
 
   /* 방 정보 */
   const [roomInfo] = useRecoilState(roomInfoState);
-
   // 내가 살아있는지
   const isAlive = roomInfo?.isAlive;
 
@@ -64,12 +65,7 @@ export default function Day({ statusType }: PropsType) {
               statusType={statusType}
             />
 
-            <div css={middle}>
-              <Chats />
-            </div>
-
-            {/* 살아있는 경우에만 input창이 보인다. */}
-            {isAlive && <ChatForm />}
+            <Chat publishChat={publishChat} chats={chats} setChats={setChats} />
 
             {/* 공지 모달 TIME*/}
             <ModalContainer isOpen={statusType === 'NOTICE'}>
@@ -130,14 +126,4 @@ const gameMessage = css`
   font-size: 24px;
   color: ${VariablesCSS.day};
   animation: smoothshow 0.8s;
-`;
-
-const middle = css`
-  height: calc(100% - ${VariablesCSS.top} - 55px - 20px);
-  overflow: scroll;
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-  &::-webkit-scrollbar {
-    display: none;
-  }
 `;
