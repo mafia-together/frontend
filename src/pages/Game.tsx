@@ -185,6 +185,10 @@ export default function Game() {
   // 방 정보 저장 (방 상태가 바뀔때만 작동?)
   useEffect(() => {
     (async () => {
+      if (gamesStatus.statusType == 'WAIT') {
+        setMyJobRecoilState(null);
+      }
+
       // 방 정보 불러오기
       const roomInfoResponse = await getGamesInfo();
       setRoomsInfoState(roomInfoResponse);
