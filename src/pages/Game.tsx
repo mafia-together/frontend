@@ -4,8 +4,9 @@ import { useEffect, useRef, useState } from 'react';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 
 import { getChats, getGamesInfo, getMyJob } from '../axios/http';
-import { BASE_URL, DOMAIN } from '../axios/instances';
 import { gameRound, myJobState, roomInfoState } from '../recoil/roominfo/atom';
+import { BORKER_URL, CHAT_PUB, CHAT_SUB, JOB_SKILL_SUB } from '../socket/url';
+import { EVENTSOURCE_URL } from '../sse/url';
 import { ChatArray, ChatResponse, GameStatus, SkillResponse, WaitingRoomInfo } from '../type';
 import Day from './Day';
 import Night from './Night';
@@ -20,7 +21,6 @@ export default function Game() {
   const [chatSubscribeId, setChatSubscribeId] = useState<StompJs.StompSubscription | null>(null);
   const [skillSubscribeId, setSkillSubscribeId] = useState<StompJs.StompSubscription | null>(null);
   const [mafiaSkillPlayer, setMafiaSkillPlayer] = useState<string | null>(null);
-  const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState); // 방 정보
   const [waitingRoomInfoState, setWaitingRoomInfoState] = useState<WaitingRoomInfo>({
     totalPlayers: 1,
     isMaster: true,
@@ -34,6 +34,7 @@ export default function Game() {
   const [finishSocketConneted, setFinishSocketConnetd] = useState(false); // 웹 소켓 연결이 끝난다는 트리거(채팅 구독이 연결 전에 실행될 때를 대비해 다시 실행하기 위함)
 
   const setGameRoundState = useSetRecoilState(gameRound);
+  const [roomsInfoState, setRoomsInfoState] = useRecoilState(roomInfoState); // 방 정보
 
   // 방 상태 불러오기
   const [gamesStatus, setGameStatus] = useState<GameStatus>({ statusType: 'WAIT' });
@@ -47,7 +48,7 @@ export default function Game() {
 
     const EventSource = EventSourcePolyfill;
 
-    eventSource.current = new EventSource(`${BASE_URL}/games/subscribe`, {
+    eventSource.current = new EventSource(EVENTSOURCE_URL, {
       headers: { Authorization: `Basic ${auth}` },
       heartbeatTimeout: 1000 * 60 * 60 * 12,
       withCredentials: true,
@@ -69,7 +70,7 @@ export default function Game() {
   // WebSocket
   const connect = () => {
     const socket = new StompJs.Client({
-      brokerURL: `wss://${DOMAIN}/api/stomp`,
+      brokerURL: BORKER_URL,
       reconnectDelay: 10000,
     });
 
@@ -97,7 +98,7 @@ export default function Game() {
   // 채팅구독함수
   const subscribeChat = () => {
     if (!socketClientState.current?.connected) return;
-    const chatSubscribeId = socketClientState.current.subscribe(`/sub/chat/${auth}`, response => {
+    const chatSubscribeId = socketClientState.current.subscribe(CHAT_SUB(auth), response => {
       const msg: ChatResponse = JSON.parse(response.body);
 
       const isOwner = msg.name == roomsInfoState.myName;
@@ -118,7 +119,7 @@ export default function Game() {
     if (!socketClientState.current?.connected) return;
 
     socketClientState.current.publish({
-      destination: `/pub/chat/${auth}`,
+      destination: CHAT_PUB(auth),
       body: JSON.stringify({ content: content }),
     });
   };
@@ -143,10 +144,13 @@ export default function Game() {
   const subscribeSkill = async () => {
     if (!socketClientState.current?.connected) return;
 
-    const mafiaSubscribeId = socketClientState.current.subscribe(`/sub/mafia/${auth}`, response => {
-      const msg: SkillResponse = JSON.parse(response.body);
-      setMafiaSkillPlayer(msg.content);
-    });
+    const mafiaSubscribeId = socketClientState.current.subscribe(
+      JOB_SKILL_SUB(auth, myJobRecoilState),
+      response => {
+        const msg: SkillResponse = JSON.parse(response.body);
+        setMafiaSkillPlayer(msg.content);
+      },
+    );
 
     setSkillSubscribeId(mafiaSubscribeId);
   };
@@ -173,7 +177,7 @@ export default function Game() {
 
     subscribeSkill();
     return () => unsubscribeSkill();
-  }, [gamesStatus.statusType, finishSocketConneted]);
+  }, [gamesStatus.statusType, finishSocketConneted, myJobRecoilState]);
 
   // 방 정보 저장 (방 상태가 바뀔때만 작동?)
   useEffect(() => {
