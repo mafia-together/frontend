@@ -27,6 +27,11 @@ export const VariablesCSS = {
   deadNight: 'rgba(158, 137, 178, 0.5)',
   safe: 'rgba(78, 102, 164, 0.8)',
 
+  noticeJobBackgroundMafia: 'linear-gradient(158.84deg, #1a63ff 3.43%, #f863fa 96.57%)',
+  noticeJobBackgroundCitizen: 'linear-gradient(158.84deg, #FFF973 3.43%, #EE6D10 96.57%)',
+  noticeJobBackgroundPolice: 'linear-gradient(158.84deg, #0051FF 3.43%, #3B4BFD 96.57%)',
+  noticeJobBackgroundDoctor: 'linear-gradient(158.84deg, #E8EFFF 3.43%, #FFF8DE 96.57%)',
+
   /* fonts */
   title: '36px',
   default: '24px',
