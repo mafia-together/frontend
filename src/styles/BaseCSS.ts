@@ -153,19 +153,23 @@ export const BaseCss = `
             transform: translate(-50%, calc(-50% + 5%));
         }
     }
-    
-    // @keyframes smoothup {
-    //     0% {
-    //         transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 5%));
-    //     }
-    //     30% {
-    //         transform: translate(calc(-50% - ${VariablesCSS.margin}), -50%);
-    //     }
-    //     85% {
-    //         transform: translate(calc(-50% - ${VariablesCSS.margin}), -50%);
-    //     }
-    //     100% {
-    //         transform: translate(calc(-50% - ${VariablesCSS.margin}), calc(-50% + 5%));
-    //     }
-    // }
+
+    @keyframes starAnimation {
+        0% {
+        transform: rotate(0deg) scale(1);
+        }
+        50% {
+        transform: rotate(180deg) scale(1.3);
+        }
+        100% {
+        transform: rotate(360deg) scale(1);
+        }
+    }
+
+    @keyframes starTwinkle {
+        100% {
+        transform: rotateY(360deg);
+        }
+    }
+
 `;
