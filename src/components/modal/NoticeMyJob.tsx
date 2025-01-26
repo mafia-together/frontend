@@ -14,6 +14,7 @@ import Star7 from '../deco/noticeJobDeco/star/Star7';
 import NoticeText from '../deco/noticeJobDeco/text/NoticeText';
 import ModalContainer from './ModalContainer';
 
+
 type PropsType = {
   isOpen: boolean;
 };
@@ -89,6 +90,7 @@ export default function NoticeMyJob({ isOpen }: PropsType) {
   const jobPath = `/assets/img/job/${myJob?.toLowerCase()}.png`;
 
   const colorForJob = colors[myJob || 'CITIZEN'];
+
 
   return (
     <ModalContainer isOpen={isOpen}>
