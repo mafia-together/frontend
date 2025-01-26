@@ -68,15 +68,13 @@ export default function Day({ statusType, publishChat, chats, setChats }: PropsT
             <Chat publishChat={publishChat} chats={chats} setChats={setChats} />
 
             {/* 공지 모달 TIME*/}
-            <ModalContainer isOpen={statusType === 'NOTICE'}>
-              {gameRoundState === 1 ? (
-                // 직업공지
-                <NoticeMyJob name={roomInfo?.myName || ''} />
-              ) : (
-                // 전날밤 사망공지
-                <NoticeDead></NoticeDead>
-              )}
-            </ModalContainer>
+            {gameRoundState === 1 ? (
+              // 직업공지
+              <NoticeMyJob isOpen={statusType === 'NOTICE' && gameRoundState === 1} />
+            ) : (
+              // 전날밤 사망공지
+              <NoticeDead isOpen={statusType === 'NOTICE' && gameRoundState !== 1}></NoticeDead>
+            )}
 
             <ModalContainer isOpen={openModal}>
               {isAlive ? (
